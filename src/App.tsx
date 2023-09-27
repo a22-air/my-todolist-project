@@ -1,26 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react';
+
+interface TodoItem{
+  task : string;
+  isCompleted : boolean;
+}
+
+function Todo(){
+  const [todos,setTodos] = useState<TodoItem[]>([
+    {
+      task: 'りんご',
+      isCompleted: false,
+    },
+  ]);
+    return(
+      <div>
+      <h1>To Do List</h1>
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={index}>{todo.task}</li>
+        ))}
+      </ul>
+    </div>
+    );
+  }
+
+function AddTask(){
+  return(
+    <>
+    Add Task : <input placeholder='Add New Task' />
+    </>
+  )
+}
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Todo />
       </header>
+      <main>
+        <AddTask />
+      </main>
     </div>
   );
 }
+
+
 
 export default App;
