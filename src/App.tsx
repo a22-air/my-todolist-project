@@ -21,24 +21,29 @@ interface TodoItem{
 }
 
 let dataArray : string[] = [];
+let taskArray : string[] = [];
 
+for(let i =0; i < 5; i++){ // 現在dataArrayは２つのデータが保持されているのでi=2まで
+  const keyName = i.toString(); // キーを文字列に変換
 storage.load({
-  key: '1'
+  key: keyName,
 }).then((data: { col1: string }) => {
   dataArray.push(data.col1);
-  console.log('dataArray1:'+dataArray);
 }).catch((err) => {
   console.log(err);
+}).finally(()=>{
+  console.log('dataArrayの中のデータ:'+dataArray);
 });
+}
 
-storage.load({
-  key: '2'
-}).then((data: { col1: string }) => {
-  dataArray.push(data.col1);
-  console.log('dataArray2:'+dataArray);
-}).catch((err) => {
-  console.log(err);
-});
+// storage.load({
+//   key: '2'
+// }).then((data: { col1: string }) => {
+//   dataArray.push(data.col1);
+//   console.log('dataArray2:'+dataArray);
+// }).catch((err) => {
+//   console.log(err);
+// });
 
 function Todo(){
     return(
@@ -60,19 +65,21 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
 const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
   if(task === '') return;
   setTodos((todos) => [...todos,{task,isCompleted:false}]);
-  const taskArray : string[] = todos.map((todo) => (todo.task));
+  taskArray = todos.map((todo) => (todo.task));//[1,2]
   console.log('taskArray :' + taskArray);
   setTask('');
   console.log('todos : '+ JSON.stringify(todos));
 
+  for(let i = 0; i < 5; i++){
+  const keyName = i.toString(); // キーを文字列に変換
   storage.save({
-    key:'1',
+    key:keyName,
     data: {
-      col1:taskArray[0]
+      col1:taskArray[i]//1
     },
   }).then((data) => {
     // keyの中身を調べる方法↓ -----------------------------------
-    const keyName = '2'; // 取得したいキー名
+    // const keyNam = '0'; // 取得したいキー名
     const storedValue = localStorage.getItem(keyName);
 
     if (storedValue !== null) {
@@ -84,17 +91,17 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
   }).catch((err) => {
     console.log(err);
   });
-
-  storage.save({
-    key: '2',
-    data: {
-      col1: taskArray[1]
-    }
-  }).then(() => {
-    console.log('key2')
-  }).catch((err) => {
-    console.log(err);
-  });
+  }
+//   storage.save({
+//     key: '2',
+//     data: {
+//       col1: taskArray[1]//2 key1とkey2にそれぞれ値が入っている
+//     }
+//   }).then(() => {
+//     console.log('key2')
+//   }).catch((err) => {
+//     console.log(err);
+//   });
 }
   return(
     <div>
