@@ -20,6 +20,17 @@ interface TodoItem{
   isCompleted : boolean;
 }
 
+let dataArray : string;
+
+storage.load({
+  key: '1'
+}).then((data: { col1: string }) => {
+  dataArray = data.col1;
+  console.log('dataArray:'+dataArray);
+}).catch((err) => {
+  console.log(err);
+});
+
 function Todo(){
     return(
       <div>
@@ -78,6 +89,7 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
             <li key={index}>{todo.task}</li>
           ))}
         </ul>
+        <p>{dataArray}</p>
       </div>
   )
 }
