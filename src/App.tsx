@@ -43,6 +43,7 @@ const removeStorage = (index : number ) : Promise<void> => {
     key: index.toString() // indexを文字列に変換してキーとして使用
   }).then(() => {
     console.log('削除しました');
+    window.location.reload();
   }).catch((err) => {
     console.log(err);
   });
