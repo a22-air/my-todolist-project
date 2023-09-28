@@ -1,5 +1,19 @@
 import React from 'react';
 import {useState} from 'react';
+import Storage from 'react-native-storage';
+import AsyncStorage from '@react-native-community/async-storage';
+
+//ストレージの作成
+const storage: Storage = new Storage({
+  // 最大容量
+  size: 1000,
+  // バックエンドにAsyncStorageを使う
+  storageBackend: AsyncStorage,
+  // キャッシュ期限(null=期限なし)
+  defaultExpires: null,
+  // メモリにキャッシュするかどうか
+  enableCache: true,
+})
 
 interface TodoItem{
   task : string;
@@ -26,7 +40,30 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
 const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
   if(task === '') return;
   setTodos((todos) => [...todos,{task,isCompleted:false}]);
+  const taskArray : string[] = todos.map((todo) => (todo.task));
+  console.log('taskArray :' + taskArray);
   setTask('');
+  console.log('todos : '+ JSON.stringify(todos));
+
+  storage.save({
+    key:'1',
+    data: {
+      col1:taskArray[0]
+    },
+  }).then((data) => {
+    // keyの中身を調べる方法↓ -----------------------------------
+    const keyName = '1'; // 取得したいキー名
+    const storedValue = localStorage.getItem(keyName);
+
+    if (storedValue !== null) {
+      console.log(`キー ${keyName} の値は ${storedValue} です。`);
+    } else {
+      console.log(`キー ${keyName} は存在しません。`);
+    }
+    //　-----------------------------------------------------
+  }).catch((err) => {
+    console.log(err);
+  });
 }
   return(
     <div>
