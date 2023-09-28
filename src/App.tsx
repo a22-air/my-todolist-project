@@ -20,13 +20,22 @@ interface TodoItem{
   isCompleted : boolean;
 }
 
-let dataArray : string;
+let dataArray : string[] = [];
 
 storage.load({
   key: '1'
 }).then((data: { col1: string }) => {
-  dataArray = data.col1;
-  console.log('dataArray:'+dataArray);
+  dataArray.push(data.col1);
+  console.log('dataArray1:'+dataArray);
+}).catch((err) => {
+  console.log(err);
+});
+
+storage.load({
+  key: '2'
+}).then((data: { col1: string }) => {
+  dataArray.push(data.col1);
+  console.log('dataArray2:'+dataArray);
 }).catch((err) => {
   console.log(err);
 });
@@ -63,7 +72,7 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
     },
   }).then((data) => {
     // keyの中身を調べる方法↓ -----------------------------------
-    const keyName = '1'; // 取得したいキー名
+    const keyName = '2'; // 取得したいキー名
     const storedValue = localStorage.getItem(keyName);
 
     if (storedValue !== null) {
@@ -72,6 +81,17 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
       console.log(`キー ${keyName} は存在しません。`);
     }
     //　-----------------------------------------------------
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  storage.save({
+    key: '2',
+    data: {
+      col1: taskArray[1]
+    }
+  }).then(() => {
+    console.log('key2')
   }).catch((err) => {
     console.log(err);
   });
@@ -89,7 +109,9 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
             <li key={index}>{todo.task}</li>
           ))}
         </ul>
-        <p>{dataArray}</p>
+        {dataArray.map((data,index) => (
+          <p key={index}>{data}</p>
+        ))}
       </div>
   )
 }
