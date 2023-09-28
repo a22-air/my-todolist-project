@@ -38,16 +38,38 @@ for(let i =0; i < 5; i++){ // 一旦、５つまで読み込めるように実�
   }
 
   // ストレージのデータを削除する関数
-const removeStorage = (index : number ) : Promise<void> => {
-  return storage.remove({
-    key: index.toString() // indexを文字列に変換してキーとして使用
-  }).then(() => {
-    console.log('削除しました');
-    window.location.reload();
-  }).catch((err) => {
-    console.log(err);
-  });
-};
+  const removeText = (index : number ) : Promise<void> => {
+    return storage.remove({
+      key: index.toString() // indexを文字列に変換してキーとして使用
+    }).then(() => {
+      window.location.reload(); // ページをリロードする
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  // ストレージのデータを編集する
+
+
+
+  // 送信ボタン押下で書き換える関数
+  const editText = (index : number, newText : string ) : Promise<void> => {
+    // ストレージから既存のデータを読み込む
+    return storage.load({
+      key : index.toString()
+    }).then((data : { col1 : string }) => {
+      data.col1 = newText
+
+      return storage.save({
+        key: index.toString(), // indexを文字列に変換してキーとして使用
+        data : data,
+      }).then(() => {
+        console.log('書き換えました。更新後のdataArray : '+ JSON.stringify(dataArray));
+      }).catch((err) => {
+        console.log(err);
+      });
+    });
+  };
 
 function Todo(){
     return(
@@ -67,6 +89,17 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
   setTask(event.target.value);
   console.log(event.target.value)
 }
+
+ // 編集ボタン押下でテキストにセットする関数
+ const [editingIndex, setEditingIndex] = useState<number | null>(null);
+ const [editValue, setEditValue] = useState<string>('');
+
+// 編集ボタンがクリックされたときの処理
+const handleEditClick = (index: number, data: string) => {
+  // 編集対象のデータを読み込む
+  setEditValue(data);
+  setEditingIndex(index);
+};
 
 // テキストの追加（画面上）
 const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
@@ -107,7 +140,10 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
   return(
     <div>
         <div>
-        Add Task : <input placeholder='Add New Task' value={task} onChange={handleNewTask} />
+        Add Task : <input placeholder='Add New Task' onChange={handleNewTask}
+        value=
+        {editingIndex === null ? task : editValue}
+        />
         </div>
         <div>
           <button onClick={handleClick}>追加</button>
@@ -118,7 +154,10 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
           ))}
         </ul>
         {dataArray.map((data,index) => (
-          <div key={index}><p>{data}</p><button onClick={() => removeStorage(index)}>削除</button></div>
+          <div key={index}><p>{data}</p>
+          <button onClick={() => removeText(index)}>削除</button>
+          <button onClick={() => handleEditClick(index, data)}>編集</button>
+          </div>
         ))}
       </div>
   )
