@@ -23,27 +23,30 @@ interface TodoItem{
 let dataArray : string[] = [];
 let taskArray : string[] = [];
 
-for(let i =0; i < 5; i++){ // 現在dataArrayは２つのデータが保持されているのでi=2まで
+// ストレージに保存されているデータを読み込む
+for(let i =0; i < 5; i++){ // 一旦、５つまで読み込めるように実装（今後修正予定）
   const keyName = i.toString(); // キーを文字列に変換
-storage.load({
-  key: keyName,
-}).then((data: { col1: string }) => {
-  dataArray.push(data.col1);
-}).catch((err) => {
-  console.log(err);
-}).finally(()=>{
-  console.log('dataArrayの中のデータ:'+dataArray);
-});
-}
+  storage.load({
+    key: keyName,
+  }).then((data: { col1: string }) => {
+    dataArray.push(data.col1);
+  }).catch((err) => {
+    console.log(err);
+  }).finally(()=>{
+    console.log('dataArrayの中のデータ:'+dataArray);
+  });
+  }
 
-// storage.load({
-//   key: '2'
-// }).then((data: { col1: string }) => {
-//   dataArray.push(data.col1);
-//   console.log('dataArray2:'+dataArray);
-// }).catch((err) => {
-//   console.log(err);
-// });
+  // ストレージのデータを削除する関数
+const removeStorage = (index : number ) : Promise<void> => {
+  return storage.remove({
+    key: index.toString() // indexを文字列に変換してキーとして使用
+  }).then(() => {
+    console.log('削除しました');
+  }).catch((err) => {
+    console.log(err);
+  });
+};
 
 function Todo(){
     return(
@@ -53,33 +56,44 @@ function Todo(){
     );
   }
 
+// 追加ボタン押下時に発動する関数
 function AddTask(){
   const [todos,setTodos] = useState<TodoItem[]>([]);
   const [task, setTask] = useState<string>('');
 
+// テキストをセットする関数
 const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
   setTask(event.target.value);
   console.log(event.target.value)
 }
 
+// テキストの追加（画面上）
 const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
   if(task === '') return;
   setTodos((todos) => [...todos,{task,isCompleted:false}]);
-  taskArray = todos.map((todo) => (todo.task));//[1,2]
+  taskArray = todos.map((todo) => (todo.task));
   console.log('taskArray :' + taskArray);
   setTask('');
   console.log('todos : '+ JSON.stringify(todos));
 
+  // ストレージにデータを保存する
+  // 一旦keyは0〜５まで発行されるように実装
   for(let i = 0; i < 5; i++){
-  const keyName = i.toString(); // キーを文字列に変換
-  storage.save({
-    key:keyName,
-    data: {
-      col1:taskArray[i]//1
-    },
-  }).then((data) => {
-    // keyの中身を調べる方法↓ -----------------------------------
-    // const keyNam = '0'; // 取得したいキー名
+    const keyName = i.toString(); // キーを文字列に変換
+    storage.save({ // ストレージにデータを保存
+      key:keyName,
+      data: {
+        col1:taskArray[i]
+      },
+    }).then(() => {
+      console.log('データが保存されました')
+    }).catch((err) => {
+      console.log(err);
+    });
+    };
+
+// keyの中身を調べる方法↓ -----------------------------------
+    const keyName = '0'; // 取得したいキー名
     const storedValue = localStorage.getItem(keyName);
 
     if (storedValue !== null) {
@@ -87,29 +101,15 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
     } else {
       console.log(`キー ${keyName} は存在しません。`);
     }
-    //　-----------------------------------------------------
-  }).catch((err) => {
-    console.log(err);
-  });
+//　-----------------------------------------------------
   }
-//   storage.save({
-//     key: '2',
-//     data: {
-//       col1: taskArray[1]//2 key1とkey2にそれぞれ値が入っている
-//     }
-//   }).then(() => {
-//     console.log('key2')
-//   }).catch((err) => {
-//     console.log(err);
-//   });
-}
   return(
     <div>
         <div>
         Add Task : <input placeholder='Add New Task' value={task} onChange={handleNewTask} />
         </div>
         <div>
-          <button type="submit" onClick={handleClick}>追加</button>
+          <button onClick={handleClick}>追加</button>
         </div>
         <ul>
           {todos.map((todo, index) => (
@@ -117,7 +117,7 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
           ))}
         </ul>
         {dataArray.map((data,index) => (
-          <p key={index}>{data}</p>
+          <div key={index}><p>{data}</p><button onClick={() => removeStorage(index)}>削除</button></div>
         ))}
       </div>
   )
