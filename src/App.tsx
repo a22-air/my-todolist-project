@@ -48,28 +48,51 @@ for(let i =0; i < 5; i++){ // 一旦、５つまで読み込めるように実�
     });
   };
 
+
+  // keyの中身を調べる方法↓ -----------------------------------
+  const keyName = '0'; // 取得したいキー名
+  const storedValue = localStorage.getItem(keyName);
+
+  if (storedValue !== null) {
+    console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  } else {
+    console.log(`キー ${keyName} は存在しません。`);
+  }
+//　-----------------------------------------------------
   // ストレージのデータを編集する
 
 
 
-  // 送信ボタン押下で書き換える関数
-  const editText = (index : number, newText : string ) : Promise<void> => {
-    // ストレージから既存のデータを読み込む
-    return storage.load({
-      key : index.toString()
-    }).then((data : { col1 : string }) => {
-      data.col1 = newText
+  // 更新ボタン押下で書き換える関数
+  //const editText = (editValue: string )  => {
+  // const [dataArrayIndex,setDataArrayIndex] = useState<String>(editValue);
 
-      return storage.save({
-        key: index.toString(), // indexを文字列に変換してキーとして使用
-        data : data,
-      }).then(() => {
-        console.log('書き換えました。更新後のdataArray : '+ JSON.stringify(dataArray));
-      }).catch((err) => {
-        console.log(err);
-      });
-    });
-  };
+    //dataArrayとeditValueの一致するindexを取得する
+    // const dataArrayIndex = dataArray.indexOf(editValue);
+
+    // if (dataArrayIndex !== -1) {
+    //   console.log(`editValue ${editValue} は dataArray のインデックス ${dataArrayIndex} に存在します。`);
+    // } else {
+    //   console.log(`editValue ${editValue} は dataArray に存在しません。`);
+    // }
+
+
+    // //ストレージから既存のデータを読み込む
+    // return storage.load({
+    //   key : dataArrayIndex.toString()
+    // }).then((data : { col1 : string }) => {
+    //   data.col1 = editValue
+
+    //   return storage.save({
+    //     key: dataArrayIndex.toString(), // indexを文字列に変換してキーとして使用
+    //     data : data,
+    //   }).then(() => {
+    //     console.log('書き換えました。更新後のdataArray : '+ JSON.stringify(dataArray));
+    //   }).catch((err) => {
+    //     console.log(err);
+    //   });
+    // });
+  //};
 
 function Todo(){
     return(
@@ -87,19 +110,62 @@ function AddTask(){
 // テキストをセットする関数
 const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
   setTask(event.target.value);
+  setEditValue(event.target.value);
   console.log(event.target.value)
 }
 
  // 編集ボタン押下でテキストにセットする関数
- const [editingIndex, setEditingIndex] = useState<number | null>(null);
- const [editValue, setEditValue] = useState<string>('');
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState<string>('');
 
 // 編集ボタンがクリックされたときの処理
 const handleEditClick = (index: number, data: string) => {
   // 編集対象のデータを読み込む
   setEditValue(data);
   setEditingIndex(index);
+
+  // keyの中身を調べる方法↓ -----------------------------------
+  const keyName = '0'; // 取得したいキー名
+  const storedValue = localStorage.getItem(keyName);
+
+  if (storedValue !== null) {
+    console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  } else {
+    console.log(`キー ${keyName} は存在しません。`);
+  }
+//　-----------------------------------------------------
+
+
+  console.log('editingIndex : ' + editingIndex);
+  if(editingIndex){
+  storage.load({
+    key: editingIndex.toString()
+  }).then((data:{col1:string})=>{
+    console.log(`key : ${editingIndex} のデータの中身は ${JSON.stringify(data)} です`);
+  }).catch((err)=>{
+    console.log(err);
+  });
+  };
+
+//ストレージから既存のデータを読み込む
+// storage.load({
+//   key : dataArrayIndex.toString()
+// }).then((data:{col1:string})=>{
+//   data.col1 = editValue;
+//   console.log('141行目のコンソール'+JSON.stringify(data));
+//   storage.save({
+//     key:dataArrayIndex.toString(),
+//     data: data
+//   }).then(()=>{
+//     console.log('書き換えが完了しました');
+//   }).catch((err)=>{
+//     console.log(err);
+//   });
+// }).catch(err=>{
+//   console.log(err);
+// });
 };
+
 
 // テキストの追加（画面上）
 const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
@@ -125,18 +191,25 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
       console.log(err);
     });
     };
-
-// keyの中身を調べる方法↓ -----------------------------------
-    const keyName = '0'; // 取得したいキー名
-    const storedValue = localStorage.getItem(keyName);
-
-    if (storedValue !== null) {
-      console.log(`キー ${keyName} の値は ${storedValue} です。`);
-    } else {
-      console.log(`キー ${keyName} は存在しません。`);
-    }
-//　-----------------------------------------------------
   }
+
+  const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
+    //dataArrayとeditValueの一致するindexを取得する
+  console.log(editingIndex);
+  if(editingIndex !== null){
+   storage.save({
+    key:editingIndex.toString(),
+    data:{
+      col1:editValue
+    }
+   }).then((data)=>{
+    console.log('更新');
+    window.location.reload(); // ページをリロードする
+   }).catch((err)=>{
+    console.log(err);
+   });
+  };
+}
   return(
     <div>
         <div>
@@ -146,7 +219,7 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
         />
         </div>
         <div>
-          <button onClick={handleClick}>追加</button>
+          <button onClick={editingIndex === null ? handleClick : editText }>{editingIndex === null ? '追加' : '更新'}</button>
         </div>
         <ul>
           {todos.map((todo, index) => (
