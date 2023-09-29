@@ -59,40 +59,6 @@ for(let i =0; i < 5; i++){ // 一旦、５つまで読み込めるように実�
     console.log(`キー ${keyName} は存在しません。`);
   }
 //　-----------------------------------------------------
-  // ストレージのデータを編集する
-
-
-
-  // 更新ボタン押下で書き換える関数
-  //const editText = (editValue: string )  => {
-  // const [dataArrayIndex,setDataArrayIndex] = useState<String>(editValue);
-
-    //dataArrayとeditValueの一致するindexを取得する
-    // const dataArrayIndex = dataArray.indexOf(editValue);
-
-    // if (dataArrayIndex !== -1) {
-    //   console.log(`editValue ${editValue} は dataArray のインデックス ${dataArrayIndex} に存在します。`);
-    // } else {
-    //   console.log(`editValue ${editValue} は dataArray に存在しません。`);
-    // }
-
-
-    // //ストレージから既存のデータを読み込む
-    // return storage.load({
-    //   key : dataArrayIndex.toString()
-    // }).then((data : { col1 : string }) => {
-    //   data.col1 = editValue
-
-    //   return storage.save({
-    //     key: dataArrayIndex.toString(), // indexを文字列に変換してキーとして使用
-    //     data : data,
-    //   }).then(() => {
-    //     console.log('書き換えました。更新後のdataArray : '+ JSON.stringify(dataArray));
-    //   }).catch((err) => {
-    //     console.log(err);
-    //   });
-    // });
-  //};
 
 function Todo(){
     return(
@@ -134,38 +100,7 @@ const handleEditClick = (index: number, data: string) => {
     console.log(`キー ${keyName} は存在しません。`);
   }
 //　-----------------------------------------------------
-
-
-  console.log('editingIndex : ' + editingIndex);
-  if(editingIndex){
-  storage.load({
-    key: editingIndex.toString()
-  }).then((data:{col1:string})=>{
-    console.log(`key : ${editingIndex} のデータの中身は ${JSON.stringify(data)} です`);
-  }).catch((err)=>{
-    console.log(err);
-  });
-  };
-
-//ストレージから既存のデータを読み込む
-// storage.load({
-//   key : dataArrayIndex.toString()
-// }).then((data:{col1:string})=>{
-//   data.col1 = editValue;
-//   console.log('141行目のコンソール'+JSON.stringify(data));
-//   storage.save({
-//     key:dataArrayIndex.toString(),
-//     data: data
-//   }).then(()=>{
-//     console.log('書き換えが完了しました');
-//   }).catch((err)=>{
-//     console.log(err);
-//   });
-// }).catch(err=>{
-//   console.log(err);
-// });
 };
-
 
 // テキストの追加（画面上）
 const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
@@ -194,8 +129,6 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
   }
 
   const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
-    //dataArrayとeditValueの一致するindexを取得する
-  console.log(editingIndex);
   if(editingIndex !== null){
    storage.save({
     key:editingIndex.toString(),
