@@ -2,6 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
+import Linkify from 'linkify-react';
 
 //ストレージの作成
 const storage: Storage = new Storage({
@@ -20,8 +21,10 @@ interface TodoItem{
   isCompleted : boolean;
 }
 
-let dataArray : string[] = [];
+// let dataArray : string[] = [];
 let taskArray : string[] = [];
+let dataArray : string[] = [];
+
 
 // ストレージに保存されているデータを読み込む
 for(let i =0; i < 6; i++){ // 一旦、５つまで読み込めるように実装（今後修正予定）
@@ -50,7 +53,7 @@ for(let i =0; i < 6; i++){ // 一旦、５つまで読み込めるように実�
 
 
   // keyの中身を調べる方法↓ -----------------------------------
-  const keyName = '0'; // 取得したいキー名
+  const keyName = 'keyWord'; // 取得したいキー名
   const storedValue = localStorage.getItem(keyName);
 
   if (storedValue !== null) {
@@ -110,25 +113,29 @@ const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
 
 // テキストの追加（画面上）
 const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
-  console.log('handleClickの呼び出し時点でのdataArray:'+dataArray);
   if(task === '') return;
-
-
+  console.log('handleClickの呼び出し時点でのdataArray:'+dataArray);
+  console.log('dataArray :' + JSON.stringify(dataArray));
+  setTask('');
 
   setTodos((todos) => [...todos,{task,isCompleted:false}]);
   taskArray = todos.map((todo) => (todo.task));
   console.log('taskArray :' + taskArray);
-  setTask('');
   console.log('todos : '+ JSON.stringify(todos));
+
+  //一旦keyWordにload用の数字を格納
+
 
   // ストレージにデータを保存する
   // 一旦keyは0〜５まで発行されるように実装
+
   for(let i = 0; i < dataArray.length; i++){
     const keyName = i.toString(); // キーを文字列に変換
     storage.save({ // ストレージにデータを保存
       key:keyName,
       data: {
-        col1:taskArray[i]
+        col1:taskArray[i],
+        col2:i
       },
     }).then(() => {
       console.log('データが保存されました')
@@ -139,7 +146,7 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
   }
 
 // keyの中身を調べる方法↓ -----------------------------------
-const keyName = '4'; // 取得したいキー名
+const keyName = '3'; // 取得したいキー名
 const storedValue = localStorage.getItem(keyName);
 
 if (storedValue !== null) {
@@ -165,8 +172,12 @@ if (storedValue !== null) {
             <li key={index}>{todo.task}</li>
           ))}
         </ul>
+        <p>{task}</p>
         {dataArray.map((data,index) => (
-          <div key={index}><p>{data}</p>
+          <div key={index}>
+            <Linkify>
+            <p>{data}</p>
+            </Linkify>
           <button onClick={() => removeText(index)}>削除</button>
           <button onClick={() => handleEditClick(index, data)}>編集</button>
           </div>
