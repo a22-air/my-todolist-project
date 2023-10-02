@@ -24,7 +24,7 @@ let dataArray : string[] = [];
 let taskArray : string[] = [];
 
 // ストレージに保存されているデータを読み込む
-for(let i =0; i < 5; i++){ // 一旦、５つまで読み込めるように実装（今後修正予定）
+for(let i =0; i < 6; i++){ // 一旦、５つまで読み込めるように実装（今後修正予定）
   const keyName = i.toString(); // キーを文字列に変換
   storage.load({
     key: keyName,
@@ -89,46 +89,10 @@ const handleEditClick = (index: number, data: string) => {
   // 編集対象のデータを読み込む
   setEditValue(data);
   setEditingIndex(index);
-
-  // keyの中身を調べる方法↓ -----------------------------------
-  const keyName = '0'; // 取得したいキー名
-  const storedValue = localStorage.getItem(keyName);
-
-  if (storedValue !== null) {
-    console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  } else {
-    console.log(`キー ${keyName} は存在しません。`);
-  }
-//　-----------------------------------------------------
 };
 
-// テキストの追加（画面上）
-const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
-  if(task === '') return;
-  setTodos((todos) => [...todos,{task,isCompleted:false}]);
-  taskArray = todos.map((todo) => (todo.task));
-  console.log('taskArray :' + taskArray);
-  setTask('');
-  console.log('todos : '+ JSON.stringify(todos));
-
-  // ストレージにデータを保存する
-  // 一旦keyは0〜５まで発行されるように実装
-  for(let i = 0; i < 5; i++){
-    const keyName = i.toString(); // キーを文字列に変換
-    storage.save({ // ストレージにデータを保存
-      key:keyName,
-      data: {
-        col1:taskArray[i]
-      },
-    }).then(() => {
-      console.log('データが保存されました')
-    }).catch((err) => {
-      console.log(err);
-    });
-    };
-  }
-
-  const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
+// 更新ボタン押下でテキストの書き換えを行う
+const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
   if(editingIndex !== null){
    storage.save({
     key:editingIndex.toString(),
@@ -143,6 +107,48 @@ const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
    });
   };
 }
+
+// テキストの追加（画面上）
+const handleClick = (event : React.MouseEvent<HTMLButtonElement>) => {
+  console.log('handleClickの呼び出し時点でのdataArray:'+dataArray);
+  if(task === '') return;
+
+
+
+  setTodos((todos) => [...todos,{task,isCompleted:false}]);
+  taskArray = todos.map((todo) => (todo.task));
+  console.log('taskArray :' + taskArray);
+  setTask('');
+  console.log('todos : '+ JSON.stringify(todos));
+
+  // ストレージにデータを保存する
+  // 一旦keyは0〜５まで発行されるように実装
+  for(let i = 0; i < dataArray.length; i++){
+    const keyName = i.toString(); // キーを文字列に変換
+    storage.save({ // ストレージにデータを保存
+      key:keyName,
+      data: {
+        col1:taskArray[i]
+      },
+    }).then(() => {
+      console.log('データが保存されました')
+    }).catch((err) => {
+      console.log(err);
+    });
+    };
+  }
+
+// keyの中身を調べる方法↓ -----------------------------------
+const keyName = '4'; // 取得したいキー名
+const storedValue = localStorage.getItem(keyName);
+
+if (storedValue !== null) {
+  console.log(`キー ${keyName} の値は ${storedValue} です。`);
+} else {
+  console.log(`キー ${keyName} は存在しません。`);
+}
+//　-----------------------------------------------------
+
   return(
     <div>
         <div>
