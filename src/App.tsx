@@ -82,7 +82,7 @@ const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
   };
 }
 
-// TODO:
+  // 追加ボタンでデータの追加をする関数
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (task === '') return;
     setTask('');
@@ -111,24 +111,12 @@ const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
         data: updatedData,
       });
 
-      console.log('ストレージデータのkeyの中身:', updatedData.col1);
       window.location.reload(); // ページをリロードする
 
     } catch (err) {
       console.log('エラー:', err);
     }
   };
-
-// keyの中身を調べる方法↓ -----------------------------------
-const keyName = '2'; // 取得したいキー名
-const storedValue = localStorage.getItem(keyName);
-
-if (storedValue !== null) {
-  console.log(`キー ${keyName} の値は ${storedValue} です。`);
-} else {
-  console.log(`キー ${keyName} は存在しません。`);
-}
-//　-----------------------------------------------------
 
   return(
     <div>
@@ -148,69 +136,75 @@ if (storedValue !== null) {
         </ul>
         <p>{items}</p> */}
 
-        {dataArray.map((data,index) => (
+        {/* {dataArray.map((data,index) => (
           <div key={index}>
             <Linkify>
             <p>{data}</p>
             </Linkify>
-          {/* <button onClick={() => removeText(index)}>削除</button> */}
+          <button onClick={() => removeText(index)}>削除</button>
           <button onClick={() => handleEditClick(index, data)}>編集</button>
           </div>
-        ))}
+        ))} */}
 
       </div>
   )
 }
 
-// TODO:
+// 追加されたデータを画面に表示するコンポーネント
 function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[] }>({ col1: [] });
 
+  // ストレージの中のデータを読み込む
   storage.load({
     key: 'keyWord'
   }).then((data) => {
     setUpdatedData(data);
-    console.log('updatedData:'+JSON.stringify(updatedData));
+    console.log('現在のupdatedData:'+JSON.stringify(updatedData));
   }).catch((err) => {
     console.log(err);
   });
 
+  // 削除する関数
   const removeText = (indexToRemove: number) => {
+    // ストレージデータをロードする
     storage.load({
       key:'keyWord'
     }).then((data) => {
-      updatedData.col1.splice(indexToRemove,1)
-    console.log('削除後のupdatedData.col1:'+JSON.stringify(updatedData));
-    storage.save({
-      key:'keyWord',
-      data:updatedData
-    }).then((data) => {
-    console.log('削除後のupdatedData:'+JSON.stringify(updatedData));
-    window.location.reload(); // ページをリロードする
-    }).catch((err) => {
-    console.log(err);
-    })
-    }).catch((err) => {
-      console.log(err);
-    });
-  };
+      // 配列のindex番目を削除
+      data.col1.splice(indexToRemove,1)
+
+      // 変更後のストレージデータの配列を保存する処理
+        storage.save({
+          key:'keyWord',
+          // ここで削除後のデータを入れ込む
+          data:updatedData
+        }).then((data) => {
+          // ページをリロードする
+          window.location.reload();
+        }).catch((err) => {
+        console.log(err);
+        });
+
+        }).catch((err) => {
+          console.log(err);
+        });
+
+    // 編集ボタンを押下時、テキストをセットする関数 TODO:
+
+    };
 
   return(
     <div>
     <h1>keyWord</h1>
-    <p>{updatedData.col1.join(', ')}</p>
-
     {updatedData.col1.map((data,index) => (
       <div>
       <p>{data}</p>
       <button onClick={() => removeText(index)}>削除</button>
       </div>
     ))}
-
     </div>
-
   );
-    }
+}
 
 // function Test() {
 //   const [count, setCount] = useState(0);
