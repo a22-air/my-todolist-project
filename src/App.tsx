@@ -42,15 +42,15 @@ let dataArray : string[] = [];
 //   }
 
   // ストレージのデータを削除する関数
-  const removeText = (index : number ) : Promise<void> => {
-    return storage.remove({
-      key: index.toString() // indexを文字列に変換してキーとして使用
-    }).then(() => {
-      window.location.reload(); // ページをリロードする
-    }).catch((err) => {
-      console.log(err);
-    });
-  };
+  // const removeText = (index : number ) : Promise<void> => {
+  //   return storage.remove({
+  //     key: index.toString() // indexを文字列に変換してキーとして使用
+  //   }).then(() => {
+  //     window.location.reload(); // ページをリロードする
+  //   }).catch((err) => {
+  //     console.log(err);
+  //   });
+  // };
 
 
   // keyの中身を調べる方法↓ -----------------------------------
@@ -199,6 +199,8 @@ const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
       });
 
       console.log('ストレージデータのkeyの中身:', updatedData.col1);
+      window.location.reload(); // ページをリロードする
+
     } catch (err) {
       console.log('エラー:', err);
     }
@@ -239,7 +241,7 @@ if (storedValue !== null) {
             <Linkify>
             <p>{data}</p>
             </Linkify>
-          <button onClick={() => removeText(index)}>削除</button>
+          {/* <button onClick={() => removeText(index)}>削除</button> */}
           <button onClick={() => handleEditClick(index, data)}>編集</button>
           </div>
         ))}
@@ -261,11 +263,40 @@ function AddText(){
     console.log(err);
   });
 
+  const removeText = (indexToRemove: number) => {
+    storage.load({
+      key:'keyWord'
+    }).then((data) => {
+      updatedData.col1.splice(indexToRemove,1)
+    console.log('削除後のupdatedData.col1:'+JSON.stringify(updatedData));
+    storage.save({
+      key:'keyWord',
+      data:updatedData
+    }).then((data) => {
+    console.log('削除後のupdatedData:'+JSON.stringify(updatedData));
+    window.location.reload(); // ページをリロードする
+    }).catch((err) => {
+    console.log(err);
+    })
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+
   return(
     <div>
     <h1>keyWord</h1>
     <p>{updatedData.col1.join(', ')}</p>
+
+    {updatedData.col1.map((data,index) => (
+      <div>
+      <p>{data}</p>
+      <button onClick={() => removeText(index)}>削除</button>
+      </div>
+    ))}
+
     </div>
+
   );
     }
 
