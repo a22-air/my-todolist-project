@@ -24,16 +24,16 @@ interface TodoItem{
 // let dataArray : string[] = [];
 let dataArray : string[] = [];
 
-  // keyの中身を調べる方法↓ -----------------------------------
-  const keyName = 'keyWord'; // 取得したいキー名
-  const storedValue = localStorage.getItem(keyName);
+//   // keyの中身を調べる方法↓ -----------------------------------
+//   const keyName = 'keyWord'; // 取得したいキー名
+//   const storedValue = localStorage.getItem(keyName);
 
-  if (storedValue !== null) {
-    console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  } else {
-    console.log(`キー ${keyName} は存在しません。`);
-  }
-//　-----------------------------------------------------
+//   if (storedValue !== null) {
+//     console.log(`キー ${keyName} の値は ${storedValue} です。`);
+//   } else {
+//     console.log(`キー ${keyName} は存在しません。`);
+//   }
+// //　-----------------------------------------------------
 
 function Todo(){
     return(
@@ -43,6 +43,7 @@ function Todo(){
     );
   }
 
+// AddTaskコンポーネント　========================================================
 // 追加ボタン押下時に発動する関数
 function AddTask(){
   const [task, setTask] = useState<string>('');
@@ -149,20 +150,25 @@ const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
       </div>
   )
 }
+//======================================================================================
 
+// AddTextコンポーネント　=================================================================
 // 追加されたデータを画面に表示するコンポーネント
 function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[] }>({ col1: [] });
+  console.log('updatedData:'+JSON.stringify(updatedData));
 
-  // ストレージの中のデータを読み込む
-  storage.load({
-    key: 'keyWord'
-  }).then((data) => {
-    setUpdatedData(data);
-    console.log('現在のupdatedData:'+JSON.stringify(updatedData));
-  }).catch((err) => {
-    console.log(err);
-  });
+  useEffect(() => {
+    storage.load({
+      key: 'keyWord'
+    }).then((data) => {
+      setUpdatedData(data);
+      console.log('現在のupdatedData:'+JSON.stringify(updatedData));
+    }).catch((err) => {
+      console.log(err);
+    });
+
+  }, [updatedData]); // data の変更時に実行
 
   // 削除する関数
   const removeText = (indexToRemove: number) => {
@@ -189,23 +195,35 @@ function AddText(){
           console.log(err);
         });
 
-    // 編集ボタンを押下時、テキストをセットする関数 TODO:
-
     };
+// TODO:編集ボタンを押下時、テキストをセットする関数
+
+const [selectedData, setSelectedData] = useState('');
+
+const handleEditClick = (data : string) => {
+  // handleEditClick の中では直接 useEffect を呼び出さない
+  console.log('dataの中身は1:'+data);
+
+  setSelectedData(data);
+  console.log('dataの中身は2:'+selectedData);
+
+}
 
   return(
     <div>
     <h1>keyWord</h1>
+    <p>{selectedData}</p>
     {updatedData.col1.map((data,index) => (
-      <div>
+      <div className="container border border-black bg-white bg-opacity-80 my-4">
       <p>{data}</p>
       <button onClick={() => removeText(index)}>削除</button>
+      <button onClick={() => handleEditClick(data)}>編集</button>
       </div>
     ))}
     </div>
   );
 }
-
+//======================================================================================
 // function Test() {
 //   const [count, setCount] = useState(0);
 
@@ -236,7 +254,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;
