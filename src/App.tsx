@@ -16,13 +16,13 @@ const storage: Storage = new Storage({
   enableCache: true,
 })
 
-interface TodoItem{
-  task : string;
-  isCompleted : boolean;
-}
+// interface TodoItem{
+//   task : string;
+//   isCompleted : boolean;
+// }
 
 // let dataArray : string[] = [];
-let dataArray : string[] = [];
+// let dataArray : string[] = [];
 
 //   // keyの中身を調べる方法↓ -----------------------------------
 //   const keyName = 'keyWord'; // 取得したいキー名
@@ -206,47 +206,67 @@ const inputEl = useRef<HTMLInputElement | null>(null);
 
 // FIXME:編集中
 
-// const focusInput = (node : HTMLInputElement | null, index : number) => {
-//   let tempId = `input_${index}`;
-//   console.log("focusInput : " + tempId);
-//   if (node?.id === tempId) {
-//     node?.focus();
-//   }
-//   console.log('inputEl.current',inputEl.current);
-//   };
+const focusInput = (node : HTMLInputElement | null, index : number) => {
+  let tempId = `input_${index}`;
+  let items : string[] =[]
+  items.push(tempId);
+  console.log("items : " + items+" index番号は : "+index);
+  if (node?.id === tempId) {
+
+    node?.focus();
+  }
+  console.log('inputEl.current',inputEl.current);
+  };
 
   // 編集ボタン押下でデータの値を取得する関数
-const handleEditClick = (data : string) => {
-  console.log('dataの中身は1:'+data);
-  setSelectedData(data);
-  console.log('dataの中身は2:'+selectedData);
+const handleEditClick = (data : string, index : number) => {
+  console.log('dataの中身は:'+data);
+  // setSelectedData(data);
+  console.log('selectedDataの中身は:'+selectedData);
+  var element = document.getElementById("input_"+index);
+  element?.focus();
 }
+
+const [task, setTask] = useState<string>('');
+
+// テキストをセットする関数
+const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setTask(event.target.value);
+  console.log(event.target.value)
+}
+
+
   return(
     <div>
     <h1>keyWord</h1>
     {updatedData.col1.map((data,index) => (
-      <div className="container border border-black bg-white bg-opacity-80 my-4">
-      <p
-      className={indexNumber === index ? 'hidden' : ''}
-      >{data}</p>
-      <input id={`input_${index}`}
-      ref={inputEl}
-      // ref={(node) => {focusInput(node, index);console.log('nodeの中身は : ',node);}}
-       type='text' value={data}
-      className={indexNumber !== index ? 'hidden' : '' }
-      />
-      <div>
-      <button onClick={() => removeText(index)}>削除</button>
-      <button
-        onClick={() => {
-          handleEditClick(data);
-          setIndexNumber(index);
-          }}
-          >{indexNumber === index ? '更新' : '編集'}</button>
-      </div>
+      <div key={index} className="container border border-black bg-white bg-opacity-80 my-4">
+        <Linkify>
+        <p
+          // className={indexNumber === index ? 'hidden' : ''}
+        >{data}</p>
+        <input
+          id={`input_${index}`}
+          // ref={inputEl}
+          // ref={(node) => {focusInput(node, index);console.log('nodeの中身は : ',node);}}
+          type='text'
+          value={indexNumber === index ? task : data}
+          // className={indexNumber !== index ? 'hidden' : '' }
+          onChange={handleNewTask}
+        />
+        </Linkify>
+        <div>
+          <button onClick={() => removeText(index)}>削除</button>
+          <button
+            onClick={() => {
+              handleEditClick(data,index);
+              setIndexNumber(index);
+              }}
+              >{indexNumber === index ? '更新' : '編集'}</button>
+        </div>
       </div>
     ))}
-    <p>{selectedData}</p>
+    <p>{task}</p>
     </div>
   );
 }
