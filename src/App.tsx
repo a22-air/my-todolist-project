@@ -156,7 +156,11 @@ const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
 // 追加されたデータを画面に表示するコンポーネント
 function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[] }>({ col1: [] });
+  const [indexNumber, setIndexNumber] = useState<number>(-1);
+
   console.log('updatedData:'+JSON.stringify(updatedData));
+  console.log('indexNumber:'+JSON.stringify(indexNumber));
+
 
   useEffect(() => {
     storage.load({
@@ -168,7 +172,7 @@ function AddText(){
       console.log(err);
     });
 
-  }, [updatedData]); // data の変更時に実行
+  }, [updatedData]); // updateData の変更時に実行
 
   // 削除する関数
   const removeText = (indexToRemove: number) => {
@@ -212,14 +216,17 @@ const handleEditClick = (data : string) => {
   return(
     <div>
     <h1>keyWord</h1>
-    <p>{selectedData}</p>
     {updatedData.col1.map((data,index) => (
       <div className="container border border-black bg-white bg-opacity-80 my-4">
-      <p>{data}</p>
+      <p className={indexNumber === index ? 'hidden' : ''}>{data}</p>
+      <input type='text' value={data} className={indexNumber !== index ? 'hidden' : '' }/>
+      <div>
       <button onClick={() => removeText(index)}>削除</button>
-      <button onClick={() => handleEditClick(data)}>編集</button>
+      <button onClick={() => {handleEditClick(data);setIndexNumber(index)}}>編集</button>
+      </div>
       </div>
     ))}
+    <p>{selectedData}</p>
     </div>
   );
 }
