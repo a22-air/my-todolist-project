@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState,useEffect} from 'react';
+import {useState,useEffect,useRef} from 'react';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import Linkify from 'linkify-react';
@@ -158,9 +158,7 @@ function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[] }>({ col1: [] });
   const [indexNumber, setIndexNumber] = useState<number>(-1);
 
-  console.log('updatedData:'+JSON.stringify(updatedData));
   console.log('indexNumber:'+JSON.stringify(indexNumber));
-
 
   useEffect(() => {
     storage.load({
@@ -200,29 +198,51 @@ function AddText(){
         });
 
     };
+
 // TODO:編集ボタンを押下時、テキストをセットする関数
 
 const [selectedData, setSelectedData] = useState('');
+const inputEl = useRef<HTMLInputElement | null>(null);
 
+// FIXME:編集中
+
+// const focusInput = (node : HTMLInputElement | null, index : number) => {
+//   let tempId = `input_${index}`;
+//   console.log("focusInput : " + tempId);
+//   if (node?.id === tempId) {
+//     node?.focus();
+//   }
+//   console.log('inputEl.current',inputEl.current);
+//   };
+
+  // 編集ボタン押下でデータの値を取得する関数
 const handleEditClick = (data : string) => {
-  // handleEditClick の中では直接 useEffect を呼び出さない
   console.log('dataの中身は1:'+data);
-
   setSelectedData(data);
   console.log('dataの中身は2:'+selectedData);
-
 }
-
   return(
     <div>
     <h1>keyWord</h1>
     {updatedData.col1.map((data,index) => (
       <div className="container border border-black bg-white bg-opacity-80 my-4">
-      <p className={indexNumber === index ? 'hidden' : ''}>{data}</p>
-      <input type='text' value={data} className={indexNumber !== index ? 'hidden' : '' }/>
+      <p
+      className={indexNumber === index ? 'hidden' : ''}
+      >{data}</p>
+      <input id={`input_${index}`}
+      ref={inputEl}
+      // ref={(node) => {focusInput(node, index);console.log('nodeの中身は : ',node);}}
+       type='text' value={data}
+      className={indexNumber !== index ? 'hidden' : '' }
+      />
       <div>
       <button onClick={() => removeText(index)}>削除</button>
-      <button onClick={() => {handleEditClick(data);setIndexNumber(index)}}>編集</button>
+      <button
+        onClick={() => {
+          handleEditClick(data);
+          setIndexNumber(index);
+          }}
+          >{indexNumber === index ? '更新' : '編集'}</button>
       </div>
       </div>
     ))}
