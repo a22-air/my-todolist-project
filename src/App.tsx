@@ -225,12 +225,16 @@ const handleEditClick = (data : string, index : number) => {
   console.log('selectedDataの中身は:'+selectedData);
   var element = document.getElementById("input_"+index);
   element?.focus();
+  console.log('task:'+task);
+  setTask(data);
 }
 
 const [task, setTask] = useState<string>('');
 
 // テキストをセットする関数
 const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  console.log('task:'+task);
   setTask(event.target.value);
   console.log(event.target.value)
 }
@@ -250,7 +254,7 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
           // ref={inputEl}
           // ref={(node) => {focusInput(node, index);console.log('nodeの中身は : ',node);}}
           type='text'
-          value={indexNumber === index ? task : data}
+          value={task}
           // className={indexNumber !== index ? 'hidden' : '' }
           onChange={handleNewTask}
         />
