@@ -201,34 +201,17 @@ function AddText(){
 
 // TODO:編集ボタンを押下時、テキストをセットする関数
 
-const [selectedData, setSelectedData] = useState('');
-const inputEl = useRef<HTMLInputElement | null>(null);
 const [task, setTask] = useState<string>('');
-
-// FIXME:編集中
-
-// const focusInput = (node : HTMLInputElement | null, index : number) => {
-//   let tempId = `input_${index}`;
-//   let items : string[] =[]
-//   items.push(tempId);
-//   console.log("items : " + items+" index番号は : "+index);
-//   if (node?.id === tempId) {
-
-//     node?.focus();
-//   }
-//   console.log('inputEl.current',inputEl.current);
-//   };
 
   // 編集ボタン押下でデータの値を取得する関数
 const handleEditClick = (data : string, index : number) => {
   console.log('dataの中身は:'+data);
   var element = document.getElementById("input_"+index);
-  element?.focus();
   setTask(data);
+  console.log('element : ' , element);
+  element?.focus();
   console.log('task:'+task);
-
 }
-
 
 // テキストボックスにテキストをセットする関数
 const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -263,23 +246,16 @@ const upDateData = ((index : number) => {
   });
 })
 
-
   return(
     <div>
     <h1>keyWord</h1>
     {updatedData.col1.map((data,index) => (
       <div key={index} className="container border border-black bg-white bg-opacity-80 my-4">
         <Linkify>
-        <p
-          // className={indexNumber === index ? 'hidden' : ''}
-        >{data}</p>
         <input
           id={`input_${index}`}
-          // ref={inputEl}
-          // ref={(node) => {focusInput(node, index);console.log('nodeの中身は : ',node);}}
           type='text'
-          value={task}
-          // className={indexNumber !== index ? 'hidden' : '' }
+          value={indexNumber !== index ? data : task }
           onChange={handleNewTask}
         />
         </Linkify>
@@ -287,7 +263,6 @@ const upDateData = ((index : number) => {
           <button onClick={() => removeText(index)}>削除</button>
           <button
             onClick={() => {
-              // handleEditClick(data,index);
               setIndexNumber(index);
               if(indexNumber === index){
                 upDateData(index);
@@ -296,6 +271,7 @@ const upDateData = ((index : number) => {
               }
               }}
               >{indexNumber === index ? '更新' : '編集'}</button>
+              <button onClick={() => {setIndexNumber(-1)}}>X</button>
         </div>
       </div>
     ))}
