@@ -16,14 +16,6 @@ const storage: Storage = new Storage({
   enableCache: true,
 })
 
-// interface TodoItem{
-//   task : string;
-//   isCompleted : boolean;
-// }
-
-// let dataArray : string[] = [];
-// let dataArray : string[] = [];
-
 //   // keyの中身を調べる方法↓ -----------------------------------
 //   const keyName = 'keyWord'; // 取得したいキー名
 //   const storedValue = localStorage.getItem(keyName);
@@ -51,36 +43,7 @@ function AddTask(){
 // テキストをセットする関数
 const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
   setTask(event.target.value);
-  setEditValue(event.target.value);
   console.log(event.target.value)
-}
-
- // 編集ボタン押下でテキストにセットする関数
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editValue, setEditValue] = useState<string>('');
-
-// 編集ボタンがクリックされたときの処理
-const handleEditClick = (index: number, data: string) => {
-  // 編集対象のデータを読み込む
-  setEditValue(data);
-  setEditingIndex(index);
-};
-
-// 更新ボタン押下でテキストの書き換えを行う
-const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
-  if(editingIndex !== null){
-   storage.save({
-    key:editingIndex.toString(),
-    data:{
-      col1:editValue
-    }
-   }).then((data)=>{
-    console.log('更新');
-    window.location.reload(); // ページをリロードする
-   }).catch((err)=>{
-    console.log(err);
-   });
-  };
 }
 
   // 追加ボタンでデータの追加をする関数
@@ -123,30 +86,12 @@ const editText = (event : React.MouseEvent<HTMLButtonElement>) => {
     <div>
         <div>
         Add Task : <input placeholder='Add New Task' onChange={handleNewTask}
-        value=
-        {editingIndex === null ? task : editValue}
+        value={task}
         />
         </div>
         <div>
-          <button onClick={editingIndex === null ? handleClick : editText }>{editingIndex === null ? '追加' : '更新'}</button>
+          <button onClick={handleClick}>追加</button>
         </div>
-        {/* <ul> */}
-          {/* {todos.map((todo, index) => (
-            <li key={index}>{todo.task}</li>
-          ))}
-        </ul>
-        <p>{items}</p> */}
-
-        {/* {dataArray.map((data,index) => (
-          <div key={index}>
-            <Linkify>
-            <p>{data}</p>
-            </Linkify>
-          <button onClick={() => removeText(index)}>削除</button>
-          <button onClick={() => handleEditClick(index, data)}>編集</button>
-          </div>
-        ))} */}
-
       </div>
   )
 }
