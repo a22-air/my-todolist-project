@@ -158,7 +158,7 @@ function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[] }>({ col1: [] });
   const [indexNumber, setIndexNumber] = useState<number>(-1);
 
-  console.log('indexNumber:'+JSON.stringify(indexNumber));
+  // console.log('indexNumber:'+JSON.stringify(indexNumber));
 
   useEffect(() => {
     storage.load({
@@ -203,41 +203,65 @@ function AddText(){
 
 const [selectedData, setSelectedData] = useState('');
 const inputEl = useRef<HTMLInputElement | null>(null);
+const [task, setTask] = useState<string>('');
 
 // FIXME:編集中
 
-const focusInput = (node : HTMLInputElement | null, index : number) => {
-  let tempId = `input_${index}`;
-  let items : string[] =[]
-  items.push(tempId);
-  console.log("items : " + items+" index番号は : "+index);
-  if (node?.id === tempId) {
+// const focusInput = (node : HTMLInputElement | null, index : number) => {
+//   let tempId = `input_${index}`;
+//   let items : string[] =[]
+//   items.push(tempId);
+//   console.log("items : " + items+" index番号は : "+index);
+//   if (node?.id === tempId) {
 
-    node?.focus();
-  }
-  console.log('inputEl.current',inputEl.current);
-  };
+//     node?.focus();
+//   }
+//   console.log('inputEl.current',inputEl.current);
+//   };
 
   // 編集ボタン押下でデータの値を取得する関数
 const handleEditClick = (data : string, index : number) => {
   console.log('dataの中身は:'+data);
-  // setSelectedData(data);
-  console.log('selectedDataの中身は:'+selectedData);
   var element = document.getElementById("input_"+index);
   element?.focus();
-  console.log('task:'+task);
   setTask(data);
-}
-
-const [task, setTask] = useState<string>('');
-
-// テキストをセットする関数
-const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
-
   console.log('task:'+task);
-  setTask(event.target.value);
-  console.log(event.target.value)
+
 }
+
+
+// テキストボックスにテキストをセットする関数
+const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // console.log('task:'+task);
+  setTask(event.target.value);
+  // console.log(event.target.value)
+}
+
+// 更新ボタン押下でデータの更新を行う関数 TODO:
+const upDateData = ((index : number) => {
+  // スロレージデータのロード
+  storage.load({
+    key : 'keyWord',
+  }).then((data) => {
+    // 選択したインデックスのデータにtaskを代入
+    data.col1[index] = task;
+
+    // 書き換えたdataを保存する
+    storage.save({
+      key : 'keyWord',
+      // ここで書き換えた配列を更新
+      data : data
+    }).then(() => {
+    // ページをリロードする
+    window.location.reload();
+    }).catch((err) => {
+      console.log(err);
+    });
+
+  }).catch((err) => {
+    console.log(err);
+  });
+})
 
 
   return(
@@ -263,8 +287,13 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
           <button onClick={() => removeText(index)}>削除</button>
           <button
             onClick={() => {
-              handleEditClick(data,index);
+              // handleEditClick(data,index);
               setIndexNumber(index);
+              if(indexNumber === index){
+                upDateData(index);
+              }else{
+                handleEditClick(data,index)
+              }
               }}
               >{indexNumber === index ? '更新' : '編集'}</button>
         </div>
