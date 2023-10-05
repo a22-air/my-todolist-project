@@ -18,11 +18,13 @@ export function CompletedList(props: CompletedListProps){
     //     }
 
     return(
-      <div>
-      <h1>Completed List</h1>
-        <div>
-        <button>{props.taskList}</button>
-        </div>
+    <div>
+        <h1>Completed List</h1>
+        {props.taskList.map((task, index) => (
+            <div className="container border border-black bg-white bg-opacity-80 my-4" key={index}>
+                {task} {/* タスクの内容を表示 */}
+            </div>
+        ))}
     </div>
     )
 };
