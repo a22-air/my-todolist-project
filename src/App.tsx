@@ -36,8 +36,10 @@ function Todo(){
   }
 
 // AddTaskコンポーネント　========================================================
+
 // 追加ボタン押下時に発動する関数
 function AddTask(){
+
   const [task, setTask] = useState<string>('');
 
 // テキストをセットする関数
@@ -48,7 +50,9 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
 
   // 追加ボタンでデータの追加をする関数
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    // テキストが空だったら以下の処理は行わない
     if (task === '') return;
+    //taskにテキストに入力されたデータをセットする
     setTask('');
 
     try {
@@ -102,8 +106,7 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
 function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[] }>({ col1: [] });
   const [indexNumber, setIndexNumber] = useState<number>(-1);
-
-  // console.log('indexNumber:'+JSON.stringify(indexNumber));
+  const [task, setTask] = useState<string>('');
 
   useEffect(() => {
     storage.load({
@@ -144,18 +147,14 @@ function AddText(){
 
     };
 
-// TODO:編集ボタンを押下時、テキストをセットする関数
-
-const [task, setTask] = useState<string>('');
-
   // 編集ボタン押下でデータの値を取得する関数
 const handleEditClick = (data : string, index : number) => {
-  console.log('dataの中身は:'+data);
+  // 選択されたindex番号のidを取得
   var element = document.getElementById("input_"+index);
+  // taskに選択されたdataをセット
   setTask(data);
-  console.log('element : ' , element);
+  // 選択されたidのテキストにフォーカスする指定
   element?.focus();
-  console.log('task:'+task);
 }
 
 // テキストボックスにテキストをセットする関数
@@ -224,23 +223,6 @@ const upDateData = ((index : number) => {
     </div>
   );
 }
-//======================================================================================
-// function Test() {
-//   const [count, setCount] = useState(0);
-
-//   useEffect(() => {
-//     console.log('useEffectが実行されました');
-//   });
-
-//   return (
-//     <div className="App">
-//       <h1>Learn useEffect</h1>
-//       <h2>Count: {count}</h2>
-//       <button onClick={() => setCount(count + 1)}>+</button>
-//     </div>
-//   );
-// }
-
 
 function App() {
   return (
