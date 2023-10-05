@@ -100,7 +100,7 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
   // console.log(event.target.value)
 }
 
-// 更新ボタン押下でデータの更新を行う関数 TODO:
+// 更新ボタン押下でデータの更新を行う関数
 const upDateData = ((index : number) => {
   // スロレージデータのロード
   storage.load({
@@ -125,13 +125,29 @@ const upDateData = ((index : number) => {
     console.log(err);
   });
 })
+// TODO:編集中
+const [taskList, setTaskList] = useState<string[]>([]);
+const [checkedTask,setCheckedTask] = useState<string>('');
+// チェックボックスの値を取得する関数
+const checkTask = (data : string) => {
+  // taskに選択されたdataをセット
+  setCheckedTask(data);
+        if (checkedTask.trim() !== '') { // タスクが空でないことを確認
+          // setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
+          console.log('addTask : ' + taskList);
+        }
+}
+useEffect(() => {
+  console.log('checkedTask : ' + checkedTask);
+  setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
+  },[checkedTask]);
 
   return(
     <div>
     <h1>keyWord</h1>
     {updatedData.col1.map((data,index) => (
       <div key={index} className="container border border-black bg-white bg-opacity-80 my-4">
-        <input type="checkbox" />
+        <input type="checkbox" onClick= {() => checkTask(data)}/>
         <Linkify>
         <input
           id={`input_${index}`}
@@ -152,9 +168,13 @@ const upDateData = ((index : number) => {
         </div>
       </div>
     ))}
-    <p>{task}</p>
+    <p>{taskList}</p>
+    {/* <p>{checkedTask}</p> */}
     <div>
-    <CompletedList updatedData={updatedData} />
+    <CompletedList
+    updatedData={updatedData}
+    taskList={taskList}
+    />
     </div>
     </div>
   );
