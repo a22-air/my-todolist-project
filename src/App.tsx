@@ -129,25 +129,39 @@ const upDateData = ((index : number) => {
 const [taskList, setTaskList] = useState<string[]>([]);
 const [checkedTask,setCheckedTask] = useState<string>('');
 // チェックボックスの値を取得する関数
-const checkTask = (data : string) => {
-  // taskに選択されたdataをセット
-  setCheckedTask(data);
-        if (checkedTask.trim() !== '') { // タスクが空でないことを確認
-          // setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
-          console.log('addTask : ' + taskList);
-        }
-}
-useEffect(() => {
-  console.log('checkedTask : ' + checkedTask);
-  setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
-  },[checkedTask]);
+// const checkTask = (data : string) => {
+//   // taskに選択されたdataをセット
+//   setCheckedTask(data);
+//         if (checkedTask.trim() !== '') { // タスクが空でないことを確認
+//           // setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
+//           console.log('addTask : ' + taskList);
+//         }
+// }
+// useEffect(() => {
+//   console.log('checkedTask : ' + checkedTask);
+//   setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
+//   },[checkedTask]);
+// TODO: 編集中
+const checkTask = ((index : number) => {
+  console.log(updatedData);
+  storage.save({
+    key : 'completed',
+      data: {
+        col1 : updatedData.col1[index]
+      }
+  }).then((data) => {
+    console.log('completed : ' + JSON.stringify(data));
+  }).then((err) => {
+    console.log(err);
+  });
+});
 
   return(
     <div>
     <h1>keyWord</h1>
     {updatedData.col1.map((data,index) => (
       <div key={index} className="container border border-black bg-white bg-opacity-80 my-4">
-        <input type="checkbox" onClick= {() => checkTask(data)}/>
+        <input type="checkbox" onClick= {() => checkTask(index)}/>
         <Linkify>
         <input
           id={`input_${index}`}
