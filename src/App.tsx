@@ -4,6 +4,7 @@ import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import Linkify from 'linkify-react';
 import { AddTask } from './AddTask';
+import { CompletedList } from './CompletedList';
 
 //ストレージの作成
 const storage: Storage = new Storage({
@@ -130,6 +131,7 @@ const upDateData = ((index : number) => {
     <h1>keyWord</h1>
     {updatedData.col1.map((data,index) => (
       <div key={index} className="container border border-black bg-white bg-opacity-80 my-4">
+        <input type="checkbox" />
         <Linkify>
         <input
           id={`input_${index}`}
@@ -151,6 +153,9 @@ const upDateData = ((index : number) => {
       </div>
     ))}
     <p>{task}</p>
+    <div>
+    <CompletedList updatedData={updatedData} />
+    </div>
     </div>
   );
 }
@@ -165,8 +170,11 @@ function App() {
         <AddTask />
         <AddText />
       </main>
+      <footer>
+      </footer>
     </div>
   );
 }
+
 
 export default App;
