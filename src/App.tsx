@@ -3,7 +3,7 @@ import {useState,useEffect,useRef} from 'react';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import Linkify from 'linkify-react';
-import { AddTask } from './AssTask';
+import { AddTask } from './AddTask';
 
 //ストレージの作成
 const storage: Storage = new Storage({
