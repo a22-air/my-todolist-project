@@ -109,6 +109,7 @@ function AddText(){
   const [task, setTask] = useState<string>('');
 
   useEffect(() => {
+    // ストレージデータのロード
     storage.load({
       key: 'keyWord'
     }).then((data) => {
@@ -117,7 +118,6 @@ function AddText(){
     }).catch((err) => {
       console.log(err);
     });
-
   }, [updatedData]); // updateData の変更時に実行
 
   // 削除する関数
@@ -208,11 +208,7 @@ const upDateData = ((index : number) => {
           <button
             onClick={() => {
               setIndexNumber(index);
-              if(indexNumber === index){
-                upDateData(index);
-              }else{
-                handleEditClick(data,index)
-              }
+              indexNumber === index ? upDateData(index) : handleEditClick(data, index);
               }}
               >{indexNumber === index ? '更新' : '編集'}</button>
               <button onClick={() => {setIndexNumber(-1)}}>X</button>
