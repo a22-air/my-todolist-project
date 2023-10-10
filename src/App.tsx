@@ -172,9 +172,7 @@ const upDateData = ((index : number) => {
 
         <label className="inline-flex items-center space-x-2 cursor-pointer">
         <img className='w-12 h-12' src='/heart.png' alt='' />
-        <img className='w-12 h-12' src='/check02.png' alt='' />
         <div className="h-5 w-5 bg-checkbox"></div>
-        <span>チェックボックスのラベル</span>
         </label>
 
         <Linkify>
