@@ -18,17 +18,24 @@ const storage: Storage = new Storage({
   enableCache: true,
 })
 
-//   // keyの中身を調べる方法↓ -----------------------------------
-//   const keyName = 'keyWord'; // 取得したいキー名
-//   const storedValue = localStorage.getItem(keyName);
+  // keyの中身を調べる方法↓ -----------------------------------
+  const keyName = 'completed'; // 取得したいキー名
+  const storedValue = localStorage.getItem(keyName);
 
-//   if (storedValue !== null) {
-//     console.log(`キー ${keyName} の値は ${storedValue} です。`);
-//   } else {
-//     console.log(`キー ${keyName} は存在しません。`);
-//   }
-// //　-----------------------------------------------------
+  if (storedValue !== null) {
+    console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  } else {
+    console.log(`キー ${keyName} は存在しません。`);
+  }
+//　-----------------------------------------------------
 
+  // storage.remove({
+  //   key: 'completed'
+  // }).then((data) => {
+  //   console.log('削除成功');
+  // }).catch((err) => {
+  //   console.log(err);
+  // });
 function Todo(){
     return(
       <div>
@@ -128,12 +135,12 @@ const upDateData = ((index : number) => {
 // TODO:編集中
 const [taskList, setTaskList] = useState<string[]>([]);
 const [checkedTask,setCheckedTask] = useState<string>('');
-// チェックボックスの値を取得する関数
+// // チェックボックスの値を取得する関数
 // const checkTask = (data : string) => {
 //   // taskに選択されたdataをセット
 //   setCheckedTask(data);
 //         if (checkedTask.trim() !== '') { // タスクが空でないことを確認
-//           // setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
+//           //setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
 //           console.log('addTask : ' + taskList);
 //         }
 // }
@@ -143,17 +150,15 @@ const [checkedTask,setCheckedTask] = useState<string>('');
 //   },[checkedTask]);
 // TODO: 編集中
 const checkTask = ((index : number) => {
-  console.log(updatedData);
-  storage.save({
-    key : 'completed',
-      data: {
-        col1 : updatedData.col1[index]
-      }
-  }).then((data) => {
-    console.log('completed : ' + JSON.stringify(data));
-  }).then((err) => {
-    console.log(err);
-  });
+  console.log('updatedData : '+JSON.stringify(updatedData));
+  console.log('updatedDataのインデックス : '+JSON.stringify(updatedData.col1[index]));
+  setCheckedTask(updatedData.col1[index]);
+
+
+
+
+
+
 });
 
   return(
@@ -186,8 +191,9 @@ const checkTask = ((index : number) => {
     {/* <p>{checkedTask}</p> */}
     <div>
     <CompletedList
-    updatedData={updatedData}
-    taskList={taskList}
+      updatedData={updatedData}
+      taskList={taskList}
+      checkedTask={checkedTask}
     />
     </div>
     </div>
