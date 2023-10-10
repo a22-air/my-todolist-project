@@ -63,14 +63,16 @@ export function AddTask(){
     };
 
     return(
-      <div>
-          <div>
+      <div className="flex justify-center items-center">
+          <div className="text-2xl">
           Add Task : <input placeholder='Add New Task' onChange={handleNewTask}
           value={task}
           />
           </div>
-          <div>
-            <button onClick={handleClick}>追加</button>
+          <div className="hover:opacity-60">
+            <button onClick={handleClick}>
+            <img src='/gesture02.png' alt='チェック' className='w-14 h-14' />
+            </button>
           </div>
         </div>
     )
