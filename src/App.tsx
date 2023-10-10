@@ -91,7 +91,7 @@ function AddText(){
     };
 
   // 編集ボタン押下でデータの値を取得する関数
-const handleEditClick = (data : string, index : number) => {
+  const handleEditClick = (data : string, index : number) => {
   // 選択されたindex番号のidを取得
   var element = document.getElementById("input_"+index);
   // taskに選択されたdataをセット
@@ -132,34 +132,12 @@ const upDateData = ((index : number) => {
     console.log(err);
   });
 })
-// TODO:編集中
-const [taskList, setTaskList] = useState<string[]>([]);
-const [checkedTask,setCheckedTask] = useState<string>('');
-// // チェックボックスの値を取得する関数
-// const checkTask = (data : string) => {
-//   // taskに選択されたdataをセット
-//   setCheckedTask(data);
-//         if (checkedTask.trim() !== '') { // タスクが空でないことを確認
-//           //setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
-//           console.log('addTask : ' + taskList);
-//         }
-// }
-// useEffect(() => {
-//   console.log('checkedTask : ' + checkedTask);
-//   setTaskList((prevTaskList) => [...prevTaskList, checkedTask]); // 配列に新しいタスクを追加
-//   },[checkedTask]);
-// TODO: 編集中
-const checkTask = ((index : number) => {
-  console.log('updatedData : '+JSON.stringify(updatedData));
-  console.log('updatedDataのインデックス : '+JSON.stringify(updatedData.col1[index]));
-  setCheckedTask(updatedData.col1[index]);
+// チェックボックス押下で完了リストにデータを移動
+  const [checkedTask,setCheckedTask] = useState<string>('');
 
-
-
-
-
-
-});
+  const checkTask = ((index : number) => {
+    setCheckedTask(updatedData.col1[index]);
+  });
 
   return(
     <div>
@@ -187,12 +165,11 @@ const checkTask = ((index : number) => {
         </div>
       </div>
     ))}
-    <p>{taskList}</p>
+
     {/* <p>{checkedTask}</p> */}
     <div>
     <CompletedList
       updatedData={updatedData}
-      taskList={taskList}
       checkedTask={checkedTask}
     />
     </div>
