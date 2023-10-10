@@ -58,6 +58,33 @@ export function CompletedList(props: CompletedListProps){
     }
   }, [props.checkedTask,completedData]);//props.checkedTaskとcompletedDataの更新時に実行
 
+  // 削除する関数
+  const removeText = (indexToRemove: number) => {
+    // ストレージデータをロードする
+    storage.load({
+      key:'completed'
+    }).then((data) => {
+      // 配列のindex番目を削除
+      data.col1.splice(indexToRemove,1)
+        console.log('データの中身は : ' + JSON.stringify(data));
+      // 変更後のストレージデータの配列を保存する処理
+        storage.save({
+          key:'completed',
+          // ここで削除後のデータを入れ込む
+          data:data
+        }).then((data) => {
+          // ページをリロードする
+          window.location.reload();
+        }).catch((err) => {
+        console.log(err);
+        });
+
+        }).catch((err) => {
+          console.log(err);
+        });
+
+    };
+
     return(
     <div >
         <div >
@@ -67,7 +94,7 @@ export function CompletedList(props: CompletedListProps){
             <div key={index} className='flex container border-b border-black my-4 justify-between'>
                 <img className='w-8 h-8 mx-3' src='/check02.png' alt='' />
                 <div  className=''>{data}</div>
-                <button>削除</button>
+                <button onClick={() => removeText(index)}>削除</button>
             </div>
             ))}
         </div>
