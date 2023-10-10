@@ -168,10 +168,11 @@ const upDateData = ((index : number) => {
       <div className='my-10'>
     {updatedData.col1.map((data,index) => (
       <div key={index} className="container border-b border-black bg-white bg-opacity-80 my-4 flex justify-between">
-        <input type="checkbox" onClick= {() => checkTask(index)}/>
 
         <label className="inline-flex items-center space-x-2 cursor-pointer">
-        <img className='w-12 h-12' src='/heart.png' alt='' />
+        <button>
+        <img className='w-12 h-12' onClick= {() => checkTask(index) }src='/heart.png' alt='' />
+        </button>
         <div className="h-5 w-5 bg-checkbox"></div>
         </label>
 
