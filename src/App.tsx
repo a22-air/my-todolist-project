@@ -167,7 +167,7 @@ const upDateData = ((index : number) => {
     <div>
     <h1>keyWord</h1>
     {updatedData.col1.map((data,index) => (
-      <div key={index} className="container border border-black bg-white bg-opacity-80 my-4">
+      <div key={index} className="container border-b border-black bg-white bg-opacity-80 my-4">
         <input type="checkbox" onClick= {() => checkTask(index)}/>
         <Linkify>
         <input
