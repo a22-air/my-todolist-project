@@ -185,8 +185,8 @@ const upDateData = ((index : number) => {
           onChange={handleNewTask}
         />
         </Linkify>
-          <div>
-            <button onClick={() => removeText(index)} className='mx-1'>削除</button>
+          <div className='text-center my-auto'>
+            <button onClick={() => removeText(index)} className='mx-1 '>削除</button>
             <button className='mx-1'
               onClick={() => {
                 setIndexNumber(index);
