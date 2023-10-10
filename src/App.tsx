@@ -164,39 +164,46 @@ const upDateData = ((index : number) => {
   });
 
   return(
-    <div>
-    <h1>keyWord</h1>
+    <div className=''>
+      <div className='my-10'>
     {updatedData.col1.map((data,index) => (
-      <div key={index} className="container border-b border-black bg-white bg-opacity-80 my-4">
+      <div key={index} className="container border-b border-black bg-white bg-opacity-80 my-4 flex justify-between">
         <input type="checkbox" onClick= {() => checkTask(index)}/>
+
+        <label className="inline-flex items-center space-x-2 cursor-pointer">
+        <img className='w-12 h-12' src='/heart.png' alt='' />
+        <img className='w-12 h-12' src='/check02.png' alt='' />
+        <div className="h-5 w-5 bg-checkbox"></div>
+        <span>チェックボックスのラベル</span>
+        </label>
+
         <Linkify>
-        <input
+        <input className=''
           id={`input_${index}`}
           type='text'
           value={indexNumber !== index ? data : task }
           onChange={handleNewTask}
         />
         </Linkify>
-        <div>
-          <button onClick={() => removeText(index)}>削除</button>
-          <button
-            onClick={() => {
-              setIndexNumber(index);
-              indexNumber === index ? upDateData(index) : handleEditClick(data, index);
-              }}
-              >{indexNumber === index ? '更新' : '編集'}</button>
-              <button onClick={() => {setIndexNumber(-1)}}>X</button>
-        </div>
+          <div>
+            <button onClick={() => removeText(index)} className='mx-1'>削除</button>
+            <button className='mx-1'
+              onClick={() => {
+                setIndexNumber(index);
+                indexNumber === index ? upDateData(index) : handleEditClick(data, index);
+                }}
+                >{indexNumber === index ? '更新' : '編集'}</button>
+              <button className='mx-1' onClick={() => {setIndexNumber(-1)}}>x</button>
+          </div>
       </div>
     ))}
-
-    {/* <p>{checkedTask}</p> */}
-    <div>
-    <CompletedList
-      updatedData={updatedData}
-      checkedTask={checkedTask}
-    />
-    </div>
+</div>
+      <div>
+        <CompletedList
+          updatedData={updatedData}
+          checkedTask={checkedTask}
+        />
+      </div>
     </div>
   );
 }
