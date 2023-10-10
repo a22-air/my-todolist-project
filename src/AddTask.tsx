@@ -65,18 +65,18 @@ export function AddTask(){
     return(
       <div className="flex justify-center items-center">
           <div className="text-2xl">
-          Add Task : <input placeholder='Add New Task' onChange={handleNewTask}
-          value={task}
-          />
+            Add Task : <input placeholder='Add New Task' onChange={handleNewTask}
+            value={task}
+            />
           </div>
           <div className="">
             <div className="flex justify-center items-center hover:opacity-60">
               <p>new</p>
-            <button onClick={handleClick} className="">
-            <img src='/gesture02.png' alt='チェック' className='w-12 h-12' />
-            </button>
+              <button onClick={handleClick} className="">
+                <img src='/gesture02.png' alt='チェック' className='w-12 h-12' />
+              </button>
             </div>
           </div>
-        </div>
+      </div>
     )
   }
