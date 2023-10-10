@@ -50,7 +50,7 @@ export function CompletedList(props: CompletedListProps){
         data: updatedData,
       }).then((data) => {
         // setCompletedData(updatedData); // 状態を更新
-        window.location.reload(); // ページをリロードする
+        // window.location.reload(); // ページをリロードする
 
       }).catch((err) => {
         console.log(err);
@@ -61,7 +61,7 @@ export function CompletedList(props: CompletedListProps){
     return(
     <div>
         <h1>Completed List</h1>
-        <h1>{props.checkedTask}</h1>
+        {/* <h1>{props.checkedTask}</h1> */}
         {completedData.col1.map((data,index) => (
             <div key={index}>{data}</div>
         ))}

@@ -137,6 +137,29 @@ const upDateData = ((index : number) => {
 
   const checkTask = ((index : number) => {
     setCheckedTask(updatedData.col1[index]);
+
+    // ストレージデータをロードする
+    storage.load({
+      key:'keyWord'
+    }).then((data) => {
+      // 配列のindex番目を削除
+      data.col1.splice(index,1)
+
+      // 変更後のストレージデータの配列を保存する処理
+        storage.save({
+          key:'keyWord',
+          // ここで削除後のデータを入れ込む
+          data:updatedData
+        }).then((data) => {
+          // ページをリロードする
+          window.location.reload();
+        }).catch((err) => {
+        console.log(err);
+        });
+
+        }).catch((err) => {
+          console.log(err);
+        });
   });
 
   return(
