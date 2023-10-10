@@ -38,8 +38,9 @@ const storage: Storage = new Storage({
   // });
 function Todo(){
     return(
-      <div className=''>
-      <h1>To Do List</h1>
+      <div className='flex justify-center items-center'>
+      <h1 className='text-3xl p-5'>To Do List</h1>
+      <img src='/star-shirokuro.png' alt='チェック' className='w-14 h-14' />
     </div>
     );
   }
@@ -204,7 +205,7 @@ function App() {
   return (
     <div className='bg-red-100 p-8'>
     <div className='flex justify-center bg-white h-screen'>
-      <div className=''>
+      <div className='font-mono'>
         <header className="">
         <Todo />
         </header>
