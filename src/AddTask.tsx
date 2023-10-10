@@ -63,7 +63,7 @@ export function AddTask(){
     };
 
     return(
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center  my-10">
           <div className="text-2xl">
             Add Task : <input placeholder='Add New Task' onChange={handleNewTask}
             value={task}
