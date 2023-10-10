@@ -38,7 +38,7 @@ const storage: Storage = new Storage({
   // });
 function Todo(){
     return(
-      <div>
+      <div className=''>
       <h1>To Do List</h1>
     </div>
     );
@@ -202,16 +202,19 @@ const upDateData = ((index : number) => {
 
 function App() {
   return (
-    <div>
-      <header className="App-header">
+    <div className='bg-red-100 p-8'>
+    <div className='flex justify-center bg-white h-screen'>
+      <div className=''>
+        <header className="">
         <Todo />
-      </header>
-      <main>
-        <AddTask />
-        <AddText />
-      </main>
-      <footer>
-      </footer>
+        </header>
+        <main>
+          <AddTask />
+          <AddText />
+        </main>
+        <footer></footer>
+      </div>
+    </div>
     </div>
   );
 }
