@@ -59,12 +59,18 @@ export function CompletedList(props: CompletedListProps){
   }, [props.checkedTask,completedData]);//props.checkedTaskとcompletedDataの更新時に実行
 
     return(
-    <div>
-        <h1>Completed List</h1>
-        {/* <h1>{props.checkedTask}</h1> */}
-        {completedData.col1.map((data,index) => (
-            <div key={index}>{data}</div>
-        ))}
+    <div >
+        <div >
+            <h1>Completed List</h1>
+            {/* <h1>{props.checkedTask}</h1> */}
+            {completedData.col1.map((data,index) => (
+            <div key={index} className='flex container border-b border-black my-4 justify-between'>
+                <img className='w-8 h-8 mx-3' src='/check02.png' alt='' />
+                <div  className=''>{data}</div>
+                <button>削除</button>
+            </div>
+            ))}
+        </div>
     </div>
     )
 };
