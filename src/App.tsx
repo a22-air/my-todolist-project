@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Linkify from 'linkify-react';
 import { AddTask } from './AddTask';
 import { CompletedList } from './CompletedList';
+import { Calendar } from './Calendar';
 
 //ストレージの作成
 const storage: Storage = new Storage({
@@ -19,16 +20,22 @@ const storage: Storage = new Storage({
 })
 
   // keyの中身を調べる方法↓ -----------------------------------
-  const keyName = 'completed'; // 取得したいキー名
-  const storedValue = localStorage.getItem(keyName);
+  // const keyName = 'completed'; // 取得したいキー名
+  // const storedValue = localStorage.getItem(keyName);
 
-  if (storedValue !== null) {
-    console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  } else {
-    console.log(`キー ${keyName} は存在しません。`);
-  }
+  // if (storedValue !== null) {
+  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  // } else {
+  //   console.log(`キー ${keyName} は存在しません。`);
+  // }
 //　-----------------------------------------------------
 
+// 日付を取得するメソッド
+let today = new Date();
+let formattedDate = `${today.getMonth() + 1}/${today.getDate()}`;
+console.log(formattedDate);
+
+// ストレージデータを削除する時 --------------------------------
   // storage.remove({
   //   key: 'completed'
   // }).then((data) => {
@@ -36,6 +43,8 @@ const storage: Storage = new Storage({
   // }).catch((err) => {
   //   console.log(err);
   // });
+//　---------------------------------------------------------
+
 function Todo(){
     return(
       <div className='flex justify-center items-center'>
@@ -239,8 +248,10 @@ function App() {
         <main>
           <AddTask />
           <AddText />
+          {/* <Calendar /> */}
         </main>
-        <footer></footer>
+        <footer>
+        </footer>
       </div>
     </div>
     </div>
