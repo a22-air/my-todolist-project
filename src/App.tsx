@@ -57,7 +57,7 @@ function Todo(){
 // AddTextコンポーネント　=================================================================
 // 追加されたデータを画面に表示するコンポーネント
 function AddText(){
-  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:string[] }>({ col1: [],col2: [] });
+  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[] }>({ col1: [],col2: [] });
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
 
@@ -81,6 +81,7 @@ function AddText(){
     }).then((data) => {
       // 配列のindex番目を削除
       data.col1.splice(indexToRemove,1)
+      data.col2.splice(indexToRemove,1);
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
@@ -154,6 +155,7 @@ const upDateData = ((index : number) => {
     }).then((data) => {
       // 配列のindex番目を削除
       data.col1.splice(index,1)
+      data.col2.splice(index,1)
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
@@ -178,6 +180,46 @@ const upDateData = ((index : number) => {
     console.log('strikeThrough : ' + checkBox);
     console.log('strikeThrough : ' + checkBox);
   })
+
+  // const [data, setData] = useState<number>([...updatedData.col2]); // ソートしたい数値配列
+  // console.log(data + ' is a number.');
+  console.log('中身'+JSON.stringify(updatedData.col2));
+
+  // ソートする関数
+  const clickSort = (() =>{
+    console.log('中身'+JSON.stringify(updatedData.col2));
+
+
+    for (const element of updatedData.col2) {
+      if (typeof element === 'number') {
+        console.log(element + ' is a number.');
+      } else if (typeof element === 'string') {
+        // 文字列を数値に変換（整数として扱います）
+        const numberValue = parseInt(element, 10);
+        if (!isNaN(numberValue)) {
+          console.log(element + ' is a string that can be converted to a number: ' + numberValue);
+        } else {
+          console.log(element + ' is a string that cannot be converted to a number.');
+        }
+      } else {
+        console.log('Unknown type: ' + element);
+      }
+
+    }
+
+    updatedData.col2.sort((a,b) => a - b);
+    console.log('中身'+JSON.stringify(updatedData.col2));
+
+    storage.load({
+      key: 'keyWord'
+    }).then((data) => {
+    console.log(' : ' + JSON.stringify(data));
+
+    }).catch((err) => {
+      console.log();
+    })
+
+  });
 
   return(
     <div className=''>
@@ -207,9 +249,7 @@ const upDateData = ((index : number) => {
               </div>
               <div className='mx-2'>
                 <p className='text-xs'>期限</p>
-
                 <p>{updatedData.col2[index]}</p>
-
               </div>
             <button onClick={() => removeText(index)} className='mx-1 '>削除</button>
             <button className='mx-1'
@@ -228,6 +268,8 @@ const upDateData = ((index : number) => {
   onClick={()=>setCheckBox(!checkBox)}>
   取り消し線の実装
 </button> */}
+<button onClick={clickSort}>順番を変える</button>
+
 
       <div>
         <CompletedList
