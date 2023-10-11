@@ -181,43 +181,53 @@ const upDateData = ((index : number) => {
     console.log('strikeThrough : ' + checkBox);
   })
 
-  // const [data, setData] = useState<number>([...updatedData.col2]); // ソートしたい数値配列
-  // console.log(data + ' is a number.');
-  console.log('中身'+JSON.stringify(updatedData.col2));
-
   // ソートする関数
   const clickSort = (() =>{
-    console.log('中身'+JSON.stringify(updatedData.col2));
+    console.log('ソート前のcol2 : '+JSON.stringify(updatedData.col2));
 
-
+    // col2をnumber型に変換
     for (const element of updatedData.col2) {
       if (typeof element === 'number') {
         console.log(element + ' is a number.');
       } else if (typeof element === 'string') {
-        // 文字列を数値に変換（整数として扱います）
-        const numberValue = parseInt(element, 10);
+        // 文字列を数値に変換（整数として扱う）
+        const numberValue = parseInt(element, 10);//10は10進数で表現する基数
         if (!isNaN(numberValue)) {
-          console.log(element + ' is a string that can be converted to a number: ' + numberValue);
+          console.log(element + ' 数値に変換できる文字列です: ' + numberValue);
         } else {
-          console.log(element + ' is a string that cannot be converted to a number.');
+          console.log(element + ' は数値に変換できない文字列です。');
         }
       } else {
-        console.log('Unknown type: ' + element);
+        console.log('不明なタイプ: ' + element);
       }
 
     }
+    // 数値に変換したものを昇順にソート
 
+  const sortedIndexes = updatedData.col2.map((_, index) => index).sort((a, b) => updatedData.col2[a] - updatedData.col2[b]);
+
+  // col1 を col2 のソート後の順序に並び替え
+    updatedData.col1 = sortedIndexes.map((index) => updatedData.col1[index]);
+  // col2 を並び替え
     updatedData.col2.sort((a,b) => a - b);
-    console.log('中身'+JSON.stringify(updatedData.col2));
 
     storage.load({
       key: 'keyWord'
     }).then((data) => {
     console.log(' : ' + JSON.stringify(data));
-
+      storage.save({
+        key:'keyWord',
+        data:updatedData
+      }).then((data) => {
+        // ページをリロードする
+        window.location.reload();
+      }).catch((err) => {
+        console.log(err);
+      })
     }).catch((err) => {
       console.log();
     })
+
 
   });
 
@@ -268,7 +278,7 @@ const upDateData = ((index : number) => {
   onClick={()=>setCheckBox(!checkBox)}>
   取り消し線の実装
 </button> */}
-<button onClick={clickSort}>順番を変える</button>
+<button onClick={clickSort}>並び替え</button>
 
 
       <div>

@@ -28,7 +28,6 @@ export function CompletedList(props: CompletedListProps){
       try {
         const data = await storage.load({ key: 'completed' }); //completedDataをロード
         setCompletedData(data);
-        console.log('完了リスト : ' + JSON.stringify(completedData));
       } catch (err) {
         console.log(err);
       }
@@ -51,7 +50,7 @@ export function CompletedList(props: CompletedListProps){
         data: updatedData,
       }).then((data) => {
         // setCompletedData(updatedData); // 状態を更新
-        // window.location.reload(); // ページをリロードする
+        window.location.reload(); // ページをリロードする
 
       }).catch((err) => {
         console.log(err);
