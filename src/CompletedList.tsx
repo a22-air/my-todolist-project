@@ -28,6 +28,7 @@ export function CompletedList(props: CompletedListProps){
       try {
         const data = await storage.load({ key: 'completed' }); //completedDataをロード
         setCompletedData(data);
+        console.log('完了リスト : ' + JSON.stringify(completedData));
       } catch (err) {
         console.log(err);
       }
