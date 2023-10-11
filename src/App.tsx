@@ -207,7 +207,9 @@ const upDateData = ((index : number) => {
               </div>
               <div className='mx-2'>
                 <p className='text-xs'>期限</p>
-                <p>11/1</p>
+
+                <p>{updatedData.col2[index]}</p>
+
               </div>
             <button onClick={() => removeText(index)} className='mx-1 '>削除</button>
             <button className='mx-1'
