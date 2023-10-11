@@ -92,8 +92,10 @@ export function CompletedList(props: CompletedListProps){
             {/* <h1>{props.checkedTask}</h1> */}
             {completedData.col1.map((data,index) => (
             <div key={index} className='flex container border-b border-black my-4 justify-between'>
+                <div className='flex'>
                 <img className='w-8 h-8 mx-3' src='/check02.png' alt='' />
                 <div  className=''>{data}</div>
+                </div>
                 <button onClick={() => removeText(index)}>削除</button>
             </div>
             ))}

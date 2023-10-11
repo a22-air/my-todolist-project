@@ -167,23 +167,22 @@ const upDateData = ((index : number) => {
     <div className=''>
       <div className='my-10'>
     {updatedData.col1.map((data,index) => (
-      <div key={index} className="container border-b border-black bg-white bg-opacity-80 my-4 flex justify-between">
-
-        <label className="inline-flex items-center space-x-2 cursor-pointer">
-        <button>
-        <img className='w-12 h-12' onClick= {() => checkTask(index) }src='/heart.png' alt='' />
-        </button>
-        <div className="h-5 w-5 bg-checkbox"></div>
-        </label>
-
-        <Linkify>
-        <input className=''
-          id={`input_${index}`}
-          type='text'
-          value={indexNumber !== index ? data : task }
-          onChange={handleNewTask}
-        />
-        </Linkify>
+        <div key={index} className="container border-b border-black my-4 flex justify-between">
+          <div className='flex justify-center items-center'>
+            <label className="inline-flex cursor-pointer">
+            <button>
+            <img className='w-12 h-12' onClick= {() => checkTask(index) }src='/heart.png' alt='' />
+            </button>
+            </label>
+            <Linkify>
+            <input className=''
+              id={`input_${index}`}
+              type='text'
+              value={indexNumber !== index ? data : task }
+              onChange={handleNewTask}
+            />
+            </Linkify>
+          </div>
           <div className='text-center my-auto'>
             <button onClick={() => removeText(index)} className='mx-1 '>削除</button>
             <button className='mx-1'
@@ -194,7 +193,7 @@ const upDateData = ((index : number) => {
                 >{indexNumber === index ? '更新' : '編集'}</button>
               <button className='mx-1' onClick={() => {setIndexNumber(-1)}}>x</button>
           </div>
-      </div>
+        </div>
     ))}
 </div>
       <div>
@@ -211,7 +210,7 @@ function App() {
   return (
     <div className='bg-red-100 p-8'>
     <div className='flex justify-center bg-white h-screen'>
-      <div className='font-mono'>
+      <div className='font-mono w-2/3'>
         <header className="">
         <Todo />
         </header>
