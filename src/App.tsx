@@ -31,9 +31,9 @@ const storage: Storage = new Storage({
 //　-----------------------------------------------------
 
 // 日付を取得するメソッド
-let today = new Date();
-let formattedDate = `${today.getMonth() + 1}/${today.getDate()}`;
-console.log(formattedDate);
+// let today = new Date();
+// let formattedDate = `${today.getMonth() + 1}/${today.getDate()}`;
+// console.log(formattedDate);
 
 // ストレージデータを削除する時 --------------------------------
   // storage.remove({
@@ -57,7 +57,7 @@ function Todo(){
 // AddTextコンポーネント　=================================================================
 // 追加されたデータを画面に表示するコンポーネント
 function AddText(){
-  const [updatedData, setUpdatedData] = useState<{ col1: string[] }>({ col1: [] });
+  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:string[] }>({ col1: [],col2: [] });
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
 

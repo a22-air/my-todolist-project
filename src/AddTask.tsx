@@ -14,9 +14,18 @@ const storage: Storage = new Storage({
     enableCache: true,
   })
 
+
+  // storage.save({
+  //   key: 'keyWord',
+  //   data:{
+  //     col1:[],
+  //     col2:[]
+  //   }
+  // });
 export function AddTask(){
 
     const [task, setTask] = useState<string>('');
+    const [taskData,setTaskData] = useState<string>('');
 
   // テキストをセットする関数
   const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,29 +33,40 @@ export function AddTask(){
     console.log(event.target.value)
   }
 
+  // 日付のテキストをセットする関数
+  const handleNewData = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTaskData(event.target.value);
+    console.log(taskData);
+  }
+
     // 追加ボタンでデータの追加をする関数
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
       // テキストが空だったら以下の処理は行わない
-      if (task === '') return;
+      if (task === '' || taskData === '') return;
       //taskにテキストに入力されたデータをセットする
       setTask('');
+      setTaskData('');
 
       try {
         // 既存のデータを読み込む
         const existingData = await storage.load({
           key: 'keyWord',
         });
-
-        let updatedData: { col1: string[] } = { col1: [] };
+        console.log('existingData:', existingData);
+        let updatedData: { col1: string[],col2: string[] } = { col1: [],col2: [] };
         // 既存のデータがあれば、それを取得し新しいデータを追加
         if (existingData) {
           updatedData = {
             ...existingData,
             col1: [...existingData.col1, task],
+            col2: [...existingData.col2,taskData]
           };
         } else {
           // 既存のデータがない場合、新しいデータを作成
-          updatedData.col1 = [task];
+          updatedData = {
+            col1: [task],
+            col2: [taskData],
+          };
         }
 
         // 新しいデータを保存
@@ -64,11 +84,13 @@ export function AddTask(){
 
     return(
       <div className="flex justify-center items-center  my-10">
-          <div className="text-2xl">
+          <div className="">
             Add Task : <input placeholder='Add New Task' onChange={handleNewTask}
             value={task}
             />
+            Time Limit : <input onChange={handleNewData} placeholder='Time Limit' type="text" className=""></input>
           </div>
+
           <div className="">
             <div className="flex justify-center items-center hover:opacity-60">
               <p>new</p>
