@@ -41,8 +41,10 @@ export function AddTask(){
 
     // 追加ボタンでデータの追加をする関数
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+
+
       // テキストが空だったら以下の処理は行わない
-      if (task === '' || taskData === '') return;
+      if (task === '') return;
       //taskにテキストに入力されたデータをセットする
       setTask('');
       setTaskData('');
