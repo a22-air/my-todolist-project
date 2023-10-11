@@ -163,6 +163,13 @@ const upDateData = ((index : number) => {
         });
   });
 
+  const [checkBox, setCheckBox] = useState<boolean>();
+  // チェックボックス押下で色をグレーにする関数
+  const strikeThrough = (( ) => {
+    console.log('strikeThrough : ' + checkBox);
+    console.log('strikeThrough : ' + checkBox);
+  })
+
   return(
     <div className=''>
       <div className='my-10'>
@@ -196,6 +203,12 @@ const upDateData = ((index : number) => {
         </div>
     ))}
 </div>
+
+{/* <button className={checkBox ? 'line-through text-gray-400' : '' }
+  onClick={()=>setCheckBox(!checkBox)}>
+  取り消し線の実装
+</button> */}
+
       <div>
         <CompletedList
           updatedData={updatedData}
