@@ -14,7 +14,6 @@ const storage: Storage = new Storage({
     enableCache: true,
   })
 
-
   // storage.save({
   //   key: 'keyWord',
   //   data:{
@@ -56,9 +55,6 @@ export function AddTask(){
 
       // テキストが空だったら以下の処理は行わない
       if (task === '') return;
-      //taskにテキストに入力されたデータをセットする
-      setTask('');
-      setTaskData('');
 
       try {
         // 既存のデータを読み込む
