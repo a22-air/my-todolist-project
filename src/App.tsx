@@ -31,9 +31,10 @@ const storage: Storage = new Storage({
 //　-----------------------------------------------------
 
 // 日付を取得するメソッド
-// let today = new Date();
-// let formattedDate = `${today.getMonth() + 1}/${today.getDate()}`;
-// console.log(formattedDate);
+let today = new Date();
+let formattedDate = `${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}${today.getHours()}${today.getMinutes()}`;
+console.log(formattedDate);
+
 
 // ストレージデータを削除する時 --------------------------------
   // storage.remove({
