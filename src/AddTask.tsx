@@ -19,9 +19,11 @@ const storage: Storage = new Storage({
   //   key: 'keyWord',
   //   data:{
   //     col1:[],
-  //     col2:[]
+  //     col2:[],
+  //       col3:[]
   //   }
   // });
+
 export function AddTask(){
 
     const [task, setTask] = useState<string>('');
@@ -33,9 +35,9 @@ export function AddTask(){
     console.log(event.target.value)
   }
 
-  // 日付のテキストをセットする関数
+  //日付のテキストをセットする関数
   const handleNewData = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const sanitizedValue = event.target.value.replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0));
+    const sanitizedValue = event.target.value;
     setTaskData(sanitizedValue);
     console.log(taskData);
   }
