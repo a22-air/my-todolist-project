@@ -196,6 +196,7 @@ const upDateData = ((index : number) => {
 
       // col1 を col2 のソート後の順序に並び替え
       updatedData.col1 = sortedIndexes.map((index) => updatedData.col1[index]);
+      updatedData.col3 = sortedIndexes.map((index)=> updatedData.col3[index]);
 
       // col2 をソート
         updatedData.col2 = numericSort(updatedData.col2, num === 0);
@@ -287,6 +288,7 @@ const upDateData = ((index : number) => {
 </button> */}
 <button onClick={()=>clickSort(0)}>昇順に並び替える</button>
 <button onClick={()=>clickSort(1)}>降順に並び替える</button>
+<button>戻す</button>
 
       <div>
         <CompletedList
