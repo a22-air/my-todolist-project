@@ -153,6 +153,7 @@ const upDateData = ((index : number) => {
       // 配列のindex番目を削除
       data.col1.splice(index,1)
       data.col2.splice(index,1)
+      data.col3.splice(index,1)
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
