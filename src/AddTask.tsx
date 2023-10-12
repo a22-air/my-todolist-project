@@ -92,7 +92,7 @@ export function AddTask(){
           data: updatedData,
         });
 
-        // window.location.reload(); // ページをリロードする
+        window.location.reload(); // ページをリロードする
 
       } catch (err) {
         console.log('エラー:', err);
