@@ -186,24 +186,6 @@ const upDateData = ((index : number) => {
   const clickSort = ((num:number) =>{
     console.log('ソート前のcol2 : '+JSON.stringify(updatedData.col2));
 
-    // col2をnumber型に変換
-    // for (const element of updatedData.col2) {
-    //   if (typeof element === 'number') {
-    //     console.log(element + ' is a number.');
-    //   } else if (typeof element === 'string') {
-    //     // 文字列を数値に変換（整数として扱う）
-    //     const numberValue = parseInt(element, 10);//10は10進数で表現する基数
-    //     if (!isNaN(numberValue)) {
-    //       console.log(element + ' 数値に変換できる文字列です: ' + numberValue);
-    //     } else {
-    //       console.log(element + ' は数値に変換できない文字列です。');
-    //     }
-    //   } else {
-    //     console.log('不明なタイプ: ' + element);
-    //   }
-
-    // }
-
     // 数値のソート関数を作成
     function numericSort(arr: number[], ascending: boolean): number[] {
       return arr.slice().sort((a, b) => (ascending ? a - b : b - a));
