@@ -24,22 +24,19 @@ const storage: Storage = new Storage({
   //   }
   // });
 
-  // 日付を取得するメソッド
+  //現在の日付を取得するメソッド
 let today = new Date();
 let formattedDate = today.getFullYear() * 100000000 +
                    (today.getMonth() + 1) * 1000000 +
                    today.getDate() * 10000 +
                    today.getHours() * 100 +
                    today.getMinutes();
-console.log(formattedDate);
 
 export function AddTask(){
 
     const [task, setTask] = useState<string>('');
     const [taskData,setTaskData] = useState<string>('');
     const [day,setDay] = useState<number>(formattedDate);
-  console.log('今日の日付は : ' +day);
-
 
   // テキストをセットする関数
   const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +53,6 @@ export function AddTask(){
 
     // 追加ボタンでデータの追加をする関数
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-
 
       // テキストが空だったら以下の処理は行わない
       if (task === '') return;
