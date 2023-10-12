@@ -174,6 +174,7 @@ const upDateData = ((index : number) => {
         });
   });
 
+  // TODO:未完成
   const [checkBox, setCheckBox] = useState<boolean>();
   // チェックボックス押下で色をグレーにする関数
   const strikeThrough = (( ) => {
@@ -182,39 +183,52 @@ const upDateData = ((index : number) => {
   })
 
   // ソートする関数
-  const clickSort = (() =>{
+  const clickSort = ((num:number) =>{
     console.log('ソート前のcol2 : '+JSON.stringify(updatedData.col2));
 
     // col2をnumber型に変換
-    for (const element of updatedData.col2) {
-      if (typeof element === 'number') {
-        console.log(element + ' is a number.');
-      } else if (typeof element === 'string') {
-        // 文字列を数値に変換（整数として扱う）
-        const numberValue = parseInt(element, 10);//10は10進数で表現する基数
-        if (!isNaN(numberValue)) {
-          console.log(element + ' 数値に変換できる文字列です: ' + numberValue);
-        } else {
-          console.log(element + ' は数値に変換できない文字列です。');
-        }
-      } else {
-        console.log('不明なタイプ: ' + element);
-      }
+    // for (const element of updatedData.col2) {
+    //   if (typeof element === 'number') {
+    //     console.log(element + ' is a number.');
+    //   } else if (typeof element === 'string') {
+    //     // 文字列を数値に変換（整数として扱う）
+    //     const numberValue = parseInt(element, 10);//10は10進数で表現する基数
+    //     if (!isNaN(numberValue)) {
+    //       console.log(element + ' 数値に変換できる文字列です: ' + numberValue);
+    //     } else {
+    //       console.log(element + ' は数値に変換できない文字列です。');
+    //     }
+    //   } else {
+    //     console.log('不明なタイプ: ' + element);
+    //   }
 
+    // }
+
+    // 数値のソート関数を作成
+    function numericSort(arr: number[], ascending: boolean): number[] {
+      return arr.slice().sort((a, b) => (ascending ? a - b : b - a));
     }
-    // 数値に変換したものを昇順にソート
+    // ソート前のcol2のインデックスを取得
+    const sortedIndexes = updatedData.col2.map((_, index) => index);
 
-  const sortedIndexes = updatedData.col2.map((_, index) => index).sort((a, b) => updatedData.col2[a] - updatedData.col2[b]);
+    if (num === 0 || num === 1) {
+      // col2 のソート後のインデックスを取得
+      sortedIndexes.sort((a, b) => (num === 0 ? updatedData.col2[a] - updatedData.col2[b] : updatedData.col2[b] - updatedData.col2[a]));
 
-  // col1 を col2 のソート後の順序に並び替え
-    updatedData.col1 = sortedIndexes.map((index) => updatedData.col1[index]);
-  // col2 を並び替え
-    updatedData.col2.sort((a,b) => a - b);
+      // col1 を col2 のソート後の順序に並び替え
+      updatedData.col1 = sortedIndexes.map((index) => updatedData.col1[index]);
+
+      // col2 をソート
+        updatedData.col2 = numericSort(updatedData.col2, num === 0);
+    } else {
+      console.log('ソートできませんでした');
+      return;
+    }
 
     storage.load({
       key: 'keyWord'
     }).then((data) => {
-    console.log(' : ' + JSON.stringify(data));
+      // ソート後の配列を保存する
       storage.save({
         key:'keyWord',
         data:updatedData
@@ -227,7 +241,6 @@ const upDateData = ((index : number) => {
     }).catch((err) => {
       console.log();
     })
-
 
   });
 
@@ -278,8 +291,8 @@ const upDateData = ((index : number) => {
   onClick={()=>setCheckBox(!checkBox)}>
   取り消し線の実装
 </button> */}
-<button onClick={clickSort}>並び替え</button>
-
+<button onClick={()=>clickSort(0)}>昇順に並び替える</button>
+<button onClick={()=>clickSort(1)}>降順に並び替える</button>
 
       <div>
         <CompletedList
