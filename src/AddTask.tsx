@@ -35,7 +35,8 @@ export function AddTask(){
 
   // 日付のテキストをセットする関数
   const handleNewData = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTaskData(event.target.value);
+    const sanitizedValue = event.target.value.replace(/[0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0));
+    setTaskData(sanitizedValue);
     console.log(taskData);
   }
 
