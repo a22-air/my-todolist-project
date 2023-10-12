@@ -46,12 +46,12 @@ export function AddTask(){
 
   //日付のテキストをセットする関数
   const handleNewData = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const sanitizedValue = event.target.value;
+    const sanitizedValue = event.target.value.replace(/-/g, ''); // '-' を削除
     setTaskData(sanitizedValue);
     console.log(taskData);
   }
 
-    // 追加ボタンでデータの追加をする関数
+    // 追加ボタンでデータの追加をする関数 TODO:
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
 
       // テキストが空だったら以下の処理は行わない
@@ -59,6 +59,8 @@ export function AddTask(){
       setWarningStatement(false);
       return;
       }
+
+      console.log('day:'+taskData);
 
       try {
         // 既存のデータを読み込む
@@ -90,7 +92,7 @@ export function AddTask(){
           data: updatedData,
         });
 
-        window.location.reload(); // ページをリロードする
+        // window.location.reload(); // ページをリロードする
 
       } catch (err) {
         console.log('エラー:', err);
