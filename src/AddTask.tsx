@@ -23,19 +23,20 @@ const storage: Storage = new Storage({
   //   }
   // });
 
-  //現在の日付を取得するメソッド
-let today = new Date();
-let formattedDate = today.getFullYear() * 100000000 +
-                   (today.getMonth() + 1) * 1000000 +
-                   today.getDate() * 10000 +
-                   today.getHours() * 100 +
-                   today.getMinutes();
+  let today = new Date();
+  let formattedDate = today.getFullYear() * 100000000 +
+                     (today.getMonth() + 1) * 1000000 +
+                     today.getDate() * 10000 +
+                     today.getHours() * 100 +
+                     today.getMinutes() * 1;
+  console.log(formattedDate);
 
 export function AddTask(){
 
     const [task, setTask] = useState<string>('');
     const [taskData,setTaskData] = useState<string>('');
     const [day,setDay] = useState<number>(formattedDate);
+    const [warningStatement,setWarningStatement] = useState<boolean>(true);
 
   // テキストをセットする関数
   const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +55,10 @@ export function AddTask(){
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
 
       // テキストが空だったら以下の処理は行わない
-      if (task === '') return;
+      if (task === ''){
+      setWarningStatement(false);
+      return;
+      }
 
       try {
         // 既存のデータを読み込む
@@ -96,10 +100,14 @@ export function AddTask(){
     return(
       <div className="flex justify-center items-center  my-10">
           <div className="">
-            Add Task : <input placeholder='Add New Task' onChange={handleNewTask}
+            Add Task :
+            <input
+            placeholder={ warningStatement ? 'Add New Task' : 'Please enter'}
+            onChange={handleNewTask}
             value={task}
+            className={ warningStatement ? "" : "placeholder-red-500" }
             />
-            Time Limit : <input onChange={handleNewData} placeholder='Time Limit' type="text" className=""></input>
+            Time Limit : <input onChange={handleNewData} placeholder='Time Limit' type="date" className=""></input>
           </div>
 
           <div className="">
