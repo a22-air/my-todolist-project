@@ -32,7 +32,11 @@ const storage: Storage = new Storage({
 
 // 日付を取得するメソッド
 let today = new Date();
-let formattedDate = `${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}${today.getHours()}${today.getMinutes()}`;
+let formattedDate = today.getFullYear() * 100000000 +
+                   (today.getMonth() + 1) * 1000000 +
+                   today.getDate() * 10000 +
+                   today.getHours() * 100 +
+                   today.getMinutes();
 console.log(formattedDate);
 
 
@@ -61,6 +65,9 @@ function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[] }>({ col1: [],col2: [] });
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
+  const [day,setDay] = useState<number>(formattedDate);
+
+  console.log('今日の日付は : ' +day);
 
   useEffect(() => {
     // ストレージデータのロード
