@@ -33,15 +33,15 @@ const storage: Storage = new Storage({
 
 
 
-// ストレージデータを削除する時 --------------------------------
+//ストレージデータを削除する時 --------------------------------
   // storage.remove({
-  //   key: 'completed'
+  //   key: 'keyWord'
   // }).then((data) => {
   //   console.log('削除成功');
   // }).catch((err) => {
   //   console.log(err);
   // });
-//　---------------------------------------------------------
+　//---------------------------------------------------------
 
 function Todo(){
     return(
@@ -81,6 +81,7 @@ function AddText(){
       // 配列のindex番目を削除
       data.col1.splice(indexToRemove,1)
       data.col2.splice(indexToRemove,1);
+      data.col3.splice(indexToRemove,1);
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
