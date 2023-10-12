@@ -226,6 +226,13 @@ const upDateData = ((index : number) => {
 
   });
 
+  // 追加日の欄にmonthとdayのみを表示できるようにする関数
+  const middleDateArray = updatedData.col3.map((number) => {
+    const numberString = number.toString(); // 数値を文字列に変換
+    const middleData = numberString.substring(8, 4); // 8番目から4文字取得
+    return middleData;
+  });
+
   return(
     <div className=''>
       <div className='my-10'>
@@ -250,7 +257,7 @@ const upDateData = ((index : number) => {
             <div className='text-center my-auto flex'>
               <div className='mx-2'>
                 <p className='text-xs'>追加日</p>
-                <p>10/10</p>
+                <p>{middleDateArray[index]}</p>
               </div>
               <div className='mx-2'>
                 <p className='text-xs'>期限</p>
