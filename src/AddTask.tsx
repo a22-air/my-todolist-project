@@ -24,10 +24,22 @@ const storage: Storage = new Storage({
   //   }
   // });
 
+  // 日付を取得するメソッド
+let today = new Date();
+let formattedDate = today.getFullYear() * 100000000 +
+                   (today.getMonth() + 1) * 1000000 +
+                   today.getDate() * 10000 +
+                   today.getHours() * 100 +
+                   today.getMinutes();
+console.log(formattedDate);
+
 export function AddTask(){
 
     const [task, setTask] = useState<string>('');
     const [taskData,setTaskData] = useState<string>('');
+    const [day,setDay] = useState<number>(formattedDate);
+  console.log('今日の日付は : ' +day);
+
 
   // テキストをセットする関数
   const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,19 +70,21 @@ export function AddTask(){
           key: 'keyWord',
         });
         console.log('existingData:', existingData);
-        let updatedData: { col1: string[],col2: string[] } = { col1: [],col2: [] };
+        let updatedData: { col1: string[],col2: string[],col3:number[] } = { col1: [],col2: [],col3: [] };
         // 既存のデータがあれば、それを取得し新しいデータを追加
         if (existingData) {
           updatedData = {
             ...existingData,
             col1: [...existingData.col1, task],
-            col2: [...existingData.col2,taskData]
+            col2: [...existingData.col2,taskData],
+            col3: [...existingData.col3,day]
           };
         } else {
           // 既存のデータがない場合、新しいデータを作成
           updatedData = {
             col1: [task],
             col2: [taskData],
+            col3: [day]
           };
         }
 
