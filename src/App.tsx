@@ -66,7 +66,7 @@ function AddText(){
       key: 'keyWord'
     }).then((data) => {
       setUpdatedData(data);
-      console.log('現在のupdatedData:'+JSON.stringify(updatedData));
+      console.log('現在のupdatedData:'+JSON.stringify(updatedData,null,2));
     }).catch((err) => {
       console.log(err);
     });
