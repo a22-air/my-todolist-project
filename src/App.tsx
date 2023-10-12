@@ -228,15 +228,15 @@ const upDateData = ((index : number) => {
   // 追加日の日付表示方法を変更する関数
     const middleDateArray = updatedData.col3.map((number) => {
       const numberString = number.toString(); // 数値を文字列に変換
-      const middleData = numberString.substring(4, 8); // 4番目から8文字取得
-      const formattedDate = `${middleData.substring(0, 2)}/${middleData.substring(2)}`; // フォーマット
+      const middleData = numberString.substring(0, 8); // 0番目から8文字取得
+      const formattedDate = `${middleData.substring(0, 4)}/${middleData.substring(6,4)}/${middleData.substring(6)}`; // フォーマット
       return formattedDate;
     });
 
   // 期限の日付表示方法を変更する関数
   const timeLimitArray = updatedData.col2.map((number) => {
     const numberString = number.toString(); // 数値を文字列に変換
-    const formattedDay = `${numberString.substring(0, 2)}/${numberString.substring(2)}`; // フォーマット
+    const formattedDay = `${numberString.substring(0, 4)}/${numberString.substring(6,4)}/${numberString.substring(6)}`; // フォーマット
     return formattedDay;
   })
 
