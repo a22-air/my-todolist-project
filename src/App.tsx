@@ -30,9 +30,6 @@ const storage: Storage = new Storage({
   // }
 //　-----------------------------------------------------
 
-
-
-
 //ストレージデータを削除する時 --------------------------------
   // storage.remove({
   //   key: 'keyWord'
@@ -41,7 +38,7 @@ const storage: Storage = new Storage({
   // }).catch((err) => {
   //   console.log(err);
   // });
-　//---------------------------------------------------------
+//---------------------------------------------------------
 
 function Todo(){
     return(
@@ -226,13 +223,20 @@ const upDateData = ((index : number) => {
 
   });
 
-  // // 追加日の欄にmonthとdayのみを表示できるようにする関数
+  // 追加日の日付表示方法を変更する関数
     const middleDateArray = updatedData.col3.map((number) => {
       const numberString = number.toString(); // 数値を文字列に変換
       const middleData = numberString.substring(4, 8); // 4番目から8文字取得
       const formattedDate = `${middleData.substring(0, 2)}/${middleData.substring(2)}`; // フォーマット
       return formattedDate;
     });
+
+  // 期限の日付表示方法を変更する関数
+  const timeLimitArray = updatedData.col2.map((number) => {
+    const numberString = number.toString(); // 数値を文字列に変換
+    const formattedDay = `${numberString.substring(0, 2)}/${numberString.substring(2)}`; // フォーマット
+    return formattedDay;
+  })
 
   return(
     <div className=''>
@@ -262,7 +266,7 @@ const upDateData = ((index : number) => {
               </div>
               <div className='mx-2'>
                 <p className='text-xs'>期限</p>
-                <p>{updatedData.col2[index]}</p>
+                <p>{timeLimitArray[index]}</p>
               </div>
             <button onClick={() => removeText(index)} className='mx-1 '>削除</button>
             <button className='mx-1'
