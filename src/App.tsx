@@ -226,12 +226,13 @@ const upDateData = ((index : number) => {
 
   });
 
-  // 追加日の欄にmonthとdayのみを表示できるようにする関数
-  const middleDateArray = updatedData.col3.map((number) => {
-    const numberString = number.toString(); // 数値を文字列に変換
-    const middleData = numberString.substring(8, 4); // 8番目から4文字取得
-    return middleData;
-  });
+  // // 追加日の欄にmonthとdayのみを表示できるようにする関数
+    const middleDateArray = updatedData.col3.map((number) => {
+      const numberString = number.toString(); // 数値を文字列に変換
+      const middleData = numberString.substring(4, 8); // 4番目から8文字取得
+      const formattedDate = `${middleData.substring(0, 2)}/${middleData.substring(2)}`; // フォーマット
+      return formattedDate;
+    });
 
   return(
     <div className=''>
