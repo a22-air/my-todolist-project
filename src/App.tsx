@@ -55,6 +55,7 @@ function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[] }>({ col1: [],col2: [], col3: [] });
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
+  const [taskDate,setTaskDate] = useState<string>('');
 
   useEffect(() => {
     // ストレージデータのロード
@@ -116,6 +117,13 @@ const calendarInitialValue = ((index:number) => {
   // - 追加後の日付を返す
   return formattedDate;
 })
+
+// 編集後のカレンダーのデータを取得する関数 TODO:
+  const editDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const sanitizedValue = event.target.value.replace(/-/g, ''); // '-' を削除
+    setTaskDate(sanitizedValue);
+    console.log('編集後の日付 : '+taskDate);
+  }
 
 // テキストボックスにテキストをセットする関数
 const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -275,7 +283,10 @@ const upDateData = ((index : number) => {
               </div>
               <div className='mx-2'>
                 <p className='text-xs'>期限</p>
-                {indexNumber === index ? <input type='date' defaultValue={calendarInitialValue(index)}></input> : <p>{timeLimitArray[index]}</p>}
+                {indexNumber === index ?
+                  <input type='date' onChange={editDate} defaultValue={calendarInitialValue(index)}></input> :
+                  <p>{timeLimitArray[index]}</p>}
+                  <p>{updatedData.col2[index]}</p>
               </div>
             <button onClick={() => removeText(index)} className='mx-1 '>削除</button>
             <button className='mx-1'
