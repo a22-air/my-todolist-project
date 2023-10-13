@@ -252,8 +252,13 @@ const upDateData = ((index : number) => {
   // 期限の日付表示方法を変更する関数
   const timeLimitArray = updatedData.col2.map((number) => {
     const numberString = number.toString(); // 数値を文字列に変換
+    // 期限があればフォーマットする
+    if(number){
     const formattedDay = `${numberString.substring(0, 4)}/${numberString.substring(6,4)}/${numberString.substring(6)}`; // フォーマット
     return formattedDay;
+    }
+    // 無ければ処理はしない
+    return number;
   })
 
   return(
