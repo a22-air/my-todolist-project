@@ -55,6 +55,10 @@ function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[] }>({ col1: [],col2: [], col3: [] });
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
+  const [taskDate,setTaskDate] = useState<number>();
+  console.log('updatedData : ' + updatedData.col2);
+  //  setTaskData(updatedData.col2[1]);
+  console.log('updatedData2 : ' + taskDate);
 
 
   useEffect(() => {
@@ -107,6 +111,22 @@ function AddText(){
   // 選択されたidのテキストにフォーカスする指定
   element?.focus();
 }
+
+//編集ボタン押下で日付のテキストをセットする関数 TODO:
+// const handleNewData = (event: React.ChangeEvent<HTMLInputElement>) => {
+//   // const sanitizedValue = event.target.value.replace(/-/g, ''); // '-' を削除
+//   // setTaskData(sanitizedValue);
+//   setTaskData(event);
+//   console.log(taskData);
+// }
+
+// カレンダーの初期値をセットする関数
+const calendarInitialValue = ((index:number) => {
+  const originalNumber = updatedData.col2[index].toString();
+  const formattedDate = originalNumber.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+  console.log('-を追加 : '+formattedDate);
+  return formattedDate;
+})
 
 // テキストボックスにテキストをセットする関数
 const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -268,7 +288,7 @@ const upDateData = ((index : number) => {
               </div>
               <div className='mx-2'>
                 <p className='text-xs'>期限</p>
-                <p>{timeLimitArray[index]}</p>
+                {indexNumber === index ? <input type='date' defaultValue={calendarInitialValue(index)}></input> : <p>{timeLimitArray[index]}</p>}
               </div>
             <button onClick={() => removeText(index)} className='mx-1 '>削除</button>
             <button className='mx-1'
