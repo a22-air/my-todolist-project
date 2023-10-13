@@ -55,11 +55,6 @@ function AddText(){
   const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[] }>({ col1: [],col2: [], col3: [] });
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
-  const [taskDate,setTaskDate] = useState<number>();
-  console.log('updatedData : ' + updatedData.col2);
-  //  setTaskData(updatedData.col2[1]);
-  console.log('updatedData2 : ' + taskDate);
-
 
   useEffect(() => {
     // ストレージデータのロード
@@ -102,7 +97,7 @@ function AddText(){
 
     };
 
-  // 編集ボタン押下でデータの値を取得する関数
+  // 編集ボタン押下でテキストのデータの値を取得する関数
   const handleEditClick = (data : string, index : number) => {
   // 選択されたindex番号のidを取得
   var element = document.getElementById("input_"+index);
@@ -112,27 +107,19 @@ function AddText(){
   element?.focus();
 }
 
-//編集ボタン押下で日付のテキストをセットする関数 TODO:
-// const handleNewData = (event: React.ChangeEvent<HTMLInputElement>) => {
-//   // const sanitizedValue = event.target.value.replace(/-/g, ''); // '-' を削除
-//   // setTaskData(sanitizedValue);
-//   setTaskData(event);
-//   console.log(taskData);
-// }
-
 // カレンダーの初期値をセットする関数
 const calendarInitialValue = ((index:number) => {
+  // col2のデータをnumber型から文字列に変更
   const originalNumber = updatedData.col2[index].toString();
+  // - を追加して日付の表示設定
   const formattedDate = originalNumber.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-  console.log('-を追加 : '+formattedDate);
+  // - 追加後の日付を返す
   return formattedDate;
 })
 
 // テキストボックスにテキストをセットする関数
 const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
-  // console.log('task:'+task);
   setTask(event.target.value);
-  // console.log(event.target.value)
 }
 
 // 更新ボタン押下でデータの更新を行う関数
