@@ -113,12 +113,14 @@ export function AddTask(){
           </div>
 
           <div className="">
-            <div className="flex justify-center items-center hover:opacity-60">
-              <p>new</p>
-              <button onClick={handleClick} className="">
-                <img src='/gesture02.png' alt='チェック' className='w-12 h-12' />
-              </button>
-            </div>
+            <label className="inline-flex cursor-pointer hover:opacity-60">
+              <div>new</div>
+              <div>
+                <button onClick={handleClick} className="">
+                  <img src='/gesture02.png' alt='チェック' className='w-12 h-12' />
+                </button>
+              </div>
+            </label>
           </div>
       </div>
     )
