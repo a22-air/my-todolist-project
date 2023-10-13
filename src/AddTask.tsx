@@ -113,7 +113,13 @@ export function AddTask(){
             </div>
             <div>
               Time Limit :
-              <input onChange={handleNewData} placeholder='Time Limit' type="date" className=""></input>
+              <input
+                onChange={handleNewData}
+                placeholder='Time Limit'
+                type="date"
+                className="cursor-pointer opacity-60 hover:opacity-100"
+                >
+              </input>
             </div>
           </div>
 
