@@ -138,6 +138,7 @@ const upDateData = ((index : number) => {
   }).then((data) => {
     // 選択したインデックスのデータにtaskを代入
     data.col1[index] = task;
+    data.col2[index] = taskDate;
 
     // 書き換えたdataを保存する
     storage.save({
@@ -286,7 +287,6 @@ const upDateData = ((index : number) => {
                 {indexNumber === index ?
                   <input type='date' onChange={editDate} defaultValue={calendarInitialValue(index)}></input> :
                   <p>{timeLimitArray[index]}</p>}
-                  <p>{updatedData.col2[index]}</p>
               </div>
             <button onClick={() => removeText(index)} className='mx-1 '>削除</button>
             <button className='mx-1'
