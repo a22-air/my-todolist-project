@@ -268,12 +268,14 @@ const upDateData = ((index : number) => {
             </button>
             </label>
             <Linkify>
-            <input className=''
+            <input
+              // className='bg-white'
+              // className={`bg-gray-200 ${indexNumber !== index ? '' : 'bg-white'}`}
               id={`input_${index}`}
               type='text'
               value={indexNumber !== index ? data : task }
               onChange={handleNewTask}
-              disabled={indexNumber !== index}
+              // disabled={indexNumber !== index}
             />
             </Linkify>
 
