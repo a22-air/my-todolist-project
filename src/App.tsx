@@ -273,6 +273,7 @@ const upDateData = ((index : number) => {
               type='text'
               value={indexNumber !== index ? data : task }
               onChange={handleNewTask}
+              disabled={indexNumber !== index}
             />
             </Linkify>
 
