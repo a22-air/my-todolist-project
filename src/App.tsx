@@ -118,7 +118,7 @@ const calendarInitialValue = ((index:number) => {
   return formattedDate;
 })
 
-// 編集後のカレンダーのデータを取得する関数 TODO:
+// 編集後のカレンダーのデータを取得する関数
   const editDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sanitizedValue = event.target.value.replace(/-/g, ''); // '-' を削除
     setTaskDate(sanitizedValue);
@@ -188,13 +188,13 @@ const upDateData = ((index : number) => {
         });
   });
 
-  // TODO:未完成
-  const [checkBox, setCheckBox] = useState<boolean>();
-  // チェックボックス押下で色をグレーにする関数
-  const strikeThrough = (( ) => {
-    console.log('strikeThrough : ' + checkBox);
-    console.log('strikeThrough : ' + checkBox);
-  })
+  // 未完成
+  // const [checkBox, setCheckBox] = useState<boolean>();
+  // // チェックボックス押下で色をグレーにする関数
+  // const strikeThrough = (( ) => {
+  //   console.log('strikeThrough : ' + checkBox);
+  //   console.log('strikeThrough : ' + checkBox);
+  // })
 
   // ソートする関数
   const clickSort = ((num:number) =>{
@@ -286,17 +286,26 @@ const upDateData = ((index : number) => {
               <div className='mx-2'>
                 <p className='text-xs'>期限</p>
                 {indexNumber === index ?
-                  <input type='date' onChange={editDate} defaultValue={calendarInitialValue(index)}></input> :
+                  <input type='date'
+                    onChange={editDate}
+                    defaultValue={calendarInitialValue(index)}>
+                  </input> :
                   <p>{timeLimitArray[index]}</p>}
               </div>
-            <button onClick={() => removeText(index)} className='mx-1 '>削除</button>
+            <button
+            onClick={() => removeText(index)} className='mx-1'
+            hidden={indexNumber === index}>削除</button>
             <button className='mx-1'
               onClick={() => {
                 setIndexNumber(index);
                 indexNumber === index ? upDateData(index) : handleEditClick(data, index);
                 }}
                 >{indexNumber === index ? '更新' : '編集'}</button>
-              <button className='mx-1' onClick={() => {setIndexNumber(-1)}}>x</button>
+              <button
+                className='mx-1'
+                hidden={indexNumber !== index}
+                onClick={() => {setIndexNumber(-1)}}>
+              x</button>
           </div>
         </div>
     ))}
