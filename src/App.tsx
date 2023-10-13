@@ -264,9 +264,11 @@ const upDateData = ((index : number) => {
   return(
     <div className=''>
       <div className='my-10'>
-    {updatedData.col1.map((data,index) => (
-        <div key={index} className="container border-b border-black my-4 flex justify-between">
-          <div className='flex justify-center items-center'>
+      {updatedData.col1.map((data,index) => (
+
+        <div key={index} className="border-b border-black my-4 flex justify-between">
+
+          <div className='flex justify-center items-center w-3/5'>
             <label className="inline-flex cursor-pointer">
             <button>
             <img className='w-12 h-12' onClick= {() => checkTask(index) }src='/heart.png' alt='' />
@@ -274,6 +276,7 @@ const upDateData = ((index : number) => {
             </label>
             <Linkify>
             <input
+            className='w-full'
               // className='bg-white'
               // className={`bg-gray-200 ${indexNumber !== index ? '' : 'bg-white'}`}
               id={`input_${index}`}
@@ -283,38 +286,37 @@ const upDateData = ((index : number) => {
               // disabled={indexNumber !== index}
             />
             </Linkify>
-
           </div>
-            <div className='text-center my-auto flex'>
-              <div className='mx-2'>
-                <p className='text-xs'>追加日</p>
-                <p>{middleDateArray[index]}</p>
-              </div>
-              <div className='mx-2'>
-                <p className='text-xs'>期限</p>
-                {indexNumber === index ?
-                  <input type='date'
-                    onChange={editDate}
-                    defaultValue={calendarInitialValue(index)}>
-                  </input> :
-                  <p>{timeLimitArray[index]}</p>}
-              </div>
+          <div className='text-center my-auto flex'>
+            <div className='mx-2'>
+              <p className='text-xs'>追加日</p>
+              <p>{middleDateArray[index]}</p>
+            </div>
+            <div className='mx-2'>
+              <p className='text-xs'>期限</p>
+              {indexNumber === index ?
+                <input type='date'
+                  onChange={editDate}
+                  defaultValue={calendarInitialValue(index)}>
+                </input> :
+                <p>{timeLimitArray[index]}</p>}
+            </div>
             <button
-            onClick={() => removeText(index)} className='mx-1'
-            hidden={indexNumber === index}>削除</button>
+              onClick={() => removeText(index)} className='mx-1'
+              hidden={indexNumber === index}>削除</button>
             <button className='mx-1'
               onClick={() => {
-                setIndexNumber(index);
-                indexNumber === index ? upDateData(index) : handleEditClick(data, index);
-                }}
-                >{indexNumber === index ? '更新' : '編集'}</button>
-              <button
-                className='mx-1'
-                hidden={indexNumber !== index}
-                onClick={() => {setIndexNumber(-1)}}>
-              x</button>
-          </div>
+              setIndexNumber(index);
+              indexNumber === index ? upDateData(index) : handleEditClick(data, index);
+              }}
+            >{indexNumber === index ? '更新' : '編集'}</button>
+            <button
+              className='mx-1'
+              hidden={indexNumber !== index}
+              onClick={() => {setIndexNumber(-1)}}>
+            x</button>
         </div>
+      </div>
     ))}
 </div>
 
@@ -340,7 +342,7 @@ function App() {
   return (
     <div className='bg-red-100 p-8'>
     <div className='flex justify-center bg-white h-screen'>
-      <div className='font-mono w-2/3'>
+      <div className='font-mono w-4/5'>
         <header className="">
         <Todo />
         </header>
