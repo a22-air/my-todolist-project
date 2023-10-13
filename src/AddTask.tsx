@@ -100,16 +100,21 @@ export function AddTask(){
     };
 
     return(
-      <div className="flex justify-center items-center  my-10">
-          <div className="">
-            Add Task :
-            <input
-            placeholder={ warningStatement ? 'Add New Task' : 'Please enter'}
-            onChange={handleNewTask}
-            value={task}
-            className={ warningStatement ? "" : "placeholder-red-500" }
-            />
-            Time Limit : <input onChange={handleNewData} placeholder='Time Limit' type="date" className=""></input>
+      <div className="flex justify-between my-10">
+          <div className="w-full">
+            <div className="">
+              Add Task :
+              <input
+              placeholder={ warningStatement ? 'Add New Task' : 'Please enter'}
+              onChange={handleNewTask}
+              value={task}
+              className={`w-2/3 ${warningStatement ? "" : "placeholder-red-500"}`}
+              />
+            </div>
+            <div>
+              Time Limit :
+              <input onChange={handleNewData} placeholder='Time Limit' type="date" className=""></input>
+            </div>
           </div>
 
           <div className="">
