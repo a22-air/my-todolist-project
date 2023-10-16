@@ -261,6 +261,25 @@ const upDateData = ((index : number) => {
     return number;
   })
 
+  const [colorNum,setColorNum] = useState<number>();
+
+  // 期限によって日付に色をつける関数 TODO:
+  const colorLabel = (() => {
+    console.log('updatedData.col2[3] : ' + updatedData.col2[3]);
+    console.log('updatedData.col3[3] : ' + updatedData.col3[3]);
+    var col3 = updatedData.col3[3].toString();
+    var result = col3.substring(0,8);
+    console.log('result : ' + result);
+    var col2 = updatedData.col2[3].toString();
+    if(result === col2){
+      console.log('同じです');
+      setColorNum(0);
+      console.log('colorNum : ' + colorNum);
+    }else{
+      console.log('違います');
+    };
+  });
+
   return(
     <div className=''>
       <div className='my-10'>
@@ -297,9 +316,10 @@ const upDateData = ((index : number) => {
               {indexNumber === index ?
                 <input type='date'
                   onChange={editDate}
-                  defaultValue={calendarInitialValue(index)}>
+                  defaultValue={calendarInitialValue(index)}
+                  className='bg-blue-200 focus:bg-red-200'>
                 </input> :
-                <p>{timeLimitArray[index]}</p>}
+                <p className={colorNum === 0 ? 'bg-blue-200' : '' }>{timeLimitArray[index]}</p>}
             </div>
             <button
               onClick={() => removeText(index)} className='mx-1'
@@ -327,6 +347,7 @@ const upDateData = ((index : number) => {
 <button onClick={()=>clickSort(0)}>昇順に並び替える</button>
 <button onClick={()=>clickSort(1)}>降順に並び替える</button>
 <button>戻す</button>
+<button onClick={colorLabel}>テスト用ボタン</button>
 
       <div>
         <CompletedList
