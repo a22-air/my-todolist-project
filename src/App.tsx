@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState,useEffect,useRef} from 'react';
+import {useState,useEffect,useCallback} from 'react';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import Linkify from 'linkify-react';
@@ -261,30 +261,38 @@ const upDateData = ((index : number) => {
     return number;
   })
 
+  // 今日の日付のデータを取得
+  let today = new Date();
+  let judgmentDate = today.getFullYear() * 10000 +
+                     (today.getMonth() + 1) * 100 +
+                      today.getDate()
+
   const [colorNumArray, setColorNumArray] = useState<number[]>([]); // 初期値を空の配列に設定
 
   // 期限によって日付に色をつける関数 TODO:
-  const colorLabel = (() => {
-    // col3のデータをNumber型からString型に変換し、数字を切り取る
-    var col3 = updatedData.col3.map((data:number) => data.toString().substring(0,8));
-    console.log('col3 : ' + col3);
-    // col3のデータをNumber型からString型に変換
-    var col2 = updatedData.col2.map((data:number) => data.toString());
+  const colorLabel = useCallback(() => {
+  // col2(期限)をString型からNumber型へ変換
+  const col2Num = updatedData.col2.map((data) => Number(data));
 
-    const updatedArray = [];
+  const updatedArray = [];
 
-    for (let i = 0; i < col3.length; i++) {
-      if (col2[i] === col3[i]) {
-        updatedArray.push(1);
-      } else {
-        updatedArray.push(0);
-      }
+  for (let i = 0; i < col2Num.length; i++) {
+    // 今日の日付よりもcol2の方が前だったら（期限が過ぎていたら）
+    if (judgmentDate > col2Num[i]) {
+      updatedArray.push(1);
+    } else if (judgmentDate === col2Num[i]) {
+      updatedArray.push(2);
+    } else {
+      // 期限が過ぎていなければ
+      updatedArray.push(0);
     }
+  }
+  setColorNumArray(updatedArray); // ループの外で一度だけセット
+}, [judgmentDate,updatedData.col2,setColorNumArray]);
 
-    setColorNumArray(updatedArray); // ループの外で一度だけセット
-
-    console.log('colorNumArray : ' + colorNumArray);
-  });
+useEffect(() => {
+  colorLabel();
+}, [colorLabel]);
 
   return(
     <div className=''>
@@ -326,7 +334,7 @@ const upDateData = ((index : number) => {
                   className='bg-blue-200 focus:bg-red-200'>
                 </input> :
                 <p className=
-                {colorNumArray[index] === 1 ? 'bg-yellow-200' : '' }
+                {colorNumArray[index] === 1 ? 'bg-red-200' : colorNumArray[index] === 2 ? 'bg-yellow-200' : ''}
                 >{timeLimitArray[index]}</p>}
             </div>
             <button
@@ -355,7 +363,6 @@ const upDateData = ((index : number) => {
 <button onClick={()=>clickSort(0)}>昇順に並び替える</button>
 <button onClick={()=>clickSort(1)}>降順に並び替える</button>
 <button>戻す</button>
-<button onClick={colorLabel}>テスト用ボタン</button>
 
       <div>
         <CompletedList
