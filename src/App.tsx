@@ -261,23 +261,29 @@ const upDateData = ((index : number) => {
     return number;
   })
 
-  const [colorNum,setColorNum] = useState<number>();
+  const [colorNumArray, setColorNumArray] = useState<number[]>([]); // 初期値を空の配列に設定
 
   // 期限によって日付に色をつける関数 TODO:
   const colorLabel = (() => {
-    console.log('updatedData.col2[3] : ' + updatedData.col2[3]);
-    console.log('updatedData.col3[3] : ' + updatedData.col3[3]);
-    var col3 = updatedData.col3[3].toString();
-    var result = col3.substring(0,8);
-    console.log('result : ' + result);
-    var col2 = updatedData.col2[3].toString();
-    if(result === col2){
-      console.log('同じです');
-      setColorNum(0);
-      console.log('colorNum : ' + colorNum);
-    }else{
-      console.log('違います');
-    };
+    // col3のデータをNumber型からString型に変換し、数字を切り取る
+    var col3 = updatedData.col3.map((data:number) => data.toString().substring(0,8));
+    console.log('col3 : ' + col3);
+    // col3のデータをNumber型からString型に変換
+    var col2 = updatedData.col2.map((data:number) => data.toString());
+
+    const updatedArray = [];
+
+    for (let i = 0; i < col3.length; i++) {
+      if (col2[i] === col3[i]) {
+        updatedArray.push(1);
+      } else {
+        updatedArray.push(0);
+      }
+    }
+
+    setColorNumArray(updatedArray); // ループの外で一度だけセット
+
+    console.log('colorNumArray : ' + colorNumArray);
   });
 
   return(
@@ -319,7 +325,9 @@ const upDateData = ((index : number) => {
                   defaultValue={calendarInitialValue(index)}
                   className='bg-blue-200 focus:bg-red-200'>
                 </input> :
-                <p className={colorNum === 0 ? 'bg-blue-200' : '' }>{timeLimitArray[index]}</p>}
+                <p className=
+                {colorNumArray[index] === 1 ? 'bg-yellow-200' : '' }
+                >{timeLimitArray[index]}</p>}
             </div>
             <button
               onClick={() => removeText(index)} className='mx-1'
