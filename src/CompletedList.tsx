@@ -16,11 +16,6 @@ const storage: Storage = new Storage({
   })
 
 type CompletedListProps = {
-    //TODO:削除
-    updatedData: { col1: string[],col2:number[],col3:number[] } // updatedData を受け取るプロップス
-    //TODO:削除
-    checkedTask : string; // checkedTaskを受け取るプロップス
-
     checkedTaskArray:{col1:string, col2: number, col3:number}; // チェックボックスで選択されたデータを受け取るプロップス
     checkedNum: number; // チェックボックス押下で1が返ってきて完了リストに追加処理が始まる
   };

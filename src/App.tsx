@@ -388,8 +388,6 @@ useEffect(() => {
 
       <div>
         <CompletedList
-          updatedData={updatedData}
-          checkedTask={checkedTask}
           checkedTaskArray={checkedTaskArray}
           checkedNum={checkedNum}
         />
