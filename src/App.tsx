@@ -18,21 +18,33 @@ const storage: Storage = new Storage({
   // メモリにキャッシュするかどうか
   enableCache: true,
 })
+  // storage.save({
+  //   key: 'completed',
+  //   data:{
+  //     col1:[],
+  //     col2:[],
+  //     col3:[]
+  //   },
+  // }).then((data) => {
+  //   console.log(' : ' + JSON.stringify(data));
+  // }).catch((err) => {
+  //   console.log(err);
+  // });
 
   // keyの中身を調べる方法↓ -----------------------------------
-  // const keyName = 'completed'; // 取得したいキー名
-  // const storedValue = localStorage.getItem(keyName);
+  const keyName = 'completed'; // 取得したいキー名
+  const storedValue = localStorage.getItem(keyName);
 
-  // if (storedValue !== null) {
-  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  // } else {
-  //   console.log(`キー ${keyName} は存在しません。`);
-  // }
+  if (storedValue !== null) {
+    console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  } else {
+    console.log(`キー ${keyName} は存在しません。`);
+  }
 //　-----------------------------------------------------
 
 //ストレージデータを削除する時 --------------------------------
   // storage.remove({
-  //   key: 'keyWord'
+  //   key: 'completed'
   // }).then((data) => {
   //   console.log('削除成功');
   // }).catch((err) => {
@@ -156,11 +168,20 @@ const upDateData = ((index : number) => {
     console.log(err);
   });
 })
-// チェックボックス押下で完了リストにデータを移動
+// チェックボックス押下で完了リストにデータを移動 TODO:
   const [checkedTask,setCheckedTask] = useState<string>('');
+  const [checkedNum,setCheckedNum] = useState<number>(0);
+  const [checkedTaskArray, setCheckedTaskArray] = useState<{ col1: string, col2: number, col3: number }>({
+    col1: '',
+    col2: 0,
+    col3: 0
+  });
 
   const checkTask = ((index : number) => {
     setCheckedTask(updatedData.col1[index]);
+    setCheckedTaskArray({col1:updatedData.col1[index],col2:updatedData.col2[index],col3:updatedData.col3[index]});
+    console.log('checkedTaskArray : ' + JSON.stringify(checkedTaskArray));
+    setCheckedNum(1);
 
     // ストレージデータをロードする
     storage.load({
@@ -172,16 +193,17 @@ const upDateData = ((index : number) => {
       data.col3.splice(index,1)
 
       // 変更後のストレージデータの配列を保存する処理
-        storage.save({
-          key:'keyWord',
-          // ここで削除後のデータを入れ込む
-          data:updatedData
-        }).then((data) => {
-          // ページをリロードする
-          window.location.reload();
-        }).catch((err) => {
-        console.log(err);
-        });
+        // storage.save({
+        //   key:'keyWord',
+        //   // ここで削除後のデータを入れ込む
+        //   data:updatedData
+        // }).then((data) => {
+        //   // ページをリロードする
+        //   window.location.reload();
+        // }).catch((err) => {
+        // console.log(err);
+        // });
+      console.log('data : ' + JSON.stringify(data));
 
         }).catch((err) => {
           console.log(err);
@@ -269,7 +291,7 @@ const upDateData = ((index : number) => {
 
   const [colorNumArray, setColorNumArray] = useState<number[]>([]); // 初期値を空の配列に設定
 
-  // 期限によって日付に色をつける関数 TODO:
+  // 期限によって日付に色をつける関数
   const colorLabel = useCallback(() => {
   // col2(期限)をString型からNumber型へ変換
   const col2Num = updatedData.col2.map((data) => Number(data));
@@ -368,6 +390,8 @@ useEffect(() => {
         <CompletedList
           updatedData={updatedData}
           checkedTask={checkedTask}
+          checkedTaskArray={checkedTaskArray}
+          checkedNum={checkedNum}
         />
       </div>
     </div>
