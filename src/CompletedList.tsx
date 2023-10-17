@@ -1,7 +1,6 @@
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useState,useEffect} from 'react';
-import { log } from 'console';
 
 //ストレージの作成
 const storage: Storage = new Storage({
@@ -18,6 +17,8 @@ const storage: Storage = new Storage({
 type CompletedListProps = {
     checkedTaskArray:{col1:string, col2: number, col3:number}; // チェックボックスで選択されたデータを受け取るプロップス
     checkedNum: number; // チェックボックス押下で1が返ってきて完了リストに追加処理が始まる
+    completedIndex : number; // 完了リストのindex番号を操作するプロップス
+    setCompletedIndex : React.Dispatch<React.SetStateAction<number>>; // 完了リストのindex番号を操作するプロップス
   };
 
 export function CompletedList(props: CompletedListProps){
@@ -33,11 +34,12 @@ export function CompletedList(props: CompletedListProps){
       }).catch((err) => {
         console.log(err);
       });
-    },[completedDataArray]);
+    },[]);
 
     // チェックボックスが押下されたら発動する処理
     if (props.checkedNum === 1) {
       (async () => {
+        // 既存のデータを読み込む
         try {
           const existingData = await storage.load({
             key: 'completed',
@@ -65,10 +67,10 @@ export function CompletedList(props: CompletedListProps){
           }
 
           // 新しいデータを保存
-        await storage.save({
-          key: 'completed',
-          data: updatedData,
-        });
+          await storage.save({
+            key: 'completed',
+            data: updatedData,
+          });
 
         window.location.reload(); // ページをリロードする
 
@@ -88,7 +90,7 @@ export function CompletedList(props: CompletedListProps){
       data.col1.splice(indexToRemove,1)
       data.col2.splice(indexToRemove,1)
       data.col3.splice(indexToRemove,1)
-        console.log('データの中身は : ' + JSON.stringify(data));
+
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
           key:'completed',
@@ -101,21 +103,16 @@ export function CompletedList(props: CompletedListProps){
         console.log(err);
         });
 
-        }).catch((err) => {
-          console.log(err);
-        });
-
-    };
-
-    const returnData = (() => {
-      storage.load({
-        key: 'completed'
-      }).then((data) => {
-        console.log(' : ' + JSON.stringify(data));
       }).catch((err) => {
         console.log(err);
       });
-    })
+
+    };
+
+    // 戻すボタンを押下時に親プロップスにindex番号を渡す処理
+    const returnData = ((indexToRemove:number) => {
+      props.setCompletedIndex(indexToRemove);
+    });
 
     return(
     <div >
@@ -129,7 +126,7 @@ export function CompletedList(props: CompletedListProps){
                 <div  className=''>{data}</div>
                 </div>
                 <div>
-                  <button onClick={returnData}>戻す</button>
+                  <button onClick={() => returnData(index)}>戻す</button>
                   <button onClick={() => removeText(index)}>削除</button>
                 </div>
             </div>

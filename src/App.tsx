@@ -32,14 +32,14 @@ const storage: Storage = new Storage({
   // });
 
   // keyの中身を調べる方法↓ -----------------------------------
-  const keyName = 'completed'; // 取得したいキー名
-  const storedValue = localStorage.getItem(keyName);
+  // const keyName = 'completed'; // 取得したいキー名
+  // const storedValue = localStorage.getItem(keyName);
 
-  if (storedValue !== null) {
-    console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  } else {
-    console.log(`キー ${keyName} は存在しません。`);
-  }
+  // if (storedValue !== null) {
+  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  // } else {
+  //   console.log(`キー ${keyName} は存在しません。`);
+  // }
 //　-----------------------------------------------------
 
 //ストレージデータを削除する時 --------------------------------
@@ -168,7 +168,7 @@ const upDateData = ((index : number) => {
     console.log(err);
   });
 })
-// チェックボックス押下で完了リストにデータを移動 TODO:
+// チェックボックス押下で完了リストにデータを移動
   const [checkedTask,setCheckedTask] = useState<string>('');
   const [checkedNum,setCheckedNum] = useState<number>(0);
   const [checkedTaskArray, setCheckedTaskArray] = useState<{ col1: string, col2: number, col3: number }>({
@@ -193,16 +193,16 @@ const upDateData = ((index : number) => {
       data.col3.splice(index,1)
 
       // 変更後のストレージデータの配列を保存する処理
-        // storage.save({
-        //   key:'keyWord',
-        //   // ここで削除後のデータを入れ込む
-        //   data:updatedData
-        // }).then((data) => {
-        //   // ページをリロードする
-        //   window.location.reload();
-        // }).catch((err) => {
-        // console.log(err);
-        // });
+        storage.save({
+          key:'keyWord',
+          // ここで削除後のデータを入れ込む
+          data:updatedData
+        }).then((data) => {
+          // ページをリロードする
+          // window.location.reload();
+        }).catch((err) => {
+        console.log(err);
+        });
       console.log('data : ' + JSON.stringify(data));
 
         }).catch((err) => {
@@ -312,9 +312,78 @@ const upDateData = ((index : number) => {
   setColorNumArray(updatedArray); // ループの外で一度だけセット
 }, [judgmentDate,updatedData.col2,setColorNumArray]);
 
-useEffect(() => {
-  colorLabel();
-}, [colorLabel]);
+  // カラーラベルを描画する関数を最初に実行
+  useEffect(() => {
+    colorLabel();
+  }, [colorLabel]);
+
+  // 完了リストの戻すボタンを押下された時に発動する処理
+  const [completedIndex,setCompletedIndex] = useState<number>(-1);
+
+  // 完了リストから戻す処理
+  if (completedIndex !== -1) {
+    // Dataの型をセットする
+    type Data = {
+      col1: string[];
+      col2: number[];
+      col3: number[];
+    };
+
+    // 戻ってきた値を格納する変数
+    let returnUpDatedData: { col1: string[], col2: number[], col3: number[] } = {
+      col1: [],
+      col2: [],
+      col3: []
+    };
+
+    // 既存の完了リストのデータをロード
+    storage.load<Data>({
+      key: 'completed'
+    }).then((data: Data) => {
+
+      // すでにAddTask配列がある場合は配列の最後に追加する
+      if (updatedData) {
+        returnUpDatedData = {
+          col1: [...updatedData.col1, data.col1[completedIndex]],
+          col2: [...updatedData.col2, data.col2[completedIndex]],
+          col3: [...updatedData.col3, data.col3[completedIndex]]
+        };
+
+      // 無ければ戻ってきたデータをAddTaskに入れる
+      }else{
+        returnUpDatedData = {
+          col1: [data.col1[completedIndex]],
+          col2: [data.col2[completedIndex]],
+          col3: [data.col3[completedIndex]]
+        };
+      }
+
+      // 戻すボタンを押下した際のindex番目のデータを削除する
+        data.col1.splice(completedIndex,1);
+        data.col2.splice(completedIndex,1);
+        data.col3.splice(completedIndex,1);
+
+      // 変更後のストレージデータの配列を保存する処理
+        storage.save({
+          key:'completed',
+          // ここで削除後のデータを入れ込む
+          data:data
+        }).then((data) => {
+          // AddTaskの配列のデータを書き換える
+          storage.save({
+            key: 'keyWord',
+            data:returnUpDatedData
+          })
+          // ページをリロードする
+          window.location.reload();
+        }).catch((err) => {
+        console.log(err);
+        });
+
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
 
   return(
     <div className=''>
@@ -390,6 +459,8 @@ useEffect(() => {
         <CompletedList
           checkedTaskArray={checkedTaskArray}
           checkedNum={checkedNum}
+          completedIndex={completedIndex}
+          setCompletedIndex={setCompletedIndex}
         />
       </div>
     </div>
