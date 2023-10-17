@@ -16,37 +16,37 @@ const storage: Storage = new Storage({
   })
 
 type CompletedListProps = {
+    //TODO:削除
     updatedData: { col1: string[],col2:number[],col3:number[] } // updatedData を受け取るプロップス
+    //TODO:削除
     checkedTask : string; // checkedTaskを受け取るプロップス
-    checkedTaskArray:{col1:string, col2: number, col3:number};
-    checkedNum: number;
+
+    checkedTaskArray:{col1:string, col2: number, col3:number}; // チェックボックスで選択されたデータを受け取るプロップス
+    checkedNum: number; // チェックボックス押下で1が返ってきて完了リストに追加処理が始まる
   };
 
 export function CompletedList(props: CompletedListProps){
-    const [completedData, setCompletedData] = useState<{ col1: string[] }>({ col1: [] });
-    console.log('props.checkedTaskArray : ' + JSON.stringify(props.checkedTaskArray));
     const [completedDataArray,setCompletedDataArray] = useState<{col1:string[], col2:number[], col3: number[]}>({col1: [], col2: [], col3: []});
-    console.log('props.checkedNum : ' + props.checkedNum);
 
-  useEffect(() => {
-    storage.load({
-      key: 'completed'
-    }).then((data) => {
-      setCompletedDataArray(data);
-      console.log('現在のcompletedData:'+JSON.stringify(completedDataArray,null,2));
-    }).catch((err) => {
-      console.log(err);
-    });
-  },[completedDataArray]);
+    // 既存のデータをロード
+    useEffect(() => {
+      storage.load({
+        key: 'completed'
+      }).then((data) => {
+        setCompletedDataArray(data);
+        console.log('現在のcompletedData:'+JSON.stringify(completedDataArray,null,2));
+      }).catch((err) => {
+        console.log(err);
+      });
+    },[completedDataArray]);
 
-
+    // チェックボックスが押下されたら発動する処理
     if (props.checkedNum === 1) {
       (async () => {
         try {
           const existingData = await storage.load({
             key: 'completed',
           });
-          console.log('existingData:', existingData);
 
           let updatedData: { col1: string[], col2: number[], col3: number[] } = {
             col1: [],
@@ -75,13 +75,13 @@ export function CompletedList(props: CompletedListProps){
           data: updatedData,
         });
 
-          console.log('updatedData : ' + JSON.stringify(updatedData));
+        window.location.reload(); // ページをリロードする
+
         } catch (err) {
           console.log('Error:', err);
         }
       })();
     }
-
 
     // useEffect(() => {
     //   if (props.checkedTask) {
