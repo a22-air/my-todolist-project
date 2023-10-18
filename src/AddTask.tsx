@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useState} from 'react';
+import { LabelList } from "./LabelList";
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -22,6 +23,26 @@ const storage: Storage = new Storage({
   //       col3:[]
   //   }
   // });
+
+  // ラベルのデータをストレージに作成
+  // storage.save({
+  //   key: 'labelData',
+  //   data:{
+  //     category:['仕事','プライベート','家事']
+  //   }
+  // });
+
+  // keyの中身を調べる方法↓ -----------------------------------
+  // const keyName = 'labelData'; // 取得したいキー名
+  // const storedValue = localStorage.getItem(keyName);
+
+  // if (storedValue !== null) {
+  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  // } else {
+  //   console.log(`キー ${keyName} は存在しません。`);
+  // }
+//　---------------------------------------------------------
+
 
   let today = new Date();
   let formattedDate = today.getFullYear() * 100000000 +
@@ -51,7 +72,27 @@ export function AddTask(){
     console.log(taskData);
   }
 
-    // 追加ボタンでデータの追加をする関数 TODO:
+  // ラベルのデータをロード FIXME:消す
+  // useEffect(() => {
+  //   storage.load({
+  //     key: 'labelData'
+  //   }).then((data) => {
+  //     setLabelData(data);
+  //     console.log('labelData : ' + JSON.stringify(labelData));
+  //   }).catch((err) => {
+  //     console.log(err);
+  //   });
+  // },[labelData]);
+
+  // ラベルのテキストをセットする関数 FIXME:消す
+  // const handleNewLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const selectedLabel = event.target.value;
+  //   setLabelType(selectedLabel);
+  //   console.log('labelType : ' + selectedLabel);
+  // };
+
+
+    // 追加ボタンでデータの追加をする関数
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
 
       // テキストが空だったら以下の処理は行わない
@@ -121,6 +162,25 @@ export function AddTask(){
                 >
               </input>
             </div>
+
+            <LabelList />
+
+            {/*　FIXME:消す
+            <div className="flex">
+              <div>
+                <select name="label-tag" value={labelType} onChange={handleNewLabel}>
+                  <option value="ラベルを追加">ラベルを追加</option>
+                  {labelData.category.map((data, index) => (
+                    <option key={index}>{data}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <input type="text" placeholder='ラベルを作成'></input>
+                <button>ラベル追加ボタン</button>
+              </div>
+            </div> */}
+
           </div>
 
           <div className="">
@@ -133,6 +193,7 @@ export function AddTask(){
               </div>
             </label>
           </div>
+
       </div>
     )
   }
