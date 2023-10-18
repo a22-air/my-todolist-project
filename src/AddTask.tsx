@@ -20,7 +20,8 @@ const storage: Storage = new Storage({
   //   data:{
   //     col1:[],
   //     col2:[],
-  //       col3:[]
+  //     col3:[],
+  //     col4:[]
   //   }
   // });
 
@@ -84,16 +85,9 @@ export function AddTask(){
   //   });
   // },[labelData]);
 
-  // ラベルのテキストをセットする関数 FIXME:消す
-  // const handleNewLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const selectedLabel = event.target.value;
-  //   setLabelType(selectedLabel);
-  //   console.log('labelType : ' + selectedLabel);
-  // };
-
   const [labelType,setLabelType] = useState<string>('');
 
-  // ラベルのテキストをセットする関数 TODO:親に渡す関数
+  // ラベルのテキストをセットする関数(セレクトタグのonChangeイベント)
   const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedLabel = event.target.value;
     setLabelType(selectedLabel);
@@ -119,8 +113,21 @@ export function AddTask(){
         });
         console.log('existingData:', existingData);
 
-        let updatedData: { col1: string[],col2: string[],col3:number[] } = { col1: [],col2: [],col3: [] };
-        // let updatedData: { col1: string[],col2: string[],col3:number[],col4:string[] } = { col1: [],col2: [],col3: [],col4: []}; TODO:
+        // let updatedData: { col1: string[],col2: string[],col3:number[] } = { col1: [],col2: [],col3: [] };
+        let updatedData: {
+          col1: string[],
+          col2: string[],
+          col3: number[],
+          col4: string[]
+            } = {
+          col1: [],
+          col2: [],
+          col3: [],
+          col4: []
+        };
+
+        console.log('labelTypeは : ' + labelType);
+
 
         // 既存のデータがあれば、それを取得し新しいデータを追加
         if (existingData) {
@@ -130,18 +137,19 @@ export function AddTask(){
             col2: [...existingData.col2,taskData],
             col3: [...existingData.col3,day],
 
-            // col4: [{...existingData.col4,day}]
+            col4: [{...existingData.col4,labelType}]
           };
         } else {
           // 既存のデータがない場合、新しいデータを作成
           updatedData = {
             col1: [task],
             col2: [taskData],
-            col3: [day]
+            col3: [day],
 
-            // col4: []
+            col4: [labelType],
           };
         }
+        console.log('updatedData : ' + JSON.stringify(updatedData,null,1));
 
         // 新しいデータを保存
         await storage.save({
@@ -149,7 +157,7 @@ export function AddTask(){
           data: updatedData,
         });
 
-        window.location.reload(); // ページをリロードする
+        // window.location.reload(); // ページをリロードする
 
       } catch (err) {
         console.log('エラー:', err);
@@ -181,7 +189,6 @@ export function AddTask(){
 
             <LabelList
               handleSetLabel={handleSetLabel}
-              setLabelType={setLabelType}
             />
 
             {/*
