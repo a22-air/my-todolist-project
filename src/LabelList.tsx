@@ -72,6 +72,21 @@ const storage: Storage = new Storage({
         });
     });
 
+    // ラベルを削除する関数
+    const removeLabelCategory = (() => {
+        let index = labelData.category.indexOf(labelType);
+        labelData.category.splice(index,1);
+
+        // ここで削除されたデータを書き換えて保存
+        storage.save({
+            key: 'labelData',
+            data : labelData
+        }).then((data) => {
+            console.log(' : ' + data);
+        }).catch((err) => {
+            console.log(err);
+        });
+    })
 
     return(
         <>
@@ -86,7 +101,8 @@ const storage: Storage = new Storage({
               </div>
               <div>
                 <input type="text" placeholder='ラベルを作成' onChange={handleNewLabel}></input>
-                <button onClick={newLabelCategory}>ラベル追加ボタン</button>
+                <button onClick={newLabelCategory}>ラベル追加</button>
+                <button onClick={removeLabelCategory}>ラベル削除</button>
               </div>
             </div>
         </>
