@@ -49,17 +49,15 @@ const storage: Storage = new Storage({
       console.log('labelType : ' + selectedLabel);
     };
 
-    // ラベル追加テキストをセットする関数 TODO:
+    // ラベル追加テキストをセットする関数
     const handleNewLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewLabel(event.target.value);
     }
 
-    // 新しいラベルをストレージデータに入れ込む関数
+    // 新しいラベルをストレージデータに入れ込む関数(追加ボタン押下時の処理)
     const newLabelCategory = (() => {
-        console.log('newLabel : ' + newLabel);
-        console.log('labelData : ' + JSON.stringify(labelData));
+        if(!newLabel)return;
         labelData.category.push(newLabel);
-        console.log('追加後のlabelData : ' + JSON.stringify(labelData));
 
         // ここで追加されたデータを書き換えて保存
         storage.save({
