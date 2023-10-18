@@ -56,7 +56,9 @@ const storage: Storage = new Storage({
 
     // 新しいラベルをストレージデータに入れ込む関数(追加ボタン押下時の処理)
     const newLabelCategory = (() => {
+        // 追加のラベルが無ければ処理はしない
         if(!newLabel)return;
+
         labelData.category.push(newLabel);
 
         // ここで追加されたデータを書き換えて保存
