@@ -13,6 +13,17 @@ const storage: Storage = new Storage({
     enableCache: true,
   })
 
+// keyの中身を調べる方法↓ -----------------------------------
+  const keyName = 'labelData'; // 取得したいキー名
+  const storedValue = localStorage.getItem(keyName);
+
+  if (storedValue !== null) {
+    console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  } else {
+    console.log(`キー ${keyName} は存在しません。`);
+  }
+//　---------------------------------------------------------
+
   export function LabelList(){
 
     const [labelData,setLabelData] = useState<{category:string[]}>({category: []});
@@ -41,8 +52,25 @@ const storage: Storage = new Storage({
     // ラベル追加テキストをセットする関数 TODO:
     const handleNewLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewLabel(event.target.value);
-        console.log('newLabel :' + newLabel);
     }
+
+    // 新しいラベルをストレージデータに入れ込む関数
+    const newLabelCategory = (() => {
+        console.log('newLabel : ' + newLabel);
+        console.log('labelData : ' + JSON.stringify(labelData));
+        labelData.category.push(newLabel);
+        console.log('追加後のlabelData : ' + JSON.stringify(labelData));
+
+        // ここで追加されたデータを書き換えて保存
+        storage.save({
+            key: 'labelData',
+            data : labelData
+        }).then((data) => {
+            console.log(' : ' + data);
+        }).catch((err) => {
+            console.log(err);
+        });
+    });
 
 
     return(
@@ -58,7 +86,7 @@ const storage: Storage = new Storage({
               </div>
               <div>
                 <input type="text" placeholder='ラベルを作成' onChange={handleNewLabel}></input>
-                <button>ラベル追加ボタン</button>
+                <button onClick={newLabelCategory}>ラベル追加ボタン</button>
               </div>
             </div>
         </>
