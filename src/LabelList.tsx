@@ -24,10 +24,16 @@ const storage: Storage = new Storage({
   }
 //　---------------------------------------------------------
 
-  export function LabelList(){
+type LabelListProps = {
+    handleSetLabel: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    setLabelType: React.Dispatch<React.SetStateAction<string>>;
+    // labelType: string;
+  };
+
+  export function LabelList({ handleSetLabel,setLabelType }: LabelListProps){
 
     const [labelData,setLabelData] = useState<{category:string[]}>({category: []});
-    const [labelType,setLabelType] = useState<string>('');
+    // const [labelType,setLabelType] = useState<string>('');
     const [newLabel,setNewLabel] = useState<string>('');
 
     // ラベルのデータをロード
@@ -42,12 +48,12 @@ const storage: Storage = new Storage({
         });
       },[labelData]);
 
-    // ラベルのテキストをセットする関数
-    const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const selectedLabel = event.target.value;
-      setLabelType(selectedLabel);
-      console.log('labelType : ' + selectedLabel);
-    };
+    // ラベルのテキストをセットする関数 TODO:親に渡す関数
+    // const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //   const selectedLabel = event.target.value;
+    //   setLabelType(selectedLabel);
+    //   console.log('labelType : ' + selectedLabel);
+    // };
 
     // ラベル追加テキストをセットする関数
     const handleNewLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,26 +79,26 @@ const storage: Storage = new Storage({
     });
 
     // ラベルを削除する関数
-    const removeLabelCategory = (() => {
-        let index = labelData.category.indexOf(labelType);
-        labelData.category.splice(index,1);
+    // const removeLabelCategory = (() => {
+    //     let index = labelData.category.indexOf(labelType);
+    //     labelData.category.splice(index,1);
 
-        // ここで削除されたデータを書き換えて保存
-        storage.save({
-            key: 'labelData',
-            data : labelData
-        }).then((data) => {
-            console.log(' : ' + data);
-        }).catch((err) => {
-            console.log(err);
-        });
-    })
+    //     // ここで削除されたデータを書き換えて保存
+    //     storage.save({
+    //         key: 'labelData',
+    //         data : labelData
+    //     }).then((data) => {
+    //         console.log(' : ' + data);
+    //     }).catch((err) => {
+    //         console.log(err);
+    //     });
+    // })
 
     return(
         <>
             <div className="flex">
               <div>
-                <select name="label-tag"value={labelType} onChange={handleSetLabel}>
+                <select name="label-tag" onChange={handleSetLabel}>
                   <option value="ラベルを追加">ラベルを追加</option>
                   {labelData.category.map((data, index) => (
                     <option key={index}>{data}</option>
@@ -102,7 +108,7 @@ const storage: Storage = new Storage({
               <div>
                 <input type="text" placeholder='ラベルを作成' onChange={handleNewLabel}></input>
                 <button onClick={newLabelCategory}>ラベル追加</button>
-                <button onClick={removeLabelCategory}>ラベル削除</button>
+                {/* <button onClick={removeLabelCategory}>ラベル削除</button> */}
               </div>
             </div>
         </>

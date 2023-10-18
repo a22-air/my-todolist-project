@@ -91,6 +91,17 @@ export function AddTask(){
   //   console.log('labelType : ' + selectedLabel);
   // };
 
+  const [labelType,setLabelType] = useState<string>('');
+
+  // ラベルのテキストをセットする関数 TODO:親に渡す関数
+  const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedLabel = event.target.value;
+    setLabelType(selectedLabel);
+    console.log('selectedLabel : ' + selectedLabel);
+    console.log('labelType : ' + labelType);
+
+  };
+
 
     // 追加ボタンでデータの追加をする関数
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -101,22 +112,25 @@ export function AddTask(){
       return;
       }
 
-      console.log('day:'+taskData);
-
       try {
         // 既存のデータを読み込む
         const existingData = await storage.load({
           key: 'keyWord',
         });
         console.log('existingData:', existingData);
+
         let updatedData: { col1: string[],col2: string[],col3:number[] } = { col1: [],col2: [],col3: [] };
+        // let updatedData: { col1: string[],col2: string[],col3:number[],col4:string[] } = { col1: [],col2: [],col3: [],col4: []}; TODO:
+
         // 既存のデータがあれば、それを取得し新しいデータを追加
         if (existingData) {
           updatedData = {
             ...existingData,
             col1: [...existingData.col1, task],
             col2: [...existingData.col2,taskData],
-            col3: [...existingData.col3,day]
+            col3: [...existingData.col3,day],
+
+            // col4: [{...existingData.col4,day}]
           };
         } else {
           // 既存のデータがない場合、新しいデータを作成
@@ -124,6 +138,8 @@ export function AddTask(){
             col1: [task],
             col2: [taskData],
             col3: [day]
+
+            // col4: []
           };
         }
 
@@ -163,9 +179,12 @@ export function AddTask(){
               </input>
             </div>
 
-            <LabelList />
+            <LabelList
+              handleSetLabel={handleSetLabel}
+              setLabelType={setLabelType}
+            />
 
-            {/*　FIXME:消す
+            {/*
             <div className="flex">
               <div>
                 <select name="label-tag" value={labelType} onChange={handleNewLabel}>
