@@ -26,11 +26,11 @@ const storage: Storage = new Storage({
 
 type LabelListProps = {
     handleSetLabel: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-    setLabelType: React.Dispatch<React.SetStateAction<string>>;
+    // setLabelType: React.Dispatch<React.SetStateAction<string>>;
     // labelType: string;
   };
 
-  export function LabelList({ handleSetLabel,setLabelType }: LabelListProps){
+  export function LabelList({ handleSetLabel }: LabelListProps){
 
     const [labelData,setLabelData] = useState<{category:string[]}>({category: []});
     // const [labelType,setLabelType] = useState<string>('');
@@ -47,13 +47,6 @@ type LabelListProps = {
           console.log(err);
         });
       },[labelData]);
-
-    // ラベルのテキストをセットする関数 TODO:親に渡す関数
-    // const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    //   const selectedLabel = event.target.value;
-    //   setLabelType(selectedLabel);
-    //   console.log('labelType : ' + selectedLabel);
-    // };
 
     // ラベル追加テキストをセットする関数
     const handleNewLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
