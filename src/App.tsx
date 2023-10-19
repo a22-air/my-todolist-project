@@ -77,7 +77,7 @@ function AddText(){
       key: 'keyWord'
     }).then((data) => {
       setUpdatedData(data);
-      console.log('現在のupdatedData:'+JSON.stringify(updatedData,null,2));
+      console.log('現在のupdatedData:'+JSON.stringify(updatedData,null,1));
     }).catch((err) => {
       console.log(err);
     });
@@ -90,9 +90,10 @@ function AddText(){
       key:'keyWord'
     }).then((data) => {
       // 配列のindex番目を削除
-      data.col1.splice(indexToRemove,1)
+      data.col1.splice(indexToRemove,1);
       data.col2.splice(indexToRemove,1);
       data.col3.splice(indexToRemove,1);
+      data.col4.splice(indexToRemove,1);
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
