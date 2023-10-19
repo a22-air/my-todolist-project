@@ -397,6 +397,11 @@ const upDateData = ((index : number) => {
 
 };
 
+  // ラベルの表示と非表示の切り替えの関数
+  const [showLabelList, setShowLabelList] = useState(false);
+  const handleLabelClick = () => {
+    setShowLabelList(!showLabelList); // クリック時に表示状態を切り替え
+  };
 
   return(
     <div className=''>
@@ -427,12 +432,8 @@ const upDateData = ((index : number) => {
           <div className='text-center my-auto flex'>
 
 
-              <button>ラベル</button>
-            {/* <p>{updatedData.col4}</p> */}
-            <LabelList
-            handleSetLabel={handleSetLabel}
-            labelType={labelType}
-            />
+            <button onClick={handleLabelClick}>ラベル追加</button>
+            {showLabelList && <LabelList handleSetLabel={handleSetLabel} labelType={labelType} />}
 
             <div className='mx-2'>
               <p className='text-xs'>追加日</p>
