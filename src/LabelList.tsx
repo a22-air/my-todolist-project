@@ -103,27 +103,16 @@ const handleLabelClick = () => {
 
         {showLabelList && (
             <div className="flex">
-              <div>
-                <select name="label-tag">
-                  {/* <option value="ラベルを追加">ラベルを追加</option> */}
-                  {labelData.category.map((data, index) => (
-                    <option key={index}>{data}</option>
-                  ))}
-                </select>
 
                 <div>
                   {labelData.category.map((data, index) => (
                     <label key={index} htmlFor={`checkbox${index}`}>
-                      <input type="checkbox" id={`checkbox${index}`} name={`checkbox${index}`} onChange={handleSetLabel}/>
+                      <input type="checkbox" id={`checkbox${index}`} name={`checkbox${index}`} onChange={handleSetLabel} value={data}/>
                       {data}
                     </label>
                   ))}
                 </div>
 
-
-
-
-              </div>
               <div>
                 <input type="text" placeholder='ラベルを作成' onChange={handleNewLabel}></input>
                 <button onClick={newLabelCategory}>ラベル追加</button>
