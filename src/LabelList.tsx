@@ -90,12 +90,21 @@ type LabelListProps = {
         });
     })
 
+// ラベルの表示と非表示の切り替えの関数
+const [showLabelList, setShowLabelList] = useState(false);
+const handleLabelClick = () => {
+  setShowLabelList(!showLabelList); // クリック時に表示状態を切り替え
+};
+
     return(
         <>
+        <button onClick={handleLabelClick}>ラベル</button>
+
+        {showLabelList && (
             <div className="flex">
               <div>
                 <select name="label-tag" onChange={handleSetLabel}>
-                  <option value="ラベルを追加">ラベルを追加</option>
+                  {/* <option value="ラベルを追加">ラベルを追加</option> */}
                   {labelData.category.map((data, index) => (
                     <option key={index}>{data}</option>
                   ))}
@@ -107,6 +116,8 @@ type LabelListProps = {
                 <button onClick={removeLabelCategory}>ラベル削除</button>
               </div>
             </div>
+          )}
+
         </>
     )
   }
