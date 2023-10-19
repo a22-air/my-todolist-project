@@ -88,14 +88,11 @@ export function AddTask(){
   const [labelType,setLabelType] = useState<string>('');
   const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
 
-  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
+  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得) TODO:
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
-    console.log('selectedLabel : ' + selectedLabel);
     setLabelType(selectedLabel);
-    console.log('labelType : ' + labelType);
     setLabelTypeArray((prevLabelTypeArray) => [...prevLabelTypeArray, selectedLabel]);
-    console.log('labelTypeArray : ' + labelTypeArray);
   };
 
     // 追加ボタンでデータの追加をする関数
@@ -150,7 +147,7 @@ export function AddTask(){
             col4: [labelType],
           };
         }
-        console.log('updatedData : ' + JSON.stringify(updatedData,null,1));
+        console.log('updatedData : ' + JSON.stringify(updatedData,null,"\t"));
 
         // 新しいデータを保存
         await storage.save({
