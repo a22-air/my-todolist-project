@@ -87,15 +87,24 @@ export function AddTask(){
 
   const [labelType,setLabelType] = useState<string>('');
 
-  // ラベルのテキストをセットする関数(セレクトタグのonChangeイベント)
+  // // ラベルのテキストをセットする関数(セレクトタグのonChangeイベント)
+  // const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const selectedLabel = event.target.getAttribute('data-label');
+  //   console.log('selectedLabel : ' + selectedLabel);
+
+  //   setLabelType(selectedLabel);
+  //   console.log('selectedLabel : ' + selectedLabel);
+  //   console.log('labelType : ' + labelType);
+
+  // };
+
+  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
-    setLabelType(selectedLabel);
     console.log('selectedLabel : ' + selectedLabel);
-    console.log('labelType : ' + labelType);
-
+    setLabelType(selectedLabel);
+    console.log(' : ' + labelType);
   };
-
 
     // 追加ボタンでデータの追加をする関数
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
