@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Linkify from 'linkify-react';
 import { AddTask } from './AddTask';
 import { CompletedList } from './CompletedList';
-import { Calendar } from './Calendar';
+import { LabelList } from "./LabelList";
 
 //ストレージの作成
 const storage: Storage = new Storage({
@@ -64,7 +64,9 @@ function Todo(){
 // AddTextコンポーネント　=================================================================
 // 追加されたデータを画面に表示するコンポーネント
 function AddText(){
-  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[] }>({ col1: [],col2: [], col3: [] });
+  // const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[] }>({ col1: [],col2: [], col3: [] });
+  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[] }>({ col1: [],col2: [], col3: [], col4:[] });
+
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
   const [taskDate,setTaskDate] = useState<string>('');
@@ -384,6 +386,17 @@ const upDateData = ((index : number) => {
       console.log(err);
     });
   }
+  const [labelType,setLabelType] = useState<string>('');
+
+ // ラベルのテキストをセットする関数(セレクトタグのonChangeイベント)
+ const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectedLabel = event.target.value;
+  setLabelType(selectedLabel);
+  console.log('selectedLabel : ' + selectedLabel);
+  console.log('labelType : ' + labelType);
+
+};
+
 
   return(
     <div className=''>
@@ -412,6 +425,15 @@ const upDateData = ((index : number) => {
             </Linkify>
           </div>
           <div className='text-center my-auto flex'>
+
+
+              <button>ラベル</button>
+            {/* <p>{updatedData.col4}</p> */}
+            <LabelList
+            handleSetLabel={handleSetLabel}
+            labelType={labelType}
+            />
+
             <div className='mx-2'>
               <p className='text-xs'>追加日</p>
               <p>{middleDateArray[index]}</p>
@@ -445,6 +467,7 @@ const upDateData = ((index : number) => {
         </div>
       </div>
     ))}
+
 </div>
 
 {/* <button className={checkBox ? 'line-through text-gray-400' : '' }

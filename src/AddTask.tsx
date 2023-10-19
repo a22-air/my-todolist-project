@@ -137,7 +137,7 @@ export function AddTask(){
             col2: [...existingData.col2,taskData],
             col3: [...existingData.col3,day],
 
-            col4: [{...existingData.col4,labelType}]
+            col4: [...existingData.col4,labelType]
           };
         } else {
           // 既存のデータがない場合、新しいデータを作成
@@ -189,6 +189,7 @@ export function AddTask(){
 
             <LabelList
               handleSetLabel={handleSetLabel}
+              labelType={labelType}
             />
 
             {/*
