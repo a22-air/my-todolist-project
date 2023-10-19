@@ -27,10 +27,10 @@ const storage: Storage = new Storage({
 type LabelListProps = {
     handleSetLabel: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     // setLabelType: React.Dispatch<React.SetStateAction<string>>;
-    // labelType: string;
+    labelType: string;
   };
 
-  export function LabelList({ handleSetLabel }: LabelListProps){
+  export function LabelList({ handleSetLabel,labelType }: LabelListProps){
 
     const [labelData,setLabelData] = useState<{category:string[]}>({category: []});
     // const [labelType,setLabelType] = useState<string>('');
@@ -71,21 +71,24 @@ type LabelListProps = {
         });
     });
 
-    // ラベルを削除する関数
-    // const removeLabelCategory = (() => {
-    //     let index = labelData.category.indexOf(labelType);
-    //     labelData.category.splice(index,1);
 
-    //     // ここで削除されたデータを書き換えて保存
-    //     storage.save({
-    //         key: 'labelData',
-    //         data : labelData
-    //     }).then((data) => {
-    //         console.log(' : ' + data);
-    //     }).catch((err) => {
-    //         console.log(err);
-    //     });
-    // })
+    //ラベルを削除する関数
+    const removeLabelCategory = (() => {
+        if(!labelType) return;
+
+        let index = labelData.category.indexOf(labelType);
+        labelData.category.splice(index,1);
+
+        // ここで削除されたデータを書き換えて保存
+        storage.save({
+            key: 'labelData',
+            data : labelData
+        }).then((data) => {
+            console.log(' : ' + data);
+        }).catch((err) => {
+            console.log(err);
+        });
+    })
 
     return(
         <>
@@ -101,7 +104,7 @@ type LabelListProps = {
               <div>
                 <input type="text" placeholder='ラベルを作成' onChange={handleNewLabel}></input>
                 <button onClick={newLabelCategory}>ラベル追加</button>
-                {/* <button onClick={removeLabelCategory}>ラベル削除</button> */}
+                <button onClick={removeLabelCategory}>ラベル削除</button>
               </div>
             </div>
         </>
