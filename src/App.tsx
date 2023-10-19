@@ -389,13 +389,24 @@ const upDateData = ((index : number) => {
   const [labelType,setLabelType] = useState<string>('');
 
  // ラベルのテキストをセットする関数(セレクトタグのonChangeイベント)
- const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+//  const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+//   const selectedLabel = event.target.value;
+//   setLabelType(selectedLabel);
+//   console.log('selectedLabel : ' + selectedLabel);
+//   console.log('labelType : ' + labelType);
+
+// };
+
+ // ラベルのテキストをセットする関数(セレクトタグのonChangeイベント)
+ const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
   const selectedLabel = event.target.value;
   setLabelType(selectedLabel);
   console.log('selectedLabel : ' + selectedLabel);
   console.log('labelType : ' + labelType);
 
 };
+  // ラベルを複数選択する関数
+
 
   return(
     <div className=''>

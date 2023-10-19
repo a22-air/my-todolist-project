@@ -88,7 +88,7 @@ export function AddTask(){
   const [labelType,setLabelType] = useState<string>('');
 
   // ラベルのテキストをセットする関数(セレクトタグのonChangeイベント)
-  const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
     setLabelType(selectedLabel);
     console.log('selectedLabel : ' + selectedLabel);

@@ -25,7 +25,8 @@ const storage: Storage = new Storage({
 //　---------------------------------------------------------
 
 type LabelListProps = {
-    handleSetLabel: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    // handleSetLabel: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    handleSetLabel: (event: React.ChangeEvent<HTMLInputElement>) => void;
     // setLabelType: React.Dispatch<React.SetStateAction<string>>;
     labelType: string;
   };
@@ -103,12 +104,25 @@ const handleLabelClick = () => {
         {showLabelList && (
             <div className="flex">
               <div>
-                <select name="label-tag" onChange={handleSetLabel}>
+                <select name="label-tag">
                   {/* <option value="ラベルを追加">ラベルを追加</option> */}
                   {labelData.category.map((data, index) => (
                     <option key={index}>{data}</option>
                   ))}
                 </select>
+
+                <div>
+                  {labelData.category.map((data, index) => (
+                    <label key={index} htmlFor={`checkbox${index}`}>
+                      <input type="checkbox" id={`checkbox${index}`} name={`checkbox${index}`} onChange={handleSetLabel}/>
+                      {data}
+                    </label>
+                  ))}
+                </div>
+
+
+
+
               </div>
               <div>
                 <input type="text" placeholder='ラベルを作成' onChange={handleNewLabel}></input>
