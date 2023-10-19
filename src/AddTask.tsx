@@ -86,24 +86,16 @@ export function AddTask(){
   // },[labelData]);
 
   const [labelType,setLabelType] = useState<string>('');
-
-  // // ラベルのテキストをセットする関数(セレクトタグのonChangeイベント)
-  // const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const selectedLabel = event.target.getAttribute('data-label');
-  //   console.log('selectedLabel : ' + selectedLabel);
-
-  //   setLabelType(selectedLabel);
-  //   console.log('selectedLabel : ' + selectedLabel);
-  //   console.log('labelType : ' + labelType);
-
-  // };
+  const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
 
   // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
     console.log('selectedLabel : ' + selectedLabel);
     setLabelType(selectedLabel);
-    console.log(' : ' + labelType);
+    console.log('labelType : ' + labelType);
+    setLabelTypeArray((prevLabelTypeArray) => [...prevLabelTypeArray, selectedLabel]);
+    console.log('labelTypeArray : ' + labelTypeArray);
   };
 
     // 追加ボタンでデータの追加をする関数
@@ -146,7 +138,7 @@ export function AddTask(){
             col2: [...existingData.col2,taskData],
             col3: [...existingData.col3,day],
 
-            col4: [...existingData.col4,labelType]
+            col4: [...existingData.col4,labelTypeArray]
           };
         } else {
           // 既存のデータがない場合、新しいデータを作成
