@@ -239,6 +239,7 @@ const upDateData = ((index : number) => {
       // col1 を col2 のソート後の順序に並び替え
       updatedData.col1 = sortedIndexes.map((index) => updatedData.col1[index]);
       updatedData.col3 = sortedIndexes.map((index)=> updatedData.col3[index]);
+      updatedData.col4 = sortedIndexes.map((index)=> updatedData.col4[index]);
 
       // col2 をソート
         updatedData.col2 = numericSort(updatedData.col2, num === 0);
