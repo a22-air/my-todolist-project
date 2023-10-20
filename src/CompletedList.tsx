@@ -94,6 +94,7 @@ export function CompletedList(props: CompletedListProps){
       data.col1.splice(indexToRemove,1)
       data.col2.splice(indexToRemove,1)
       data.col3.splice(indexToRemove,1)
+      data.col4.splice(indexToRemove,1)
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
