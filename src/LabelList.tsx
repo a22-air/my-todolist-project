@@ -25,9 +25,7 @@ const storage: Storage = new Storage({
 //　---------------------------------------------------------
 
 type LabelListProps = {
-    // handleSetLabel: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     handleSetLabel: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    // setLabelType: React.Dispatch<React.SetStateAction<string>>;
     labelType: string;
   };
 
@@ -91,11 +89,11 @@ type LabelListProps = {
         });
     })
 
-// ラベルの表示と非表示の切り替えの関数
-const [showLabelList, setShowLabelList] = useState(false);
-const handleLabelClick = () => {
-  setShowLabelList(!showLabelList); // クリック時に表示状態を切り替え
-};
+  // ラベルの表示と非表示の切り替えの関数
+  const [showLabelList, setShowLabelList] = useState(false);
+  const handleLabelClick = () => {
+    setShowLabelList(!showLabelList); // クリック時に表示状態を切り替え
+  };
 
     return(
         <>
@@ -114,8 +112,8 @@ const handleLabelClick = () => {
                 </div>
 
               <div>
-                <input type="text" placeholder='ラベルを作成' onChange={handleNewLabel}></input>
-                <button onClick={newLabelCategory}>ラベル追加</button>
+                <input type="text" placeholder='新規ラベルを作成' onChange={handleNewLabel}></input>
+                <button onClick={newLabelCategory}>新規ラベル追加</button>
                 <button onClick={removeLabelCategory}>ラベル削除</button>
               </div>
             </div>
