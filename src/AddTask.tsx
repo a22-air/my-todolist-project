@@ -116,7 +116,7 @@ export function AddTask(){
           col1: string[],
           col2: string[],
           col3: number[],
-          col4: string[]
+          col4: string[][]
             } = {
           col1: [],
           col2: [],
@@ -144,7 +144,7 @@ export function AddTask(){
             col2: [taskData],
             col3: [day],
 
-            col4: [labelType],
+            col4: [[labelType]],
           };
         }
         console.log('updatedData : ' + JSON.stringify(updatedData,null,"\t"));
