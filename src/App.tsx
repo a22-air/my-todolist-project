@@ -23,7 +23,8 @@ const storage: Storage = new Storage({
   //   data:{
   //     col1:[],
   //     col2:[],
-  //     col3:[]
+  //     col3:[],
+  //     col4:[],
   //   },
   // }).then((data) => {
   //   console.log(' : ' + JSON.stringify(data));
@@ -31,16 +32,16 @@ const storage: Storage = new Storage({
   //   console.log(err);
   // });
 
-  // keyの中身を調べる方法↓ -----------------------------------
-  // const keyName = 'completed'; // 取得したいキー名
-  // const storedValue = localStorage.getItem(keyName);
+  //keyの中身を調べる方法↓ -----------------------------------
+  const keyName = 'completed'; // 取得したいキー名
+  const storedValue = localStorage.getItem(keyName);
 
-  // if (storedValue !== null) {
-  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  // } else {
-  //   console.log(`キー ${keyName} は存在しません。`);
-  // }
-//　-----------------------------------------------------
+  if (storedValue !== null) {
+    console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  } else {
+    console.log(`キー ${keyName} は存在しません。`);
+  }
+// 　-----------------------------------------------------
 
 //ストレージデータを削除する時 --------------------------------
   // storage.remove({
@@ -174,15 +175,16 @@ const upDateData = ((index : number) => {
 // チェックボックス押下で完了リストにデータを移動
   const [checkedTask,setCheckedTask] = useState<string>('');
   const [checkedNum,setCheckedNum] = useState<number>(0);
-  const [checkedTaskArray, setCheckedTaskArray] = useState<{ col1: string, col2: number, col3: number }>({
+  const [checkedTaskArray, setCheckedTaskArray] = useState<{ col1: string, col2: number, col3: number,col4:string[] }>({
     col1: '',
     col2: 0,
-    col3: 0
+    col3: 0,
+    col4:[]
   });
 
   const checkTask = ((index : number) => {
     setCheckedTask(updatedData.col1[index]);
-    setCheckedTaskArray({col1:updatedData.col1[index],col2:updatedData.col2[index],col3:updatedData.col3[index]});
+    setCheckedTaskArray({col1:updatedData.col1[index],col2:updatedData.col2[index],col3:updatedData.col3[index],col4:updatedData.col4[index]});
     console.log('checkedTaskArray : ' + JSON.stringify(checkedTaskArray));
     setCheckedNum(1);
 
@@ -194,6 +196,7 @@ const upDateData = ((index : number) => {
       data.col1.splice(index,1)
       data.col2.splice(index,1)
       data.col3.splice(index,1)
+      data.col4.splice(index,1)
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({

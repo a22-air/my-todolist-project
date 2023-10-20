@@ -15,14 +15,14 @@ const storage: Storage = new Storage({
   })
 
 type CompletedListProps = {
-    checkedTaskArray:{col1:string, col2: number, col3:number}; // チェックボックスで選択されたデータを受け取るプロップス
+    checkedTaskArray:{col1:string, col2: number, col3:number, col4:string[]}; // チェックボックスで選択されたデータを受け取るプロップス
     checkedNum: number; // チェックボックス押下で1が返ってきて完了リストに追加処理が始まる
     completedIndex : number; // 完了リストのindex番号を操作するプロップス
     setCompletedIndex : React.Dispatch<React.SetStateAction<number>>; // 完了リストのindex番号を操作するプロップス
   };
 
 export function CompletedList(props: CompletedListProps){
-    const [completedDataArray,setCompletedDataArray] = useState<{col1:string[], col2:number[], col3: number[]}>({col1: [], col2: [], col3: []});
+    const [completedDataArray,setCompletedDataArray] = useState<{col1:string[], col2:number[], col3: number[],col4:string[][]}>({col1: [], col2: [], col3: [],col4:[]});
 
     // 既存のデータをロード
     useEffect(() => {
@@ -45,10 +45,11 @@ export function CompletedList(props: CompletedListProps){
             key: 'completed',
           });
 
-          let updatedData: { col1: string[], col2: number[], col3: number[] } = {
+          let updatedData: { col1: string[], col2: number[], col3: number[], col4:string[][] } = {
             col1: [],
             col2: [],
-            col3: []
+            col3: [],
+            col4: []
           };
 
           // 既存のデータがあれば、それを取得し新しいデータを追加
@@ -56,13 +57,16 @@ export function CompletedList(props: CompletedListProps){
             updatedData = {
               col1: [...existingData.col1, props.checkedTaskArray.col1],
               col2: [...existingData.col2, props.checkedTaskArray.col2],
-              col3: [...existingData.col3, props.checkedTaskArray.col3]
+              col3: [...existingData.col3, props.checkedTaskArray.col3],
+              col4: [...existingData.col4, props.checkedTaskArray.col4]
+
             };
           } else {
             updatedData = {
               col1: [props.checkedTaskArray.col1],
               col2: [props.checkedTaskArray.col2],
-              col3: [props.checkedTaskArray.col3]
+              col3: [props.checkedTaskArray.col3],
+              col4: [props.checkedTaskArray.col4]
             };
           }
 
