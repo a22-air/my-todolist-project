@@ -334,13 +334,15 @@ const upDateData = ((index : number) => {
       col1: string[];
       col2: number[];
       col3: number[];
+      col4: string[][];
     };
 
     // 戻ってきた値を格納する変数
-    let returnUpDatedData: { col1: string[], col2: number[], col3: number[] } = {
+    let returnUpDatedData: { col1: string[], col2: number[], col3: number[],col4: string[][] } = {
       col1: [],
       col2: [],
-      col3: []
+      col3: [],
+      col4: []
     };
 
     // 既存の完了リストのデータをロード
@@ -353,7 +355,8 @@ const upDateData = ((index : number) => {
         returnUpDatedData = {
           col1: [...updatedData.col1, data.col1[completedIndex]],
           col2: [...updatedData.col2, data.col2[completedIndex]],
-          col3: [...updatedData.col3, data.col3[completedIndex]]
+          col3: [...updatedData.col3, data.col3[completedIndex]],
+          col4: [...updatedData.col4, data.col4[completedIndex]]
         };
 
       // 無ければ戻ってきたデータをAddTaskに入れる
@@ -361,7 +364,8 @@ const upDateData = ((index : number) => {
         returnUpDatedData = {
           col1: [data.col1[completedIndex]],
           col2: [data.col2[completedIndex]],
-          col3: [data.col3[completedIndex]]
+          col3: [data.col3[completedIndex]],
+          col4: [data.col4[completedIndex]]
         };
       }
 
@@ -369,6 +373,7 @@ const upDateData = ((index : number) => {
         data.col1.splice(completedIndex,1);
         data.col2.splice(completedIndex,1);
         data.col3.splice(completedIndex,1);
+        data.col4.splice(completedIndex,1);
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
@@ -392,16 +397,6 @@ const upDateData = ((index : number) => {
     });
   }
   const [labelType,setLabelType] = useState<string>('');
-
-//  ラベルのテキストをセットする関数(セレクトタグのonChangeイベント)
-//  const handleSetLabel = (event: React.ChangeEvent<HTMLSelectElement>) => {
-//   const selectedLabel = event.target.value;
-//   setLabelType(selectedLabel);
-//   console.log('selectedLabel : ' + selectedLabel);
-//   console.log('labelType : ' + labelType);
-
-// };
-
 
   // ラベルを追加する関数 TODO:
   const additionalLabel = ((index:number) => {
