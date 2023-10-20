@@ -65,7 +65,7 @@ function Todo(){
 // 追加されたデータを画面に表示するコンポーネント
 function AddText(){
   // const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[] }>({ col1: [],col2: [], col3: [] });
-  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[] }>({ col1: [],col2: [], col3: [], col4:[] });
+  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
 
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
@@ -405,74 +405,84 @@ const upDateData = ((index : number) => {
   console.log('labelType : ' + labelType);
 };
 
-  // ラベルを複数選択する関数
-
-
   return(
     <div className=''>
       <div className='my-10'>
       {updatedData.col1.map((data,index) => (
 
-        <div key={index} className="border-b border-black my-4 flex justify-between">
+        <div>
 
-          <div className='flex justify-center items-center w-3/5'>
-            <label className="inline-flex cursor-pointer">
-            <button>
-            <img className='w-12 h-12' onClick= {() => checkTask(index) }src='/heart.png' alt='' />
-            </button>
-            </label>
-            <Linkify>
-            <input
-            className='w-full'
-              // className='bg-white'
-              // className={`bg-gray-200 ${indexNumber !== index ? '' : 'bg-white'}`}
-              id={`input_${index}`}
-              type='text'
-              value={indexNumber !== index ? data : task }
-              onChange={handleNewTask}
-              // disabled={indexNumber !== index}
-            />
-            </Linkify>
+            <div key={index} className="border-b border-black my-4 flex justify-between">
+
+              <div className='flex justify-center items-center w-3/5'>
+                <label className="inline-flex cursor-pointer">
+                <button>
+                <img className='w-12 h-12' onClick= {() => checkTask(index) }src='/heart.png' alt='' />
+                </button>
+                </label>
+                <Linkify>
+                <input
+                className='w-full'
+                  // className='bg-white'
+                  // className={`bg-gray-200 ${indexNumber !== index ? '' : 'bg-white'}`}
+                  id={`input_${index}`}
+                  type='text'
+                  value={indexNumber !== index ? data : task }
+                  onChange={handleNewTask}
+                  // disabled={indexNumber !== index}
+                />
+                </Linkify>
+              </div>
+
+              <div className='text-center my-auto flex'>
+
+                <div>
+                  <LabelList handleSetLabel={handleSetLabel} labelType={labelType} />
+                  {/* <button>追加</button> */}
+                </div>
+
+                <div className='mx-2'>
+                  <p className='text-xs'>追加日</p>
+                  <p>{middleDateArray[index]}</p>
+                </div>
+                <div className='mx-2'>
+                  <p className='text-xs'>期限</p>
+                  {indexNumber === index ?
+                    <input type='date'
+                      onChange={editDate}
+                      defaultValue={calendarInitialValue(index)}
+                      className='bg-blue-200 focus:bg-red-200'>
+                    </input> :
+                    <p className=
+                    {colorNumArray[index] === 1 ? 'bg-red-200' : colorNumArray[index] === 2 ? 'bg-yellow-200' : ''}
+                    >{timeLimitArray[index]}</p>}
+                </div>
+                <button
+                  onClick={() => removeText(index)} className='mx-1'
+                  hidden={indexNumber === index}>削除</button>
+                <button className='mx-1'
+                  onClick={() => {
+                  setIndexNumber(index);
+                  indexNumber === index ? upDateData(index) : handleEditClick(data, index);
+                  }}
+                >{indexNumber === index ? '更新' : '編集'}</button>
+                <button
+                  className='mx-1'
+                  hidden={indexNumber !== index}
+                  onClick={() => {setIndexNumber(-1)}}>
+                x</button>
+            </div>
+
           </div>
-          <div className='text-center my-auto flex'>
 
-            <div>
-              <LabelList handleSetLabel={handleSetLabel} labelType={labelType} />
-              {/* <button>追加</button> */}
-            </div>
+          <div key={index}>
+            {updatedData.col4[index].map((data,number) => (
+              <p className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">{data}</p>
+            ))}
+          </div>
 
-            <div className='mx-2'>
-              <p className='text-xs'>追加日</p>
-              <p>{middleDateArray[index]}</p>
-            </div>
-            <div className='mx-2'>
-              <p className='text-xs'>期限</p>
-              {indexNumber === index ?
-                <input type='date'
-                  onChange={editDate}
-                  defaultValue={calendarInitialValue(index)}
-                  className='bg-blue-200 focus:bg-red-200'>
-                </input> :
-                <p className=
-                {colorNumArray[index] === 1 ? 'bg-red-200' : colorNumArray[index] === 2 ? 'bg-yellow-200' : ''}
-                >{timeLimitArray[index]}</p>}
-            </div>
-            <button
-              onClick={() => removeText(index)} className='mx-1'
-              hidden={indexNumber === index}>削除</button>
-            <button className='mx-1'
-              onClick={() => {
-              setIndexNumber(index);
-              indexNumber === index ? upDateData(index) : handleEditClick(data, index);
-              }}
-            >{indexNumber === index ? '更新' : '編集'}</button>
-            <button
-              className='mx-1'
-              hidden={indexNumber !== index}
-              onClick={() => {setIndexNumber(-1)}}>
-            x</button>
         </div>
-      </div>
+
     ))}
 
 </div>
@@ -508,7 +518,6 @@ function App() {
         <main>
           <AddTask />
           <AddText />
-          {/* <Calendar /> */}
         </main>
         <footer>
         </footer>
