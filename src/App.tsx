@@ -410,9 +410,9 @@ const upDateData = ((index : number) => {
       <div className='my-10'>
       {updatedData.col1.map((data,index) => (
 
-        <div>
+        <div key={`col1${index}`}>
 
-            <div key={index} className="border-b border-black my-4 flex justify-between">
+            <div key={`col2${index}`} className="border-b border-black my-4 flex justify-between">
 
               <div className='flex justify-center items-center w-3/5'>
                 <label className="inline-flex cursor-pointer">
@@ -471,13 +471,13 @@ const upDateData = ((index : number) => {
                   hidden={indexNumber !== index}
                   onClick={() => {setIndexNumber(-1)}}>
                 x</button>
+              </div>
+
             </div>
 
-          </div>
-
-          <div key={index}>
+          <div key={`category${index}`}>
             {updatedData.col4[index].map((data,number) => (
-              <p className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">{data}</p>
+              <p key={`label${number}`}className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">{data}</p>
             ))}
           </div>
 
@@ -487,10 +487,7 @@ const upDateData = ((index : number) => {
 
 </div>
 
-{/* <button className={checkBox ? 'line-through text-gray-400' : '' }
-  onClick={()=>setCheckBox(!checkBox)}>
-  取り消し線の実装
-</button> */}
+
 <button onClick={()=>clickSort(0)}>昇順に並び替える</button>
 <button onClick={()=>clickSort(1)}>降順に並び替える</button>
 <button>戻す</button>
