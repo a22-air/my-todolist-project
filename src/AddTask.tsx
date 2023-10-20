@@ -73,18 +73,6 @@ export function AddTask(){
     console.log(taskData);
   }
 
-  // ラベルのデータをロード FIXME:消す
-  // useEffect(() => {
-  //   storage.load({
-  //     key: 'labelData'
-  //   }).then((data) => {
-  //     setLabelData(data);
-  //     console.log('labelData : ' + JSON.stringify(labelData));
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   });
-  // },[labelData]);
-
   const [labelType,setLabelType] = useState<string>('');
   const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
 
