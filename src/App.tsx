@@ -402,12 +402,35 @@ const upDateData = ((index : number) => {
 
 // };
 
-   // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
- const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const selectedLabel = event.target.value;
-  setLabelType(selectedLabel);
-  console.log('labelType : ' + labelType);
-};
+
+  // ラベルを追加する関数 TODO:
+  const additionalLabel = ((index:number) => {
+    // col4の配列の中身と選択されたラベルを同じ配列に追加する
+    const editLabelData = updatedData.col4[index].concat(labelTypeArray);
+
+    // 配列の中の同じデータを取り除く処理
+    const set = new Set(editLabelData);
+    const newArr = [...set];
+
+    // col4のデータの中身を新しいデータに書き換える
+    updatedData.col4[index] = newArr;
+
+    // ストレージに保存する
+    storage.save({
+      key: 'keyWord',
+      data: updatedData
+    });
+  });
+
+  const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
+
+  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
+  const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedLabel = event.target.value;
+    setLabelType(selectedLabel);
+    setLabelTypeArray((prevLabelTypeArray) => [...prevLabelTypeArray, selectedLabel]);
+  };
+
 
   return(
     <div className=''>
@@ -441,8 +464,10 @@ const upDateData = ((index : number) => {
               <div className='text-center my-auto flex'>
 
                 <div>
-                  <LabelList handleSetLabel={handleSetLabel} labelType={labelType} />
-                  {/* <button>追加</button> */}
+                  <LabelList
+                  handleSetLabel={handleSetLabel}
+                  labelType={labelType}
+                  />
                 </div>
 
                 <div className='mx-2'>
@@ -483,6 +508,7 @@ const upDateData = ((index : number) => {
             {updatedData.col4[index].map((data,number) => (
               <p key={`label${number}`}className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">{data}</p>
             ))}
+            <button onClick={() => additionalLabel(index)}>追加</button>
           </div>
 
         </div>
