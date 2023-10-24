@@ -29,8 +29,6 @@ type LabelListProps = {
     labelType: string;
     showModal:boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-    showLabelList:React.Dispatch<React.SetStateAction<boolean>>;
-    handleLabelClick:() => void;
   };
 
   export function LabelList({ handleSetLabel,labelType,showModal,setShowModal }: LabelListProps){
@@ -92,12 +90,6 @@ type LabelListProps = {
             console.log(err);
         });
     })
-
-  // ラベルの表示と非表示の切り替えの関数
-  const [showLabelList, setShowLabelList] = useState(false);
-  const handleLabelClick = () => {
-    setShowLabelList(!showLabelList); // クリック時に表示状態を切り替え
-  };
 
   // const [showModal, setShowModal] = React.useState(false);
 

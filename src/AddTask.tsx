@@ -153,14 +153,6 @@ export function AddTask(){
     };
 
     const [showModal, setShowModal] = React.useState(false);
-    const [showLabelList, setShowLabelList] = useState(false);
-
-    const handleLabelClick = () => {
-      setShowLabelList(!showLabelList); // クリック時に表示状態を切り替え
-      console.log('showLabelList : ' + showLabelList);
-      console.log('showModal : ' + showModal);
-
-    };
 
     return(
       <div className="flex justify-between my-10">
@@ -188,7 +180,7 @@ export function AddTask(){
             <button
               className=""
               type="button"
-              onClick={() => {setShowModal(true);handleLabelClick()}}
+              onClick={() => {setShowModal(true)}}
             >
             ラベル
             </button>
@@ -199,8 +191,6 @@ export function AddTask(){
               labelType={labelType}
               showModal={showModal}
               setShowModal={setShowModal}
-              showLabelList={setShowLabelList}
-              handleLabelClick={handleLabelClick}
             />
 
           </div>
