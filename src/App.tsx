@@ -152,8 +152,16 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
   setTask(event.target.value);
 }
 
-// 更新ボタン押下でデータの更新を行う関数
+// 更新ボタン押下でデータの更新を行う関数 TODO:
 const upDateData = ((index : number) => {
+
+// col4の配列の中身と選択されたラベルを同じ配列に追加する
+const editLabelData = updatedData.col4[index].concat(labelTypeArray);
+
+// 配列の中の同じデータを取り除く処理
+const set = new Set(editLabelData);
+const newArr = [...set];
+
   // スロレージデータのロード
   storage.load({
     key : 'keyWord',
@@ -161,6 +169,7 @@ const upDateData = ((index : number) => {
     // 選択したインデックスのデータにtaskを代入
     data.col1[index] = task;
     data.col2[index] = taskDate;
+    data.col4[index] = newArr;
 
     // 書き換えたdataを保存する
     storage.save({
@@ -404,7 +413,7 @@ const upDateData = ((index : number) => {
   }
   const [labelType,setLabelType] = useState<string>('');
 
-  // ラベルを追加する関数
+  // ラベルを追加する関数 TODO:
   const additionalLabel = ((index:number) => {
     // col4の配列の中身と選択されたラベルを同じ配列に追加する
     const editLabelData = updatedData.col4[index].concat(labelTypeArray);
@@ -432,6 +441,7 @@ const upDateData = ((index : number) => {
     setLabelTypeArray((prevLabelTypeArray) => [...prevLabelTypeArray, selectedLabel]);
   };
 
+  // ラベルを削除する関数
   const deleteLabel = ((number:number,index:number) => {
     updatedData.col4[index].splice(number,1);
 
@@ -441,7 +451,6 @@ const upDateData = ((index : number) => {
     })
   })
 
-  // TODO:
   const [showModal, setShowModal] = React.useState(false);
 
 
