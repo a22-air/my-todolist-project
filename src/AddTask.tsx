@@ -3,6 +3,7 @@ import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useState} from 'react';
 import { LabelList } from "./LabelList";
+import { log } from "console";
 // import ModalLabel from "./ModalLabel"
 
 const storage: Storage = new Storage({
@@ -150,7 +151,17 @@ export function AddTask(){
         console.log('エラー:', err);
       }
     };
+
     const [showModal, setShowModal] = React.useState(false);
+    const [showLabelList, setShowLabelList] = useState(false);
+
+    const handleLabelClick = () => {
+      setShowLabelList(!showLabelList); // クリック時に表示状態を切り替え
+      console.log('showLabelList : ' + showLabelList);
+      console.log('showModal : ' + showModal);
+
+    };
+
     return(
       <div className="flex justify-between my-10">
           <div className="w-full">
@@ -174,9 +185,22 @@ export function AddTask(){
               </input>
             </div>
 
+            <button
+              className=""
+              type="button"
+              onClick={() => {setShowModal(true);handleLabelClick()}}
+            >
+            ラベル
+            </button>
+
+
             <LabelList
               handleSetLabel={handleSetLabel}
               labelType={labelType}
+              showModal={showModal}
+              setShowModal={setShowModal}
+              showLabelList={setShowLabelList}
+              handleLabelClick={handleLabelClick}
             />
 
           </div>
@@ -191,6 +215,7 @@ export function AddTask(){
               </div>
             </label>
           </div>
+
 
       </div>
     )

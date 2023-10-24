@@ -27,9 +27,13 @@ const storage: Storage = new Storage({
 type LabelListProps = {
     handleSetLabel: (event: React.ChangeEvent<HTMLInputElement>) => void;
     labelType: string;
+    showModal:boolean;
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+    showLabelList:React.Dispatch<React.SetStateAction<boolean>>;
+    handleLabelClick:() => void;
   };
 
-  export function LabelList({ handleSetLabel,labelType }: LabelListProps){
+  export function LabelList({ handleSetLabel,labelType,showModal,setShowModal }: LabelListProps){
 
     const [labelData,setLabelData] = useState<{category:string[]}>({category: []});
     // const [labelType,setLabelType] = useState<string>('');
@@ -95,18 +99,18 @@ type LabelListProps = {
     setShowLabelList(!showLabelList); // クリック時に表示状態を切り替え
   };
 
-  const [showModal, setShowModal] = React.useState(false);
+  // const [showModal, setShowModal] = React.useState(false);
 
     return(
         <>
 
-        <button
+        {/* <button
           className=""
           type="button"
           onClick={() => {setShowModal(true);handleLabelClick()}}
           >
             ラベル
-        </button>
+        </button> */}
 
         {showModal ? (
         <>
