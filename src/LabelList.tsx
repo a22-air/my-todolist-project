@@ -95,29 +95,106 @@ type LabelListProps = {
     setShowLabelList(!showLabelList); // クリック時に表示状態を切り替え
   };
 
+  const [showModal, setShowModal] = React.useState(false);
+
     return(
         <>
-        <button onClick={handleLabelClick}>ラベル</button>
 
-        {showLabelList && (
-            <div className="flex">
+        <button
+          className=""
+          type="button"
+          onClick={() => {setShowModal(true);handleLabelClick()}}
+          >
+            ラベル
+        </button>
 
-                <div>
-                  {labelData.category.map((data, index) => (
-                    <label key={index} htmlFor={`checkbox${index}`}>
-                      <input type="checkbox" id={`checkbox${index}`} name={`checkbox${index}`} onChange={handleSetLabel} value={data}/>
-                      {data}
-                    </label>
-                  ))}
+        {showModal ? (
+        <>
+          <div
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+          >
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">
+                    ラベル
+                  </h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                <div className="flex-col">
+
+                  <div className="max-width-full">
+                    {labelData.category.map((data, index) => (
+                      <div className="flex items-center mr-4" key={`labelData${index}`}>
+                        <input
+                        type="checkbox"
+                        id={`checkbox${index}`}
+                        name={`checkbox${index}`}
+                        onChange={handleSetLabel}
+                        value={data}
+                        className=""
+                        />
+                      <label key={index}
+                      htmlFor={`checkbox${index}`}
+                      className="text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1"
+                      >
+                        {data}
+                      </label>
+
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-col justify-end w-1/2">
+                  <div className="mb-3 pt-0">
+                    <input type="text"
+                          placeholder="ラベル"
+                          className="w-full px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring "
+                          onChange={handleNewLabel}
+                    />
+                  </div>
+                  <div className="flex justify-end">
+                    <button className="mx-1" onClick={newLabelCategory}>追加</button>
+                    <button className="mx-1"onClick={removeLabelCategory}>削除</button>
+                  </div>
+                  </div>
                 </div>
 
-              <div>
-                <input type="text" placeholder='新規ラベルを作成' onChange={handleNewLabel}></input>
-                <button onClick={newLabelCategory}>新規ラベル追加</button>
-                <button onClick={removeLabelCategory}>ラベル削除</button>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    追加
+                  </button>
+                </div>
               </div>
             </div>
-          )}
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
 
         </>
     )
