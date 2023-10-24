@@ -412,26 +412,6 @@ const newArr = [...set];
     });
   }
   const [labelType,setLabelType] = useState<string>('');
-
-  // ラベルを追加する関数 TODO:
-  const additionalLabel = ((index:number) => {
-    // col4の配列の中身と選択されたラベルを同じ配列に追加する
-    const editLabelData = updatedData.col4[index].concat(labelTypeArray);
-
-    // 配列の中の同じデータを取り除く処理
-    const set = new Set(editLabelData);
-    const newArr = [...set];
-
-    // col4のデータの中身を新しいデータに書き換える
-    updatedData.col4[index] = newArr;
-
-    // ストレージに保存する
-    storage.save({
-      key: 'keyWord',
-      data: updatedData
-    });
-  });
-
   const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
 
   // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
@@ -485,8 +465,6 @@ const newArr = [...set];
 
               <div className='text-center my-auto flex'>
 
-
-
                 <div className='mx-2'>
                   <p className='text-xs'>追加日</p>
                   <p>{middleDateArray[index]}</p>
@@ -533,7 +511,6 @@ const newArr = [...set];
               </div>
             ))}
             {indexNumber === index ? (
-            // <button className="mx-2" onClick={() => additionalLabel(index)}><AddCircleOutlineIcon className='text-pink-600'/></button>
             <button className="mx-2" onClick={() => setShowModal(true)}><AddCircleOutlineIcon className='text-pink-600'/></button>
             ) : null}
           </div>
