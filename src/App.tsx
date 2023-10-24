@@ -432,7 +432,13 @@ const newArr = [...set];
   })
 
   const [showModal, setShowModal] = React.useState(false);
+  const [hiddenLabelArray,setHiddenLabelArray] = useState<string[]>([]); // 非表示にするラベルデータを格納するuseState
 
+  // ラベルのデータの確認 TODO:
+  const hiddenLabelData = ((index:number) => {
+    setHiddenLabelArray(updatedData.col4[index]);
+    console.log('hiddenLabels : ' + JSON.stringify(hiddenLabelArray));
+  });
 
   return(
     <div className=''>
@@ -511,7 +517,12 @@ const newArr = [...set];
               </div>
             ))}
             {indexNumber === index ? (
-            <button className="mx-2" onClick={() => setShowModal(true)}><AddCircleOutlineIcon className='text-pink-600'/></button>
+              <button className="mx-2" onClick={() => setShowModal(true)}>
+                <AddCircleOutlineIcon
+                  className='text-pink-600'
+                  onClick={() => hiddenLabelData(index)}
+                />
+              </button>
             ) : null}
           </div>
             <div>
@@ -520,6 +531,7 @@ const newArr = [...set];
                   labelType={labelType}
                   showModal={showModal}
                   setShowModal={setShowModal}
+                  hiddenLabelArray={hiddenLabelArray}
                   />
                 </div>
         </div>
