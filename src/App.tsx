@@ -7,6 +7,10 @@ import { AddTask } from './AddTask';
 import { CompletedList } from './CompletedList';
 import { LabelList } from "./LabelList";
 
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 //ストレージの作成
 const storage: Storage = new Storage({
   // 最大容量
@@ -398,7 +402,7 @@ const upDateData = ((index : number) => {
   }
   const [labelType,setLabelType] = useState<string>('');
 
-  // ラベルを追加する関数 TODO:
+  // ラベルを追加する関数
   const additionalLabel = ((index:number) => {
     // col4の配列の中身と選択されたラベルを同じ配列に追加する
     const editLabelData = updatedData.col4[index].concat(labelTypeArray);
@@ -426,6 +430,14 @@ const upDateData = ((index : number) => {
     setLabelTypeArray((prevLabelTypeArray) => [...prevLabelTypeArray, selectedLabel]);
   };
 
+  const deleteLabel = ((number:number,index:number) => {
+    updatedData.col4[index].splice(number,1);
+
+    storage.save({
+      key: 'keyWord',
+      data:updatedData
+    })
+  })
 
   return(
     <div className=''>
@@ -499,9 +511,16 @@ const upDateData = ((index : number) => {
 
             </div>
 
-          <div key={`category${index}`}>
+          <div className="flex" key={`category${index}`}>
             {updatedData.col4[index].map((data,number) => (
-              <p key={`label${number}`}className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">{data}</p>
+              <div>
+                <p key={`label${number}`}className="text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">{data}</p>
+                {indexNumber === index ? (
+                <IconButton aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}>
+                <DeleteIcon fontSize="small" />
+                </IconButton>
+                ) : null}
+              </div>
             ))}
             <button onClick={() => additionalLabel(index)}>追加</button>
           </div>
