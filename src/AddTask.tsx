@@ -3,6 +3,7 @@ import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useState} from 'react';
 import { LabelList } from "./LabelList";
+// import ModalLabel from "./ModalLabel"
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -149,7 +150,7 @@ export function AddTask(){
         console.log('エラー:', err);
       }
     };
-
+    const [showModal, setShowModal] = React.useState(false);
     return(
       <div className="flex justify-between my-10">
           <div className="w-full">
@@ -177,22 +178,6 @@ export function AddTask(){
               handleSetLabel={handleSetLabel}
               labelType={labelType}
             />
-
-            {/*
-            <div className="flex">
-              <div>
-                <select name="label-tag" value={labelType} onChange={handleNewLabel}>
-                  <option value="ラベルを追加">ラベルを追加</option>
-                  {labelData.category.map((data, index) => (
-                    <option key={index}>{data}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <input type="text" placeholder='ラベルを作成'></input>
-                <button>ラベル追加ボタン</button>
-              </div>
-            </div> */}
 
           </div>
 
