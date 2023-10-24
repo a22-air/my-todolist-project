@@ -441,6 +441,10 @@ const upDateData = ((index : number) => {
     })
   })
 
+  // TODO:
+  const [showModal, setShowModal] = React.useState(false);
+
+
   return(
     <div className=''>
       <div className='my-10'>
@@ -472,12 +476,7 @@ const upDateData = ((index : number) => {
 
               <div className='text-center my-auto flex'>
 
-                <div>
-                  <LabelList
-                  handleSetLabel={handleSetLabel}
-                  labelType={labelType}
-                  />
-                </div>
+
 
                 <div className='mx-2'>
                   <p className='text-xs'>追加日</p>
@@ -515,7 +514,7 @@ const upDateData = ((index : number) => {
 
           <div className="flex" key={`category${index}`}>
             {updatedData.col4[index].map((data,number) => (
-              <div>
+              <div key={`labelEdit${number}`}>
                 <p key={`label${number}`}className="text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">{data}</p>
                 {indexNumber === index ? (
                 <IconButton aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}>
@@ -525,10 +524,18 @@ const upDateData = ((index : number) => {
               </div>
             ))}
             {indexNumber === index ? (
-            <button className="mx-2" onClick={() => additionalLabel(index)}><AddCircleOutlineIcon className='text-pink-600'/></button>
+            // <button className="mx-2" onClick={() => additionalLabel(index)}><AddCircleOutlineIcon className='text-pink-600'/></button>
+            <button className="mx-2" onClick={() => setShowModal(true)}><AddCircleOutlineIcon className='text-pink-600'/></button>
             ) : null}
           </div>
-
+            <div>
+                  <LabelList
+                  handleSetLabel={handleSetLabel}
+                  labelType={labelType}
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                  />
+                </div>
         </div>
 
     ))}
