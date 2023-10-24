@@ -3,8 +3,6 @@ import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useState} from 'react';
 import { LabelList } from "./LabelList";
-import { log } from "console";
-// import ModalLabel from "./ModalLabel"
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -78,7 +76,7 @@ export function AddTask(){
   const [labelType,setLabelType] = useState<string>('');
   const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
 
-  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得) TODO:
+  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
     setLabelType(selectedLabel);
@@ -153,6 +151,8 @@ export function AddTask(){
     };
 
     const [showModal, setShowModal] = React.useState(false);
+    const [hiddenLabelArray,setHiddenLabelArray] = useState<string[]>([]); // 非表示にするラベルデータを格納するuseState
+
 
     return(
       <div className="flex justify-between my-10">
@@ -191,6 +191,7 @@ export function AddTask(){
               labelType={labelType}
               showModal={showModal}
               setShowModal={setShowModal}
+              hiddenLabelArray={hiddenLabelArray}
             />
 
           </div>
