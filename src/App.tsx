@@ -11,6 +11,8 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 //ストレージの作成
 const storage: Storage = new Storage({
   // 最大容量
@@ -522,7 +524,9 @@ const upDateData = ((index : number) => {
                 ) : null}
               </div>
             ))}
-            <button onClick={() => additionalLabel(index)}>追加</button>
+            {indexNumber === index ? (
+            <button className="mx-2" onClick={() => additionalLabel(index)}><AddCircleOutlineIcon className='text-pink-600'/></button>
+            ) : null}
           </div>
 
         </div>
