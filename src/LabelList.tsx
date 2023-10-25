@@ -98,17 +98,18 @@ type LabelListProps = {
     // ラベルを削除する関数（修正）TODO:
     const removeLabelCategory = ((index:number) => {
 
-      // labelData.category.splice(index,1);
-      // setLabelData(labelData);
+      labelData.category.splice(index,1);
+      setLabelData(labelData);
 
-      // storage.save({
-      //           key: 'labelData',
-      //           data : labelData
-      //       }).then((data) => {
-      //           console.log(' : ' + data);
-      //       }).catch((err) => {
-      //           console.log(err);
-      //       });
+      storage.save({
+                key: 'labelData',
+                data : labelData
+            }).then((data) => {
+                setLabelData({category: []});
+                console.log(' : ' + data);
+            }).catch((err) => {
+                console.log(err);
+            });
 
       });
 
@@ -192,7 +193,9 @@ type LabelListProps = {
                       </label>
                       <button
                       className={crossedOutItems.includes(index) ? 'invisible' : ''}
-                        onClick={() => {removeLabelCategory(index);handleSetLabelTest(data)}}>
+                        onClick={() => {removeLabelCategory(index);
+                        // handleSetLabelTest(data)
+                        }}>
                           <RemoveCircleOutlineIcon
                           fontSize="small"
                           className="text-red-600"
