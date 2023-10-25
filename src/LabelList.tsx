@@ -2,6 +2,9 @@ import React, { useEffect,useState } from "react";
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import RemoveIcon from '@mui/icons-material/Remove';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+
 const storage: Storage = new Storage({
     // 最大容量
     size: 1000,
@@ -29,12 +32,12 @@ type LabelListProps = {
     labelType: string;
     showModal:boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+    hiddenLabelArray: string[];
   };
 
-  export function LabelList({ handleSetLabel,labelType,showModal,setShowModal }: LabelListProps){
+  export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray }: LabelListProps){
 
     const [labelData,setLabelData] = useState<{category:string[]}>({category: []});
-    // const [labelType,setLabelType] = useState<string>('');
     const [newLabel,setNewLabel] = useState<string>('');
 
     // ラベルのデータをロード
@@ -73,37 +76,49 @@ type LabelListProps = {
     });
 
 
-    //ラベルを削除する関数
-    const removeLabelCategory = (() => {
-        if(!labelType) return;
+    //ラベルを削除する関数(原本)
+    // const removeLabelCategory = (() => {
+    //     if(!labelType) return;
 
-        let index = labelData.category.indexOf(labelType);
-        labelData.category.splice(index,1);
+    //     let index = labelData.category.indexOf(labelType);
+    //     labelData.category.splice(index,1);
 
-        // ここで削除されたデータを書き換えて保存
-        storage.save({
-            key: 'labelData',
-            data : labelData
-        }).then((data) => {
-            console.log(' : ' + data);
-        }).catch((err) => {
-            console.log(err);
-        });
+    //     // ここで削除されたデータを書き換えて保存
+    //     storage.save({
+    //         key: 'labelData',
+    //         data : labelData
+    //     }).then((data) => {
+    //         console.log(' : ' + data);
+    //     }).catch((err) => {
+    //         console.log(err);
+    //     });
+    // })
+
+    // ラベルを削除する関数（修正）TODO:
+    const [removeNum,setRemoveNum] = useState<number>(-1);
+    const removeLabelCategory = ((index:number) => {
+
+      // labelData.category.splice(index,1);
+      // setLabelData(labelData);
+      setRemoveNum(index);
+
+      });
+
+    // 選択されているラベルを表示させない処理
+    const hiddenLabel = (() => {
+      console.log('labelData : ' + JSON.stringify(labelData)); // 全てのラベルデータ
+      console.log('hiddenLabelArray : ' + JSON.stringify(hiddenLabelArray)); // 各インデックスのラベルデータ
+      console.log('今日やることはインデックス番号 : ' + labelData.category.indexOf('ddd')); // インデックス番号を取得できるか確認ログ
+
+      const filteredLabelData = labelData.category.filter(item => hiddenLabelArray.includes(item));
+      console.log('filteredLabelData:' +filteredLabelData);
+
     })
 
-  // const [showModal, setShowModal] = React.useState(false);
 
     return(
         <>
-
-        {/* <button
-          className=""
-          type="button"
-          onClick={() => {setShowModal(true);handleLabelClick()}}
-          >
-            ラベル
-        </button> */}
-
+        <button onClick={hiddenLabel}>ボタン</button>
         {showModal ? (
         <>
           <div
@@ -140,6 +155,7 @@ type LabelListProps = {
                         onChange={handleSetLabel}
                         value={data}
                         className=""
+                        disabled={hiddenLabelArray.includes(data)}
                         />
                       <label key={index}
                       htmlFor={`checkbox${index}`}
@@ -147,7 +163,12 @@ type LabelListProps = {
                       >
                         {data}
                       </label>
-
+                      <button onClick={() => {removeLabelCategory(index);}}>
+                        <RemoveCircleOutlineIcon
+                        fontSize="small"
+                        className="text-red-600"
+                        />
+                        </button>
                       </div>
                     ))}
                   </div>
@@ -162,7 +183,7 @@ type LabelListProps = {
                   </div>
                   <div className="flex justify-end">
                     <button className="mx-1" onClick={newLabelCategory}>追加</button>
-                    <button className="mx-1"onClick={removeLabelCategory}>削除</button>
+                    {/* <button className="mx-1"onClick={removeLabelCategory}>削除</button> */}
                   </div>
                   </div>
                 </div>
