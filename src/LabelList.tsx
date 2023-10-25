@@ -1,8 +1,6 @@
 import React, { useEffect,useState } from "react";
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
-
-import RemoveIcon from '@mui/icons-material/Remove';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const storage: Storage = new Storage({
@@ -113,38 +111,10 @@ type LabelListProps = {
 
       });
 
-    // 選択されているラベルを表示させない処理
-    const hiddenLabel = (() => {
-      console.log('labelData : ' + JSON.stringify(labelData)); // 全てのラベルデータ
-      console.log('hiddenLabelArray : ' + JSON.stringify(hiddenLabelArray)); // 各インデックスのラベルデータ
-      console.log('今日やることはインデックス番号 : ' + labelData.category.indexOf('ddd')); // インデックス番号を取得できるか確認ログ
-
-      const filteredLabelData = labelData.category.filter(item => hiddenLabelArray.includes(item));
-      console.log('filteredLabelData:' +filteredLabelData);
-
-    })
-
-    const [disabledItems, setDisabledItems] = useState<string[]>([]);
-  const [crossedOutItems, setCrossedOutItems] = useState<number[]>([]);
-
-  const handleSetLabelTest = (data: string) => {
-    if (disabledItems.includes(data)) {
-      // アイテムが既に無効になっている場合、無効リストから削除
-      setDisabledItems(disabledItems.filter((item) => item !== data));
-      // アイテムの打ち消し線を削除
-      setCrossedOutItems(crossedOutItems.filter((itemIndex) => itemIndex !== labelData.category.indexOf(data)));
-    } else {
-      // アイテムが無効になっていない場合、無効リストに追加
-      setDisabledItems([...disabledItems, data]);
-      // アイテムに打ち消し線を追加
-      setCrossedOutItems([...crossedOutItems, labelData.category.indexOf(data)]);
-    }
-  }
-
 
     return(
         <>
-        <button onClick={hiddenLabel}>ボタン</button>
+        {/* <button onClick={hiddenLabel}>ボタン</button> */}
         {showModal ? (
         <>
           <div
@@ -182,19 +152,16 @@ type LabelListProps = {
                         name={`checkbox${index}`}
                         onChange={handleSetLabel}
                         value={data}
-                        className={crossedOutItems.includes(index) ? 'invisible' : ''}
                         disabled={hiddenLabelArray.includes(data)}
                         />
                       <label key={index}
                       htmlFor={`checkbox${index}`}
-                      className={`text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1 ${crossedOutItems.includes(index) ? 'invisible' : ''}`}
+                      className="text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1"
                       >
                         {data}
                       </label>
                       <button
-                      className={crossedOutItems.includes(index) ? 'invisible' : ''}
                         onClick={() => {removeLabelCategory(index);
-                        // handleSetLabelTest(data)
                         }}>
                           <RemoveCircleOutlineIcon
                           fontSize="small"
@@ -216,7 +183,6 @@ type LabelListProps = {
                   </div>
                   <div className="flex justify-end">
                     <button className="mx-1" onClick={newLabelCategory}>追加</button>
-                    {/* <button className="mx-1"onClick={removeLabelCategory}>削除</button> */}
                   </div>
                   </div>
                 </div>
