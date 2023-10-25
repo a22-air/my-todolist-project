@@ -25,14 +25,6 @@ const storage: Storage = new Storage({
   //   }
   // });
 
-  // ラベルのデータをストレージに作成
-  // storage.save({
-  //   key: 'labelData',
-  //   data:{
-  //     category:['仕事','プライベート','家事']
-  //   }
-  // });
-
   // keyの中身を調べる方法↓ -----------------------------------
   // const keyName = 'labelData'; // 取得したいキー名
   // const storedValue = localStorage.getItem(keyName);
@@ -44,14 +36,13 @@ const storage: Storage = new Storage({
   // }
 //　---------------------------------------------------------
 
-
+// 今日の日付を作成する処理
   let today = new Date();
   let formattedDate = today.getFullYear() * 100000000 +
                      (today.getMonth() + 1) * 1000000 +
                      today.getDate() * 10000 +
                      today.getHours() * 100 +
                      today.getMinutes() * 1;
-  console.log(formattedDate);
 
 export function AddTask(){
 
@@ -122,7 +113,6 @@ export function AddTask(){
             col1: [...existingData.col1, task],
             col2: [...existingData.col2,taskData],
             col3: [...existingData.col3,day],
-
             col4: [...existingData.col4,labelTypeArray]
           };
         } else {
@@ -131,11 +121,9 @@ export function AddTask(){
             col1: [task],
             col2: [taskData],
             col3: [day],
-
             col4: [[labelType]],
           };
         }
-        console.log('updatedData : ' + JSON.stringify(updatedData,null,"\t"));
 
         // 新しいデータを保存
         await storage.save({
@@ -143,7 +131,7 @@ export function AddTask(){
           data: updatedData,
         });
 
-        // window.location.reload(); // ページをリロードする
+        window.location.reload(); // ページをリロードする
 
       } catch (err) {
         console.log('エラー:', err);
