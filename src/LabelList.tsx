@@ -15,16 +15,17 @@ const storage: Storage = new Storage({
   })
 
 // keyの中身を調べる方法↓ -----------------------------------
-  const keyName = 'labelData'; // 取得したいキー名
-  const storedValue = localStorage.getItem(keyName);
+  // const keyName = 'labelData'; // 取得したいキー名
+  // const storedValue = localStorage.getItem(keyName);
 
-  if (storedValue !== null) {
-    console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  } else {
-    console.log(`キー ${keyName} は存在しません。`);
-  }
+  // if (storedValue !== null) {
+  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  // } else {
+  //   console.log(`キー ${keyName} は存在しません。`);
+  // }
 //　---------------------------------------------------------
 
+// 親プロップスから受け取る処理
 type LabelListProps = {
     handleSetLabel: (event: React.ChangeEvent<HTMLInputElement>) => void;
     labelType: string;
@@ -35,8 +36,8 @@ type LabelListProps = {
 
   export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray }: LabelListProps){
 
-    const [labelData,setLabelData] = useState<{category:string[]}>({category: []});
-    const [newLabel,setNewLabel] = useState<string>('');
+    const [labelData,setLabelData] = useState<{category:string[]}>({category: []}); // ラベル種類のステート
+    const [newLabel,setNewLabel] = useState<string>(''); // 追加ラベルのステート
 
     // ラベルのデータをロード
     useEffect(() => {
@@ -48,7 +49,7 @@ type LabelListProps = {
         }).catch((err) => {
           console.log(err);
         });
-      },[labelData]);
+      },[labelData]); // labelDataが変更されたタイミングで監視
 
     // ラベル追加テキストをセットする関数
     const handleNewLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +61,7 @@ type LabelListProps = {
         // 追加のラベルが無ければ処理はしない
         if(!newLabel)return;
 
+        // 新しいラベルをラベルデータの配列に追加
         labelData.category.push(newLabel);
 
         // ここで追加されたデータを書き換えて保存
@@ -67,8 +69,7 @@ type LabelListProps = {
             key: 'labelData',
             data : labelData
         }).then((data) => {
-            setNewLabel('');
-            console.log(' : ' + data);
+            setNewLabel(''); // newLabelをリセット
         }).catch((err) => {
             console.log(err);
         });
@@ -76,16 +77,17 @@ type LabelListProps = {
 
     // ラベルを削除する関数
     const removeLabelCategory = ((index:number) => {
-
+      // 選択されたインデックス番号のラベルデータを削除
       labelData.category.splice(index,1);
+      // ラベルデータに削除後の配列をセット
       setLabelData(labelData);
 
+      // 削除後の配列を保存して書き換える
       storage.save({
                 key: 'labelData',
                 data : labelData
             }).then((data) => {
-                setLabelData({category: []});
-                console.log(' : ' + data);
+                setLabelData({category: []}); // ラベルデータの中身をリセット
             }).catch((err) => {
                 console.log(err);
             });
