@@ -69,6 +69,7 @@ type LabelListProps = {
             key: 'labelData',
             data : labelData
         }).then((data) => {
+            setNewLabel('');
             console.log(' : ' + data);
         }).catch((err) => {
             console.log(err);
@@ -95,12 +96,19 @@ type LabelListProps = {
     // })
 
     // ラベルを削除する関数（修正）TODO:
-    const [removeNum,setRemoveNum] = useState<number>(-1);
     const removeLabelCategory = ((index:number) => {
 
       // labelData.category.splice(index,1);
       // setLabelData(labelData);
-      setRemoveNum(index);
+
+      // storage.save({
+      //           key: 'labelData',
+      //           data : labelData
+      //       }).then((data) => {
+      //           console.log(' : ' + data);
+      //       }).catch((err) => {
+      //           console.log(err);
+      //       });
 
       });
 
@@ -200,6 +208,7 @@ type LabelListProps = {
                           placeholder="ラベル"
                           className="w-full px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring "
                           onChange={handleNewLabel}
+                          value={newLabel}
                     />
                   </div>
                   <div className="flex justify-end">
