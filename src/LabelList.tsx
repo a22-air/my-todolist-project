@@ -74,26 +74,7 @@ type LabelListProps = {
         });
     });
 
-
-    //ラベルを削除する関数(原本)
-    // const removeLabelCategory = (() => {
-    //     if(!labelType) return;
-
-    //     let index = labelData.category.indexOf(labelType);
-    //     labelData.category.splice(index,1);
-
-    //     // ここで削除されたデータを書き換えて保存
-    //     storage.save({
-    //         key: 'labelData',
-    //         data : labelData
-    //     }).then((data) => {
-    //         console.log(' : ' + data);
-    //     }).catch((err) => {
-    //         console.log(err);
-    //     });
-    // })
-
-    // ラベルを削除する関数（修正）TODO:
+    // ラベルを削除する関数
     const removeLabelCategory = ((index:number) => {
 
       labelData.category.splice(index,1);
@@ -111,10 +92,8 @@ type LabelListProps = {
 
       });
 
-
     return(
         <>
-        {/* <button onClick={hiddenLabel}>ボタン</button> */}
         {showModal ? (
         <>
           <div
