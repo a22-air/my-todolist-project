@@ -173,16 +173,17 @@ type LabelListProps = {
                         name={`checkbox${index}`}
                         onChange={handleSetLabel}
                         value={data}
-                        className=""
+                        className={crossedOutItems.includes(index) ? 'invisible' : ''}
                         disabled={hiddenLabelArray.includes(data)}
                         />
                       <label key={index}
                       htmlFor={`checkbox${index}`}
-                      className={`text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1 ${crossedOutItems.includes(index) ? 'line-through' : ''}`}
+                      className={`text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1 ${crossedOutItems.includes(index) ? 'invisible' : ''}`}
                       >
                         {data}
                       </label>
                       <button
+                      className={crossedOutItems.includes(index) ? 'invisible' : ''}
                         onClick={() => {removeLabelCategory(index);handleSetLabelTest(data)}}>
                           <RemoveCircleOutlineIcon
                           fontSize="small"
