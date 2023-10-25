@@ -525,16 +525,14 @@ const newArr = [...set];
               </button>
             ) : null}
           </div>
-            <div>
-                  <LabelList
-                  handleSetLabel={handleSetLabel}
-                  labelType={labelType}
-                  showModal={showModal}
-                  setShowModal={setShowModal}
-                  hiddenLabelArray={hiddenLabelArray}
-                  />
-                </div>
-        </div>
+            <LabelList
+              handleSetLabel={handleSetLabel}
+              labelType={labelType}
+              showModal={showModal}
+              setShowModal={setShowModal}
+              hiddenLabelArray={hiddenLabelArray}
+            />
+          </div>
 
     ))}
 
