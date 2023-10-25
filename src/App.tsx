@@ -428,7 +428,12 @@ const newArr = [...set];
     storage.save({
       key: 'keyWord',
       data:updatedData
-    })
+    }).then((data) => {
+      setUpdatedData({ col1: [],col2: [], col3: [], col4:[] });
+      console.log(' : ' + data);
+    }).catch((err) => {
+      console.log(err);
+    });
   })
 
   const [showModal, setShowModal] = React.useState(false);
