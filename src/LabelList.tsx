@@ -115,6 +115,23 @@ type LabelListProps = {
 
     })
 
+    const [disabledItems, setDisabledItems] = useState<string[]>([]);
+  const [crossedOutItems, setCrossedOutItems] = useState<number[]>([]);
+
+  const handleSetLabelTest = (data: string) => {
+    if (disabledItems.includes(data)) {
+      // アイテムが既に無効になっている場合、無効リストから削除
+      setDisabledItems(disabledItems.filter((item) => item !== data));
+      // アイテムの打ち消し線を削除
+      setCrossedOutItems(crossedOutItems.filter((itemIndex) => itemIndex !== labelData.category.indexOf(data)));
+    } else {
+      // アイテムが無効になっていない場合、無効リストに追加
+      setDisabledItems([...disabledItems, data]);
+      // アイテムに打ち消し線を追加
+      setCrossedOutItems([...crossedOutItems, labelData.category.indexOf(data)]);
+    }
+  }
+
 
     return(
         <>
@@ -147,7 +164,9 @@ type LabelListProps = {
 
                   <div className="max-width-full">
                     {labelData.category.map((data, index) => (
-                      <div className="flex items-center mr-4" key={`labelData${index}`}>
+                      <div  className="flex items-center mr-4"
+                            key={`labelData${index}`}
+                            >
                         <input
                         type="checkbox"
                         id={`checkbox${index}`}
@@ -159,14 +178,15 @@ type LabelListProps = {
                         />
                       <label key={index}
                       htmlFor={`checkbox${index}`}
-                      className="text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1"
+                      className={`text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1 ${crossedOutItems.includes(index) ? 'line-through' : ''}`}
                       >
                         {data}
                       </label>
-                      <button onClick={() => {removeLabelCategory(index);}}>
-                        <RemoveCircleOutlineIcon
-                        fontSize="small"
-                        className="text-red-600"
+                      <button
+                        onClick={() => {removeLabelCategory(index);handleSetLabelTest(data)}}>
+                          <RemoveCircleOutlineIcon
+                          fontSize="small"
+                          className="text-red-600"
                         />
                         </button>
                       </div>
