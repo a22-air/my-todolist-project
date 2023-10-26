@@ -37,10 +37,9 @@ type LabelListProps = {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
     hiddenLabelArray: string[];
     labelTypeArray:string[]
-    labelDisplayArray:() => void;
   };
 
-  export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray,labelTypeArray ,labelDisplayArray}: LabelListProps){
+  export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray,labelTypeArray,}: LabelListProps){
 
     const [labelData,setLabelData] = useState<{category:string[]}>({category: []}); // ラベル種類のステート
     const [newLabel,setNewLabel] = useState<string>(''); // 追加ラベルのステート
@@ -233,7 +232,6 @@ type LabelListProps = {
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {setShowModal(false);
-                      labelDisplayArray();
                     }}
                   >
                     追加
