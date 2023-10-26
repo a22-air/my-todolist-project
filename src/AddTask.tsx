@@ -155,8 +155,6 @@ export function AddTask(){
     const [showModal, setShowModal] = React.useState(false);
     const [hiddenLabelArray,setHiddenLabelArray] = useState<string[]>([]); // 非表示にするラベルデータを格納するuseState
 
-    const [checkedValues, setCheckedValues] = useState<string[]>([]);//TODO:ここからスタート
-
   // 追加されたラベルを削除するボタン
     const removeLabelArray = ((index:number) => {
   // 要素を削除して新しい配列を作成（指定されたインデックス以外を新しい配列で作成）
@@ -164,7 +162,6 @@ export function AddTask(){
   // 新しい配列をステートに設定
     setLabelTypeArray(newCheckedValues);
   });
-
 
     return(
       <div className="flex justify-between my-10">

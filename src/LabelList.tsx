@@ -3,10 +3,6 @@ import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-
-
 const storage: Storage = new Storage({
     // 最大容量
     size: 1000,
@@ -97,33 +93,6 @@ type LabelListProps = {
                 console.log(err);
             });
       });
-      const [checkedValues, setCheckedValues] = useState<string[]>([]);
-
-    // 追加ボタン押下で追加ラベルの表示をする関数 TODO:ここからスタート
-  //     const labelDisplayArray = (() => {
-  //       console.log('labelTypeArray : ' + JSON.stringify(labelTypeArray));
-  //   // 配列の中の同じデータを取り除く処理
-  //     const set = new Set(labelTypeArray);
-  //     const newArr = [...set];
-  //     console.log('newArr : ' + newArr);
-  //     setCheckedValues(newArr);
-  // })
-
-  // 追加されたラベルを削除するボタン
-    const removeLabelArray = ((index:number) => {
-  // 要素を削除して新しい配列を作成（指定されたインデックス以外を新しい配列で作成）
-    const newCheckedValues = checkedValues.filter((value, i) => i !== index);
-  // 新しい配列をステートに設定
-    setCheckedValues(newCheckedValues);
-  });
-
-  const [isChecked, setIsChecked] = useState(true); // チェックされた状態
-
-  const handleCheckboxChange = (index:number) => {
-    console.log('labelTypeArray : ' + JSON.stringify(labelTypeArray));
-
-    setIsChecked(!isChecked); // チェック状態を反転
-  };
 
     return(
         <>
