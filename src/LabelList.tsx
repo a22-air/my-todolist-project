@@ -3,6 +3,10 @@ import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+
+
 const storage: Storage = new Storage({
     // 最大容量
     size: 1000,
@@ -115,12 +119,24 @@ type LabelListProps = {
 
     return(
         <>
-        {checkedValues.map((data,index) => (
-          <div key={index}>
-          <p>{data}</p>
-          <button onClick={() =>{ removeLabelArray(index);}}> X </button>
-          </div>
-        ))}
+        <div className="flex">
+          {checkedValues.map((data,index) => (
+            <div
+              key={index}
+            >
+            <Stack direction="row" spacing={1} className="mx-1"
+            >
+              <Chip
+              color="secondary"
+              label={data}
+              variant="outlined"
+              size="small"
+              onDelete={() => removeLabelArray(index)} />
+            </Stack>
+            </div>
+          ))}
+        </div>
+
         {showModal ? (
         <>
           <div
