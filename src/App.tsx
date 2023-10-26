@@ -536,6 +536,7 @@ const newArr = [...set];
               showModal={showModal}
               setShowModal={setShowModal}
               hiddenLabelArray={hiddenLabelArray}
+              labelTypeArray={labelTypeArray}
             />
           </div>
 

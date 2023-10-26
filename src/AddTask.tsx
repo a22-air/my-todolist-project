@@ -70,8 +70,11 @@ export function AddTask(){
   // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
+
     setLabelType(selectedLabel);
+
     setLabelTypeArray((prevLabelTypeArray) => [...prevLabelTypeArray, selectedLabel]);
+
   };
 
     // 追加ボタンでデータの追加をする関数
@@ -173,13 +176,13 @@ export function AddTask(){
             ラベル
             </button>
 
-
             <LabelList
               handleSetLabel={handleSetLabel}
               labelType={labelType}
               showModal={showModal}
               setShowModal={setShowModal}
               hiddenLabelArray={hiddenLabelArray}
+              labelTypeArray={labelTypeArray}
             />
 
           </div>
