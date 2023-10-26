@@ -37,9 +37,10 @@ type LabelListProps = {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
     hiddenLabelArray: string[];
     labelTypeArray:string[]
+    labelDisplayArray:() => void;
   };
 
-  export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray,labelTypeArray }: LabelListProps){
+  export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray,labelTypeArray ,labelDisplayArray}: LabelListProps){
 
     const [labelData,setLabelData] = useState<{category:string[]}>({category: []}); // ラベル種類のステート
     const [newLabel,setNewLabel] = useState<string>(''); // 追加ラベルのステート
@@ -100,14 +101,14 @@ type LabelListProps = {
       const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
     // 追加ボタン押下で追加ラベルの表示をする関数 TODO:ここからスタート
-      const labelDisplayArray = (() => {
-        console.log('labelTypeArray : ' + JSON.stringify(labelTypeArray));
-    // 配列の中の同じデータを取り除く処理
-      const set = new Set(labelTypeArray);
-      const newArr = [...set];
-      console.log('newArr : ' + newArr);
-      setCheckedValues(newArr);
-  })
+  //     const labelDisplayArray = (() => {
+  //       console.log('labelTypeArray : ' + JSON.stringify(labelTypeArray));
+  //   // 配列の中の同じデータを取り除く処理
+  //     const set = new Set(labelTypeArray);
+  //     const newArr = [...set];
+  //     console.log('newArr : ' + newArr);
+  //     setCheckedValues(newArr);
+  // })
 
   // 追加されたラベルを削除するボタン
     const removeLabelArray = ((index:number) => {
@@ -117,9 +118,17 @@ type LabelListProps = {
     setCheckedValues(newCheckedValues);
   });
 
+  const [isChecked, setIsChecked] = useState(true); // チェックされた状態
+
+  const handleCheckboxChange = (index:number) => {
+    console.log('labelTypeArray : ' + JSON.stringify(labelTypeArray));
+
+    setIsChecked(!isChecked); // チェック状態を反転
+  };
+
     return(
         <>
-        <div className="flex">
+        {/* <div className="flex">
           {checkedValues.map((data,index) => (
             <div
               key={index}
@@ -135,7 +144,7 @@ type LabelListProps = {
             </Stack>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {showModal ? (
         <>
@@ -175,6 +184,7 @@ type LabelListProps = {
                         onChange={handleSetLabel}
                         value={data}
                         disabled={hiddenLabelArray.includes(data)}
+                        checked={labelTypeArray.includes(data)}
                         />
                       <label key={index}
                       htmlFor={`checkbox${index}`}
