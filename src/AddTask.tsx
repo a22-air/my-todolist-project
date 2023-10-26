@@ -160,9 +160,9 @@ export function AddTask(){
   // 追加されたラベルを削除するボタン
     const removeLabelArray = ((index:number) => {
   // 要素を削除して新しい配列を作成（指定されたインデックス以外を新しい配列で作成）
-    const newCheckedValues = checkedValues.filter((value, i) => i !== index);
+    const newCheckedValues = labelTypeArray.filter((value, i) => i !== index);
   // 新しい配列をステートに設定
-    setCheckedValues(newCheckedValues);
+    setLabelTypeArray(newCheckedValues);
   });
 
 
