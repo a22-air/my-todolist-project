@@ -414,11 +414,22 @@ const newArr = [...set];
   const [labelType,setLabelType] = useState<string>('');
   const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
 
-  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
+  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得) TODO:
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
+
     setLabelType(selectedLabel);
-    setLabelTypeArray((prevLabelTypeArray) => [...prevLabelTypeArray, selectedLabel]);
+
+    setLabelTypeArray((prevLabelTypeArray) => {
+      if (prevLabelTypeArray.includes(selectedLabel)) {
+        // すでに含まれている場合は削除
+        return prevLabelTypeArray.filter((label) => label !== selectedLabel);
+      } else {
+        // 含まれていない場合は追加
+        return [...prevLabelTypeArray, selectedLabel];
+      }
+    });
+
   };
 
   // ラベルを削除する関数
@@ -529,15 +540,16 @@ const newArr = [...set];
                 />
               </button>
             ) : null}
+            <p>{labelTypeArray}</p>
           </div>
-            {/* <LabelList
+            <LabelList
               handleSetLabel={handleSetLabel}
               labelType={labelType}
               showModal={showModal}
               setShowModal={setShowModal}
               hiddenLabelArray={hiddenLabelArray}
               labelTypeArray={labelTypeArray}
-            /> */}
+            />
           </div>
 
     ))}
