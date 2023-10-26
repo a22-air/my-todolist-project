@@ -13,6 +13,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+import Chip from '@mui/material/Chip';
+
 //ストレージの作成
 const storage: Storage = new Storage({
   // 最大容量
@@ -456,6 +458,14 @@ const newArr = [...set];
     console.log('hiddenLabels : ' + JSON.stringify(hiddenLabelArray));
   });
 
+   // 追加されたラベルを削除するボタン
+   const removeLabelArray = ((index:number) => {
+    // 要素を削除して新しい配列を作成（指定されたインデックス以外を新しい配列で作成）
+      const newCheckedValues = labelTypeArray.filter((value, i) => i !== index);
+    // 新しい配列をステートに設定
+      setLabelTypeArray(newCheckedValues);
+    });
+
   return(
     <div className=''>
       <div className='my-10'>
@@ -524,7 +534,9 @@ const newArr = [...set];
           <div className="flex" key={`category${index}`}>
             {updatedData.col4[index].map((data,number) => (
               <div key={`labelEdit${number}`}>
-                <p key={`label${number}`}className="text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">{data}</p>
+                <p key={`label${number}`}className="text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">
+                  {data}
+                </p>
                 {indexNumber === index ? (
                 <IconButton aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}>
                 <DeleteIcon fontSize="small" />
@@ -540,8 +552,28 @@ const newArr = [...set];
                 />
               </button>
             ) : null}
-            <p>{labelTypeArray}</p>
           </div>
+
+          {indexNumber === index ? (
+            <div className="flex">
+            {labelTypeArray.map((data,index) => (
+              <div
+                key={index}
+              >
+              <Stack direction="row" spacing={1} className="mx-1"
+              >
+                <Chip
+                color="secondary"
+                label={data}
+                variant="outlined"
+                size="small"
+                onDelete={() => removeLabelArray(index)} />
+              </Stack>
+              </div>
+            ))}
+            </div>
+          ) : null}
+
             <LabelList
               handleSetLabel={handleSetLabel}
               labelType={labelType}
