@@ -127,24 +127,6 @@ type LabelListProps = {
 
     return(
         <>
-        {/* <div className="flex">
-          {checkedValues.map((data,index) => (
-            <div
-              key={index}
-            >
-            <Stack direction="row" spacing={1} className="mx-1"
-            >
-              <Chip
-              color="secondary"
-              label={data}
-              variant="outlined"
-              size="small"
-              onDelete={() => removeLabelArray(index)} />
-            </Stack>
-            </div>
-          ))}
-        </div> */}
-
         {showModal ? (
         <>
           <div
