@@ -15,6 +15,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Chip from '@mui/material/Chip';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CancelIcon from '@mui/icons-material/Cancel';
+import Button from '@mui/material/Button';
 
 
 //ストレージの作成
@@ -317,13 +318,10 @@ const newArr = [...set];
 
   const [colorNumArray, setColorNumArray] = useState<number[]>([]); // 初期値を空の配列に設定
 
-  // 期限によって日付に色をつける関数 TODO:
+  // 期限によって日付に色をつける関数
   const colorLabel = useCallback(() => {
   // col2(期限)をString型からNumber型へ変換
   const col2Num = updatedData.col2.map((data) => data ? Number(data) : 0); // 空の場合は 0 に変換
-
-  console.log('colorNumArray : ' + JSON.stringify(colorNumArray));
-  console.log('updatedData.col2[0] : ' + updatedData.col2[0]);
 
   const updatedArray = [];
 
@@ -614,11 +612,27 @@ const newArr = [...set];
     ))}
 
 </div>
+<div className='flex pb-5'>
+    <Stack spacing={2} direction="row">
+      <Button
+        variant="text"
+        style={{ color: 'black' }}
+        onClick={()=>clickSort(0)}
+        >期限間近のものから並び替える</Button>
+    </Stack>
 
+      <div style={{ display: 'flex',  alignItems: 'center' }}>
+        <p>/</p>
+      </div>
 
-<button onClick={()=>clickSort(0)}>昇順に並び替える</button>
-<button onClick={()=>clickSort(1)}>降順に並び替える</button>
-<button onClick={colorLabel}>戻す</button>
+    <Stack spacing={2} direction="row">
+      <Button
+        variant="text"
+        style={{ color: 'black' }}
+        onClick={()=>clickSort(1)}
+        >期限が遅い順に並び替える</Button>
+    </Stack>
+    </div>
 
       <div>
         <CompletedList
