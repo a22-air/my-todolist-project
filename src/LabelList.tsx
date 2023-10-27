@@ -94,7 +94,11 @@ type LabelListProps = {
             });
       });
 
-
+      // モーダルウインドウの編集ボタンのハンドラ
+      const [modalEdit,setModalEdit] = useState<boolean>(false);
+      const handleModalEdit = (() => {
+        setModalEdit(!modalEdit);
+      })
 
     return(
         <>
@@ -144,16 +148,19 @@ type LabelListProps = {
                         >
                           {data}
                         </label>
+                        {modalEdit ?
                         <button onClick={() => {removeLabelCategory(index);}}>
                           <RemoveCircleOutlineIcon
                           fontSize="small"
                           style={{ color: 'red' }}
                           />
                         </button>
+                        : null}
                       </div>
                     ))}
                   </div>
 
+                  {modalEdit ?
                   <div className="flex justify-between mt-10">
                     <div className="mb-3 pt-0 w-3/4">
                       <input type="text"
@@ -167,16 +174,16 @@ type LabelListProps = {
                       <button className="mx-1 text-gray-500" onClick={newLabelCategory}>Add</button>
                     </div>
                   </div>
+                : null }
 
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-between p-6 border-t border-solid border-blueGray-200 rounded-b">
 
                   <button
-                    className="bg-red-400 text-white active:bg-emerald-600 font-bold uppercase text-sm px-4 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-sm px-4 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => {setShowModal(false);
-                    }}
+                    onClick={handleModalEdit}
                   >
                     ラベル編集
                   </button>
