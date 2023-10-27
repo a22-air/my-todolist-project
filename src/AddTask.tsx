@@ -225,7 +225,8 @@ export function AddTask(){
             <Stack spacing={2} direction="row">
               <Button
                 onClick={handleClick}
-                variant="contained" color="secondary">
+                variant="contained"
+                style={{ color: 'white', backgroundColor: '#C299FF' }}>
                 new
                 <PanToolAltIcon />
               </Button>
