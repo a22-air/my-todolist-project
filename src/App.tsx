@@ -12,8 +12,10 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
 import Chip from '@mui/material/Chip';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 
 //ストレージの作成
 const storage: Storage = new Storage({
@@ -315,16 +317,21 @@ const newArr = [...set];
 
   const [colorNumArray, setColorNumArray] = useState<number[]>([]); // 初期値を空の配列に設定
 
-  // 期限によって日付に色をつける関数
+  // 期限によって日付に色をつける関数 TODO:
   const colorLabel = useCallback(() => {
   // col2(期限)をString型からNumber型へ変換
-  const col2Num = updatedData.col2.map((data) => Number(data));
+  const col2Num = updatedData.col2.map((data) => data ? Number(data) : 0); // 空の場合は 0 に変換
+
+  console.log('colorNumArray : ' + JSON.stringify(colorNumArray));
+  console.log('updatedData.col2[0] : ' + updatedData.col2[0]);
 
   const updatedArray = [];
 
   for (let i = 0; i < col2Num.length; i++) {
-    // 今日の日付よりもcol2の方が前だったら（期限が過ぎていたら）
-    if (judgmentDate > col2Num[i]) {
+    if (col2Num[i] === 0) {
+      // col2Num が 0 なら、期限が設定されていない場合として 0 として処理
+      updatedArray.push(0);
+    } else if (judgmentDate > col2Num[i]) {
       updatedArray.push(1);
     } else if (judgmentDate === col2Num[i]) {
       updatedArray.push(2);
@@ -416,7 +423,7 @@ const newArr = [...set];
   const [labelType,setLabelType] = useState<string>('');
   const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
 
-  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得) TODO:
+  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
 
@@ -452,7 +459,7 @@ const newArr = [...set];
   const [showModal, setShowModal] = React.useState(false);
   const [hiddenLabelArray,setHiddenLabelArray] = useState<string[]>([]); // 非表示にするラベルデータを格納するuseState
 
-  // ラベルのデータの確認 TODO:
+  // ラベルのデータの確認
   const hiddenLabelData = ((index:number) => {
     setHiddenLabelArray(updatedData.col4[index]);
     console.log('hiddenLabels : ' + JSON.stringify(hiddenLabelArray));
@@ -466,6 +473,16 @@ const newArr = [...set];
       setLabelTypeArray(newCheckedValues);
     });
 
+    const chipStylePassed = {
+      backgroundColor: '#FFB6C1', // カラーを指定
+    };
+    const chipStyleToday = {
+      backgroundColor: '#FFFF99', // カラーを指定
+    };
+    const chipStyleNormal = {
+      backgroundColor: '#FFF', // カラーを指定
+    };
+
   return(
     <div className=''>
       <div className='my-10'>
@@ -477,8 +494,9 @@ const newArr = [...set];
 
               <div className='flex justify-center items-center w-3/5'>
                 <label className="inline-flex cursor-pointer">
-                <button>
-                <img className='w-12 h-12' onClick= {() => checkTask(index) }src='/heart.png' alt='' />
+                <button className='m-2'>
+                <FavoriteBorderIcon
+                  onClick= {() => checkTask(index) }/>
                 </button>
                 </label>
                 <Linkify>
@@ -507,11 +525,17 @@ const newArr = [...set];
                     <input type='date'
                       onChange={editDate}
                       defaultValue={calendarInitialValue(index)}
-                      className='bg-blue-200 focus:bg-red-200'>
+                      className='px-2 py-2 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-2 shadow outline-none focus:outline-none focus:ring'
+                      >
+
                     </input> :
-                    <p className=
-                    {colorNumArray[index] === 1 ? 'bg-red-200' : colorNumArray[index] === 2 ? 'bg-yellow-200' : ''}
-                    >{timeLimitArray[index]}</p>}
+
+                    <Stack direction="row" spacing={1}>
+                      <Chip
+                        label={timeLimitArray[index]}
+                        style={colorNumArray[index] === 1 ? chipStylePassed : colorNumArray[index] === 2 ? chipStyleToday : chipStyleNormal}
+                      />
+                    </Stack>}
                 </div>
                 <button
                   onClick={() => removeText(index)} className='mx-1'
@@ -522,11 +546,14 @@ const newArr = [...set];
                   indexNumber === index ? upDateData(index) : handleEditClick(data, index);
                   }}
                 >{indexNumber === index ? '更新' : '編集'}</button>
+
                 <button
                   className='mx-1'
                   hidden={indexNumber !== index}
                   onClick={() => {setIndexNumber(-1)}}>
-                x</button>
+                  <CancelIcon />
+                </button>
+
               </div>
 
             </div>
@@ -591,7 +618,7 @@ const newArr = [...set];
 
 <button onClick={()=>clickSort(0)}>昇順に並び替える</button>
 <button onClick={()=>clickSort(1)}>降順に並び替える</button>
-<button>戻す</button>
+<button onClick={colorLabel}>戻す</button>
 
       <div>
         <CompletedList
