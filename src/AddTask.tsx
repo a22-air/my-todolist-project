@@ -6,6 +6,8 @@ import { LabelList } from "./LabelList";
 
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -163,54 +165,74 @@ export function AddTask(){
     setLabelTypeArray(newCheckedValues);
   });
 
+
     return(
       <div className="flex justify-between my-10">
-          <div className="w-full">
-            <div className="">
-              Add Task :
-              <input
-              placeholder={ warningStatement ? 'Add New Task' : 'Please enter'}
-              onChange={handleNewTask}
-              value={task}
-              className={`w-2/3 ${warningStatement ? "" : "placeholder-red-500"}`}
-              />
-            </div>
+        <div className="w-full">
+          <div className="my-5">
+            Add Task :
+            <input
+            placeholder={ warningStatement ? 'Add New Task' : 'Please enter'}
+            onChange={handleNewTask}
+            value={task}
+            className={`ml-2  w-2/3 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring ${warningStatement ? "" : "placeholder-red-500"}`}
+            />
+          </div>
+          <div className="my-5">
+            Time Limit :
+            <input
+              onChange={handleNewData}
+              placeholder='Time Limit'
+              type="date"
+              className="cursor-pointer opacity-60 hover:opacity-100"
+              >
+            </input>
+          </div>
+        <div className="flex justify-between" style={{ alignItems: "center" }}>
+          <div className="flex">
             <div>
-              Time Limit :
-              <input
-                onChange={handleNewData}
-                placeholder='Time Limit'
-                type="date"
-                className="cursor-pointer opacity-60 hover:opacity-100"
-                >
-              </input>
-            </div>
-
-            <button
-              className=""
-              type="button"
-              onClick={() => {setShowModal(true)}}
-            >
-            ラベル
-            </button>
-
-            <div className="flex">
-          {labelTypeArray.map((data,index) => (
-            <div
-              key={index}
-            >
-            <Stack direction="row" spacing={1} className="mx-1"
-            >
-              <Chip
-              color="secondary"
-              label={data}
+          <Stack direction="row" spacing={2}>
+            <Button
               variant="outlined"
+              color="secondary"
               size="small"
-              onDelete={() => removeLabelArray(index)} />
-            </Stack>
-            </div>
-          ))}
+              onClick={() => {setShowModal(true)}}
+              >Label
+            </Button>
+          </Stack>
+          </div>
+          <div className="flex ml-2"style={{ alignItems: "center" }}>
+            {labelTypeArray.map((data,index) => (
+              <div
+                key={index}
+              >
+              <Stack direction="row" spacing={1} className="mx-1"
+              >
+                <Chip
+                className=""
+                color="secondary"
+                label={data}
+                variant="outlined"
+                size="small"
+                onDelete={() => removeLabelArray(index)} />
+              </Stack>
+              </div>
+            ))}
+          </div>
         </div>
+
+            <div className="">
+            <Stack spacing={2} direction="row">
+              <Button
+                onClick={handleClick}
+                variant="contained" color="secondary">
+                new
+                <PanToolAltIcon />
+              </Button>
+            </Stack>
+          </div>
+
+          </div>
 
             <LabelList
               handleSetLabel={handleSetLabel}
@@ -222,18 +244,6 @@ export function AddTask(){
             />
 
           </div>
-
-          <div className="">
-            <label className="inline-flex cursor-pointer hover:opacity-60">
-              <div>new</div>
-              <div>
-                <button onClick={handleClick} className="">
-                  <img src='/gesture02.png' alt='チェック' className='w-12 h-12' />
-                </button>
-              </div>
-            </label>
-          </div>
-
 
       </div>
     )
