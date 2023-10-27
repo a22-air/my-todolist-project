@@ -3,6 +3,12 @@ import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+
 const storage: Storage = new Storage({
     // 最大容量
     size: 1000,
@@ -100,14 +106,15 @@ type LabelListProps = {
         <>
           <div
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            onClick={() => setShowModal(false)}
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">
-                    ラベル
+                  <h3 className="text-gray-500 text-3xl font-semibold">
+                    Label
                   </h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -120,54 +127,50 @@ type LabelListProps = {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                <div className="flex-col">
-
-                  <div className="max-width-full">
+                  <div className="max-width-full flex-col">
                     {labelData.category.map((data, index) => (
-                      <div  className="flex items-center mr-4"
-                            key={`labelData${index}`}
-                            >
-                        <input
-                        type="checkbox"
-                        id={`checkbox${index}`}
-                        name={`checkbox${index}`}
-                        onChange={handleSetLabel}
-                        value={data}
-                        disabled={hiddenLabelArray.includes(data)}
-                        checked={labelTypeArray.includes(data)}
-                        />
-                      <label key={index}
-                      htmlFor={`checkbox${index}`}
-                      className="text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1"
+                      <div  className=" items-center mr-4"
+                        key={`labelData${index}`}
                       >
-                        {data}
-                      </label>
-                      <button
-                        onClick={() => {removeLabelCategory(index);
-                        }}>
+                        <input
+                          type="checkbox"
+                          id={`checkbox${index}`}
+                          name={`checkbox${index}`}
+                          onChange={handleSetLabel}
+                          value={data}
+                          disabled={hiddenLabelArray.includes(data)}
+                          checked={labelTypeArray.includes(data)}
+                        />
+                        <label
+                          key={index}
+                          htmlFor={`checkbox${index}`}
+                          className="text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1"
+                        >
+                          {data}
+                        </label>
+                        <button onClick={() => {removeLabelCategory(index);}}>
                           <RemoveCircleOutlineIcon
                           fontSize="small"
-                          className="text-red-600"
-                        />
+                          style={{ color: 'red' }}
+                          />
                         </button>
                       </div>
                     ))}
                   </div>
 
-                  <div className="flex flex-col justify-end w-1/2">
-                  <div className="mb-3 pt-0">
-                    <input type="text"
-                          placeholder="ラベル"
-                          className="w-full px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring "
-                          onChange={handleNewLabel}
-                          value={newLabel}
-                    />
+                  <div className="flex justify-between mt-10">
+                    <div className="mb-3 pt-0 w-3/4">
+                      <input type="text"
+                            placeholder="Add Label"
+                            className="w-full px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring "
+                            onChange={handleNewLabel}
+                            value={newLabel}
+                      />
+                    </div>
+                    <div className="">
+                      <button className="mx-1 text-gray-500" onClick={newLabelCategory}>Add</button>
+                    </div>
                   </div>
-                  <div className="flex justify-end">
-                    <button className="mx-1" onClick={newLabelCategory}>追加</button>
-                  </div>
-                  </div>
-                </div>
 
                 </div>
                 {/*footer*/}
