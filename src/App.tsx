@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState,useEffect,useCallback} from 'react';
+import {useState,useEffect,useCallback,createContext} from 'react';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import Linkify from 'linkify-react';
@@ -7,6 +7,7 @@ import { AddTask } from './AddTask';
 import { CompletedList } from './CompletedList';
 import { LabelList } from "./LabelList";
 import { LabelPage } from './LabelPage';
+
 
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
@@ -18,6 +19,19 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Button from '@mui/material/Button';
 
+export const MyContext = createContext<{
+  col1: string[];
+  col2: number[];
+  col3: number[];
+  col4: string[][];
+}>({
+  col1: [],
+  col2: [],
+  col3: [],
+  col4: [],
+});
+
+// export const MyContext = createContext("useContextのテスト");
 
 //ストレージの作成
 const storage: Storage = new Storage({
@@ -78,13 +92,19 @@ function Todo(){
 type AddTextProps = {
     openLabelPage:boolean;
     setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>;
+    updatedData:{ col1: string[],col2:number[],col3: number[],col4: string[][] };
+    setUpdatedData:React.Dispatch<React.SetStateAction<{
+      col1: string[];
+      col2: number[];
+      col3: number[];
+      col4: string[][];
+  }>>
   };
 
 // AddTextコンポーネント　=================================================================
 // 追加されたデータを画面に表示するコンポーネント
-function AddText({openLabelPage,setOpenLabelPage}:AddTextProps){
-  // const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[] }>({ col1: [],col2: [], col3: [] });
-  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
+function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData}:AddTextProps){
+  // const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
 
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
@@ -671,8 +691,11 @@ const newArr = [...set];
 
 function App() {
   const [openLabelPage, setOpenLabelPage] = useState<boolean>(false);
-
+  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
+  console.log('App685 : ' + JSON.stringify(updatedData));
+  const value = {updatedData,setUpdatedData};
   return (
+
     <div className='bg-red-100 p-8'>
     <div className='flex justify-center bg-white'>
       <div className='font-mono w-4/5'>
@@ -680,13 +703,19 @@ function App() {
         <Todo />
         </header>
         <main>
+
+        <MyContext.Provider value={updatedData}>
           <AddTask
             openLabelPage={openLabelPage}
             setOpenLabelPage={setOpenLabelPage}
           />
+        </MyContext.Provider>
+
           <AddText
             openLabelPage={openLabelPage}
             setOpenLabelPage={setOpenLabelPage}
+            updatedData={updatedData}
+            setUpdatedData={setUpdatedData}
           />
         </main>
         <footer>
