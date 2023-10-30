@@ -6,6 +6,7 @@ import Linkify from 'linkify-react';
 import { AddTask } from './AddTask';
 import { CompletedList } from './CompletedList';
 import { LabelList } from "./LabelList";
+import { LabelPage } from './LabelPage';
 
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
@@ -73,9 +74,15 @@ function Todo(){
     );
   }
 
+  // 親プロップスから受け取る処理
+type AddTextProps = {
+    openLabelPage:boolean;
+    setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>;
+  };
+
 // AddTextコンポーネント　=================================================================
 // 追加されたデータを画面に表示するコンポーネント
-function AddText(){
+function AddText({openLabelPage,setOpenLabelPage}:AddTextProps){
   // const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[] }>({ col1: [],col2: [], col3: [] });
   const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
 
@@ -481,6 +488,13 @@ const newArr = [...set];
       backgroundColor: '#FFF', // カラーを指定
     };
 
+    // ラベルのページを表示する関数 TODO:
+    const handleOpenLabelPage = (() => {
+      setOpenLabelPage(!openLabelPage);
+      console.log('openLabelPage : ' + JSON.stringify(openLabelPage));
+
+    })
+
   return(
     <div className=''>
       <div className='my-10'>
@@ -541,7 +555,8 @@ const newArr = [...set];
                   onClick={() => removeText(index)}
                   className='mx-1'
                   hidden={indexNumber === index}>削除</button>
-                <button className='mx-1'
+                <button
+                  className='mx-1'
                   onClick={() => {
                   setIndexNumber(index);
                   indexNumber === index ? upDateData(index) : handleEditClick(data, index);
@@ -560,11 +575,16 @@ const newArr = [...set];
             </div>
 
           <div className="flex" key={`category${index}`}>
+          {/* ラベル表示 TODO:*/}
             {updatedData.col4[index].map((data,number) => (
               <div key={`labelEdit${number}`}>
-                <p key={`label${number}`}className="text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">
+                <button
+                key={`label${number}`}
+                className="text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1 hover:bg-purple-300"
+                onClick={handleOpenLabelPage}
+                >
                   {data}
-                </p>
+                </button>
                 {indexNumber === index ? (
                   <IconButton aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}>
                   <DeleteIcon fontSize="small" />
@@ -588,7 +608,7 @@ const newArr = [...set];
               <div
                 key={index}
               >
-              <Stack direction="row" spacing={1} className="mx-1"
+              <Stack direction="row" spacing={1}
               >
                 <Chip
                 color="secondary"
@@ -650,6 +670,8 @@ const newArr = [...set];
 }
 
 function App() {
+  const [openLabelPage, setOpenLabelPage] = useState<boolean>(false);
+
   return (
     <div className='bg-red-100 p-8'>
     <div className='flex justify-center bg-white'>
@@ -658,8 +680,14 @@ function App() {
         <Todo />
         </header>
         <main>
-          <AddTask />
-          <AddText />
+          <AddTask
+            openLabelPage={openLabelPage}
+            setOpenLabelPage={setOpenLabelPage}
+          />
+          <AddText
+            openLabelPage={openLabelPage}
+            setOpenLabelPage={setOpenLabelPage}
+          />
         </main>
         <footer>
         </footer>

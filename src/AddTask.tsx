@@ -8,6 +8,7 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
+import { LabelPage } from "./LabelPage";
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -49,12 +50,23 @@ const storage: Storage = new Storage({
                      today.getHours() * 100 +
                      today.getMinutes() * 1;
 
-export function AddTask(){
+
+// 親プロップスから受け取る処理
+type AddTaskProps = {
+    openLabelPage:boolean;
+    setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>;
+
+  };
+
+export function AddTask({ openLabelPage}: AddTaskProps){
 
     const [task, setTask] = useState<string>('');
     const [taskData,setTaskData] = useState<string>('');
     const [day,setDay] = useState<number>(formattedDate);
     const [warningStatement,setWarningStatement] = useState<boolean>(true);
+
+    console.log('AddTask OpenLabelPage : ' + JSON.stringify(openLabelPage));
+
 
   // テキストをセットする関数
   const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,84 +180,95 @@ export function AddTask(){
 
     return(
       <div className="flex justify-between my-10">
+
         <div className="w-full">
-          <div className="my-5">
-            Add Task :
-            <input
-            placeholder={ warningStatement ? 'Add New Task' : 'Please enter'}
-            onChange={handleNewTask}
-            value={task}
-            className={`ml-2  w-2/3 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring ${warningStatement ? "" : "placeholder-red-500"}`}
-            />
-          </div>
-          <div className="my-5">
-            Time Limit :
-            <input
-              onChange={handleNewData}
-              placeholder='Time Limit'
-              type="date"
-              className="cursor-pointer opacity-60 hover:opacity-100"
-              >
-            </input>
-          </div>
-        <div className="flex justify-between" style={{ alignItems: "center" }}>
-          <div className="flex">
+
+        {openLabelPage ?
+          <LabelPage /> :
+          (
             <div>
-          <Stack direction="row" spacing={2}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              size="small"
-              onClick={() => {setShowModal(true)}}
-              >Label
-            </Button>
-          </Stack>
-          </div>
-          <div className="flex ml-2"style={{ alignItems: "center" }}>
-            {labelTypeArray.map((data,index) => (
-              <div
-                key={index}
-              >
-              <Stack direction="row" spacing={1} className="mx-1"
-              >
-                <Chip
-                className=""
-                color="secondary"
-                label={data}
-                variant="outlined"
-                size="small"
-                onDelete={() => removeLabelArray(index)} />
-              </Stack>
+            <div className="my-5">
+              Add Task :
+              <input
+              placeholder={ warningStatement ? 'Add New Task' : 'Please enter'}
+              onChange={handleNewTask}
+              value={task}
+              className={`ml-2  w-2/3 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring ${warningStatement ? "" : "placeholder-red-500"}`}
+              />
+            </div>
+            <div className="my-5">
+              Time Limit :
+              <input
+                onChange={handleNewData}
+                placeholder='Time Limit'
+                type="date"
+                className="cursor-pointer opacity-60 hover:opacity-100"
+                >
+              </input>
+            </div>
+
+          <div className="flex justify-between" style={{ alignItems: "center" }}>
+            <div className="flex">
+              <div>
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    size="small"
+                    onClick={() => {setShowModal(true)}}
+                    >Label
+                  </Button>
+                </Stack>
+                </div>
+                <div className="flex ml-2"style={{ alignItems: "center" }}>
+                  {labelTypeArray.map((data,index) => (
+                    <div
+                      key={index}
+                    >
+                    <Stack direction="row" spacing={1} className="mx-1"
+                    >
+                      <Chip
+                      className=""
+                      color="secondary"
+                      label={data}
+                      variant="outlined"
+                      size="small"
+                      onDelete={() => removeLabelArray(index)} />
+                    </Stack>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
+
+              <div className="">
+              <Stack spacing={2} direction="row">
+                <Button
+                  onClick={handleClick}
+                  variant="contained"
+                  style={{ color: 'white', backgroundColor: '#C299FF' }}>
+                  new
+                  <PanToolAltIcon />
+                </Button>
+              </Stack>
+            </div>
+
+            </div>
+
+              <LabelList
+                handleSetLabel={handleSetLabel}
+                labelType={labelType}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                hiddenLabelArray={hiddenLabelArray}
+                labelTypeArray={labelTypeArray}
+              />
+
+              </div>
+              )
+            }
         </div>
 
-            <div className="">
-            <Stack spacing={2} direction="row">
-              <Button
-                onClick={handleClick}
-                variant="contained"
-                style={{ color: 'white', backgroundColor: '#C299FF' }}>
-                new
-                <PanToolAltIcon />
-              </Button>
-            </Stack>
-          </div>
-
-          </div>
-
-            <LabelList
-              handleSetLabel={handleSetLabel}
-              labelType={labelType}
-              showModal={showModal}
-              setShowModal={setShowModal}
-              hiddenLabelArray={hiddenLabelArray}
-              labelTypeArray={labelTypeArray}
-            />
-
-          </div>
-
       </div>
+
     )
   }
