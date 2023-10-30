@@ -499,14 +499,11 @@ const newArr = [...set];
                 </label>
                 <Linkify>
                 <input
-                className='w-full'
-                  // className='bg-white'
-                  // className={`bg-gray-200 ${indexNumber !== index ? '' : 'bg-white'}`}
+                  className='w-full'
                   id={`input_${index}`}
                   type='text'
                   value={indexNumber !== index ? data : task }
                   onChange={handleNewTask}
-                  // disabled={indexNumber !== index}
                 />
                 </Linkify>
               </div>
@@ -524,19 +521,25 @@ const newArr = [...set];
                       onChange={editDate}
                       defaultValue={calendarInitialValue(index)}
                       className='px-2 py-2 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-2 shadow outline-none focus:outline-none focus:ring'
-                      >
+                    >
 
                     </input> :
 
-                    <Stack direction="row" spacing={1}>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      className='mb-1'
+                    >
                       <Chip
                         label={timeLimitArray[index]}
                         style={colorNumArray[index] === 1 ? chipStylePassed : colorNumArray[index] === 2 ? chipStyleToday : chipStyleNormal}
                       />
                     </Stack>}
+
                 </div>
                 <button
-                  onClick={() => removeText(index)} className='mx-1'
+                  onClick={() => removeText(index)}
+                  className='mx-1'
                   hidden={indexNumber === index}>削除</button>
                 <button className='mx-1'
                   onClick={() => {
@@ -563,9 +566,9 @@ const newArr = [...set];
                   {data}
                 </p>
                 {indexNumber === index ? (
-                <IconButton aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}>
-                <DeleteIcon fontSize="small" />
-                </IconButton>
+                  <IconButton aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}>
+                  <DeleteIcon fontSize="small" />
+                  </IconButton>
                 ) : null}
               </div>
             ))}
@@ -618,7 +621,7 @@ const newArr = [...set];
         variant="text"
         style={{ color: 'black' }}
         onClick={()=>clickSort(0)}
-        >期限間近のものから並び替える</Button>
+        >期限が早い順</Button>
     </Stack>
 
       <div style={{ display: 'flex',  alignItems: 'center' }}>
@@ -630,7 +633,7 @@ const newArr = [...set];
         variant="text"
         style={{ color: 'black' }}
         onClick={()=>clickSort(1)}
-        >期限が遅い順に並び替える</Button>
+        >期限が遅い順</Button>
     </Stack>
     </div>
 
@@ -649,7 +652,7 @@ const newArr = [...set];
 function App() {
   return (
     <div className='bg-red-100 p-8'>
-    <div className='flex justify-center bg-white h-screen'>
+    <div className='flex justify-center bg-white'>
       <div className='font-mono w-4/5'>
         <header className="">
         <Todo />
