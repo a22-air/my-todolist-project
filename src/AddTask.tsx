@@ -183,7 +183,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             openLabelPage={openLabelPage}
             setOpenLabelPage={setOpenLabelPage} />:
           (
-            <div>
+            <div className="animate__animated animate__fadeIn">
             <div className="my-5">
               Add Task :
               <input
