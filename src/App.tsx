@@ -197,7 +197,7 @@ const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
   setTask(event.target.value);
 }
 
-// 更新ボタン押下でデータの更新を行う関数 TODO:
+// 更新ボタン押下でデータの更新を行う関数
 const upDateData = ((index : number) => {
 
 // col4の配列の中身と選択されたラベルを同じ配列に追加する
@@ -275,14 +275,6 @@ const newArr = [...set];
           console.log(err);
         });
   });
-
-  // 未完成
-  // const [checkBox, setCheckBox] = useState<boolean>();
-  // // チェックボックス押下で色をグレーにする関数
-  // const strikeThrough = (( ) => {
-  //   console.log('strikeThrough : ' + checkBox);
-  //   console.log('strikeThrough : ' + checkBox);
-  // })
 
   // ソートする関数
   const clickSort = ((num:number) =>{
@@ -521,8 +513,8 @@ const newArr = [...set];
       backgroundColor: '#FFF', // カラーを指定
     };
 
-    // const [selectLabel,setSelectLabel] = useState<number>();
-    // ラベルのページを表示する関数 TODO:
+    // ラベルのページを表示する関数
+
     const handleOpenLabelPage = ((data:string,index:number) => {
       if(!openLabelPage)
       setOpenLabelPage(true);
@@ -539,7 +531,7 @@ const newArr = [...set];
 
             <div key={`col2${index}`} className="border-b border-black my-4 flex justify-between">
 
-              <div className='flex justify-center items-center w-3/5'>
+              <div className={`flex justify-center items-center w-3/5 ${index === indexNumber && 'animate__animated animate__fadeIn'}`}>
                 <label className="inline-flex cursor-pointer">
                 <button className='m-2'>
                 <FavoriteBorderIcon
@@ -581,22 +573,38 @@ const newArr = [...set];
                     >
                       <Chip
                         label={timeLimitArray[index]}
-                        style={colorNumArray[index] === 1 ? chipStylePassed : colorNumArray[index] === 2 ? chipStyleToday : chipStyleNormal}
+                        style={{
+                          fontSize: '16px', // ラベルの文字の大きさを設定
+                          ...(
+                            colorNumArray[index] === 1 ? chipStylePassed : // 期限が過ぎている色の変更
+                            colorNumArray[index] === 2 ? chipStyleToday : // 期限が当日の色の変更
+                            chipStyleNormal
+                          )
+                        }}
                       />
                     </Stack>}
-
+              {/* TODO: */}
                 </div>
-                <button
-                  onClick={() => removeText(index)}
-                  className='mx-1'
-                  hidden={indexNumber === index}>削除</button>
-                <button
-                  className='mx-1'
+                <Stack spacing={2} direction="row"
+                >
+                <Button
+                  variant="contained"
+                  style={{'backgroundColor':'#BBBBBB'}}
+                  size='small'
                   onClick={() => {
-                  setIndexNumber(index);
-                  indexNumber === index ? upDateData(index) : handleEditClick(data, index);
+                    setIndexNumber(index);
+                    indexNumber === index ? upDateData(index) : handleEditClick(data, index);
                   }}
-                >{indexNumber === index ? '更新' : '編集'}</button>
+                  >{indexNumber === index ? '更新' : '編集'}</Button>
+                  </Stack>
+                  <button
+                    onClick={() => removeText(index)}
+                    className='mx-1'
+                    hidden={indexNumber === index}>
+                  <DeleteIcon
+                    color='error'
+                    />
+                    </button>
 
                 <button
                   className='mx-1'
@@ -610,7 +618,7 @@ const newArr = [...set];
             </div>
 
           <div className="flex" key={`category${index}`}>
-          {/* ラベル表示 TODO:*/}
+          {/* ラベル表示 */}
             {updatedData.col4[index].map((data,number) => (
               <div key={`labelEdit${number}`}>
                 <button
@@ -622,13 +630,14 @@ const newArr = [...set];
                 </button>
                 {indexNumber === index ? (
                   <IconButton aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}>
-                  <DeleteIcon fontSize="small" />
+                  <DeleteIcon
+                    fontSize="small" />
                   </IconButton>
                 ) : null}
               </div>
             ))}
             {indexNumber === index ? (
-              <button className="mx-2" onClick={() => setShowModal(true)}>
+              <button className="mx-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:duration-300" onClick={() => setShowModal(true)}>
                 <AddCircleOutlineIcon
                   className='text-pink-600'
                   onClick={() => hiddenLabelData(index)}
@@ -700,6 +709,7 @@ const newArr = [...set];
           setCompletedIndex={setCompletedIndex}
         />
       </div>
+
     </div>
   );
 }
