@@ -527,9 +527,6 @@ const newArr = [...set];
       setOpenLabelPage(!openLabelPage);
       setSelectLabel(index);
       setSelectData(data);
-      console.log('dataは : ' + data);
-      console.log('値の確認 : ' + updatedData.col1[index],updatedData.col3[index],updatedData.col3[index]);
-
     })
 
   return(
