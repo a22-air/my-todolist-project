@@ -27,6 +27,7 @@ export const MyContext = createContext<{
     col4: string[][];
   };
   selectLabel: number;
+  selectData: string;
 }>({
   updatedData: {
     col1: [],
@@ -35,6 +36,7 @@ export const MyContext = createContext<{
     col4: [],
   },
   selectLabel: -1,
+  selectData:'',
 });
 
 
@@ -106,11 +108,13 @@ type AddTextProps = {
   }>>
     selectLabel:number;
     setSelectLabel:React.Dispatch<React.SetStateAction<number>>;
+    selectData:string;
+    setSelectData:React.Dispatch<React.SetStateAction<string>>;
   };
 
 // AddTextコンポーネント　=================================================================
 // 追加されたデータを画面に表示するコンポーネント
-function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,selectLabel,setSelectLabel}:AddTextProps){
+function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,selectLabel,setSelectLabel,selectData,setSelectData}:AddTextProps){
   // const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
 
   const [indexNumber, setIndexNumber] = useState<number>(-1);
@@ -519,10 +523,11 @@ const newArr = [...set];
 
     // const [selectLabel,setSelectLabel] = useState<number>();
     // ラベルのページを表示する関数 TODO:
-    const handleOpenLabelPage = ((index:number) => {
+    const handleOpenLabelPage = ((data:string,index:number) => {
       setOpenLabelPage(!openLabelPage);
       setSelectLabel(index);
-      console.log('dataは : ' + selectLabel);
+      setSelectData(data);
+      console.log('dataは : ' + data);
       console.log('値の確認 : ' + updatedData.col1[index],updatedData.col3[index],updatedData.col3[index]);
 
     })
@@ -613,7 +618,7 @@ const newArr = [...set];
                 <button
                 key={`label${number}`}
                 className="text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1 hover:bg-purple-300"
-                onClick={() => handleOpenLabelPage(index)}
+                onClick={() => handleOpenLabelPage(data,index)}
                 >
                   {data}
                 </button>
@@ -705,6 +710,7 @@ function App() {
   const [openLabelPage, setOpenLabelPage] = useState<boolean>(false);
   const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
   const [selectLabel,setSelectLabel] = useState<number>(-1);
+  const [selectData,setSelectData] = useState<string>('');
 
   return (
 
@@ -716,7 +722,7 @@ function App() {
         </header>
         <main>
 
-        <MyContext.Provider value={{updatedData,selectLabel}}>
+        <MyContext.Provider value={{updatedData,selectLabel,selectData}}>
           <AddTask
             openLabelPage={openLabelPage}
             setOpenLabelPage={setOpenLabelPage}
@@ -730,6 +736,8 @@ function App() {
             setUpdatedData={setUpdatedData}
             selectLabel={selectLabel}
             setSelectLabel={setSelectLabel}
+            selectData={selectData}
+            setSelectData={setSelectData}
           />
         </main>
         <footer>
