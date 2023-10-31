@@ -65,9 +65,6 @@ export function AddTask({ openLabelPage}: AddTaskProps){
     const [day,setDay] = useState<number>(formattedDate);
     const [warningStatement,setWarningStatement] = useState<boolean>(true);
 
-    console.log('AddTask OpenLabelPage : ' + JSON.stringify(openLabelPage));
-
-
   // テキストをセットする関数
   const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTask(event.target.value);
@@ -78,13 +75,12 @@ export function AddTask({ openLabelPage}: AddTaskProps){
   const handleNewData = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sanitizedValue = event.target.value.replace(/-/g, ''); // '-' を削除
     setTaskData(sanitizedValue);
-    console.log(taskData);
   }
 
   const [labelType,setLabelType] = useState<string>('');
   const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
 
-  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得) TODO:
+  // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
 
@@ -116,7 +112,6 @@ export function AddTask({ openLabelPage}: AddTaskProps){
         const existingData = await storage.load({
           key: 'keyWord',
         });
-        console.log('existingData:', existingData);
 
         // let updatedData: { col1: string[],col2: string[],col3:number[] } = { col1: [],col2: [],col3: [] };
         let updatedData: {
