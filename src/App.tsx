@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState,useEffect,useCallback,createContext} from 'react';
+import {useState,useEffect,useCallback,createContext,useContext} from 'react';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import Linkify from 'linkify-react';
@@ -20,18 +20,23 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Button from '@mui/material/Button';
 
 export const MyContext = createContext<{
-  col1: string[];
-  col2: number[];
-  col3: number[];
-  col4: string[][];
+  updatedData: {
+    col1: string[];
+    col2: number[];
+    col3: number[];
+    col4: string[][];
+  };
+  selectLabel: number;
 }>({
-  col1: [],
-  col2: [],
-  col3: [],
-  col4: [],
+  updatedData: {
+    col1: [],
+    col2: [],
+    col3: [],
+    col4: [],
+  },
+  selectLabel: -1,
 });
 
-// export const MyContext = createContext("useContextのテスト");
 
 //ストレージの作成
 const storage: Storage = new Storage({
@@ -99,16 +104,20 @@ type AddTextProps = {
       col3: number[];
       col4: string[][];
   }>>
+    selectLabel:number;
+    setSelectLabel:React.Dispatch<React.SetStateAction<number>>;
   };
 
 // AddTextコンポーネント　=================================================================
 // 追加されたデータを画面に表示するコンポーネント
-function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData}:AddTextProps){
+function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,selectLabel,setSelectLabel}:AddTextProps){
   // const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
 
   const [indexNumber, setIndexNumber] = useState<number>(-1);
   const [task, setTask] = useState<string>('');
   const [taskDate,setTaskDate] = useState<string>('');
+
+
 
   useEffect(() => {
     // ストレージデータのロード
@@ -508,10 +517,13 @@ const newArr = [...set];
       backgroundColor: '#FFF', // カラーを指定
     };
 
+    // const [selectLabel,setSelectLabel] = useState<number>();
     // ラベルのページを表示する関数 TODO:
-    const handleOpenLabelPage = (() => {
+    const handleOpenLabelPage = ((index:number) => {
       setOpenLabelPage(!openLabelPage);
-      console.log('openLabelPage : ' + JSON.stringify(openLabelPage));
+      setSelectLabel(index);
+      console.log('dataは : ' + selectLabel);
+      console.log('値の確認 : ' + updatedData.col1[index],updatedData.col3[index],updatedData.col3[index]);
 
     })
 
@@ -601,7 +613,7 @@ const newArr = [...set];
                 <button
                 key={`label${number}`}
                 className="text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1 hover:bg-purple-300"
-                onClick={handleOpenLabelPage}
+                onClick={() => handleOpenLabelPage(index)}
                 >
                   {data}
                 </button>
@@ -692,8 +704,8 @@ const newArr = [...set];
 function App() {
   const [openLabelPage, setOpenLabelPage] = useState<boolean>(false);
   const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
-  console.log('App685 : ' + JSON.stringify(updatedData));
-  const value = {updatedData,setUpdatedData};
+  const [selectLabel,setSelectLabel] = useState<number>(-1);
+
   return (
 
     <div className='bg-red-100 p-8'>
@@ -704,7 +716,7 @@ function App() {
         </header>
         <main>
 
-        <MyContext.Provider value={updatedData}>
+        <MyContext.Provider value={{updatedData,selectLabel}}>
           <AddTask
             openLabelPage={openLabelPage}
             setOpenLabelPage={setOpenLabelPage}
@@ -716,6 +728,8 @@ function App() {
             setOpenLabelPage={setOpenLabelPage}
             updatedData={updatedData}
             setUpdatedData={setUpdatedData}
+            selectLabel={selectLabel}
+            setSelectLabel={setSelectLabel}
           />
         </main>
         <footer>
