@@ -1,9 +1,9 @@
-import React, { useEffect,useState,useContext } from "react";
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-community/async-storage';
+import React, { useContext } from "react";
 import { MyContext } from "./App";
-import { NearMeDisabledSharp } from "@mui/icons-material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 // 親プロップスから受け取る処理
 type LavelPageProps = {
@@ -32,7 +32,7 @@ export function LabelPage({openLabelPage,setOpenLabelPage}:LavelPageProps){
 
     return (
         <>
-        <span className="m-2 text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">
+        <span className="m-2 text-large font-semibold inline-block py-1 px-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">
             {selectData}
         </span>
         <div className="m-2">
@@ -56,7 +56,16 @@ export function LabelPage({openLabelPage,setOpenLabelPage}:LavelPageProps){
 
             </div>
         ))}
-        <button onClick={() => setOpenLabelPage(!openLabelPage)}>戻る</button>
+        <Stack direction="row" spacing={2}>
+            <Button
+                onClick={() => setOpenLabelPage(!openLabelPage)}
+                variant="contained"
+                size="small"
+                style={{ backgroundColor: '#FF82B2'}}
+                >
+                <ArrowBackIcon></ArrowBackIcon>
+            </Button>
+        </Stack>
         </div>
         </>
 

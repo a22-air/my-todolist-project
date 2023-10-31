@@ -524,7 +524,8 @@ const newArr = [...set];
     // const [selectLabel,setSelectLabel] = useState<number>();
     // ラベルのページを表示する関数 TODO:
     const handleOpenLabelPage = ((data:string,index:number) => {
-      setOpenLabelPage(!openLabelPage);
+      if(!openLabelPage)
+      setOpenLabelPage(true);
       setSelectLabel(index);
       setSelectData(data);
     })
