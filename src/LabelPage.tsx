@@ -4,16 +4,17 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import 'animate.css/animate.min.css';
 
 // 親プロップスから受け取る処理
-type LavelPageProps = {
+type LabelPageProps = {
     openLabelPage:boolean;
     setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>;
   };
 export const useMyContext = () => {
     return useContext(MyContext);
   };
-export function LabelPage({openLabelPage,setOpenLabelPage}:LavelPageProps){
+export function LabelPage({openLabelPage,setOpenLabelPage}:LabelPageProps){
     const { updatedData, selectLabel,selectData } = useMyContext();
 
     const indices = updatedData.col4
@@ -32,6 +33,8 @@ export function LabelPage({openLabelPage,setOpenLabelPage}:LavelPageProps){
 
     return (
         <>
+        {openLabelPage &&
+        <div className="animate__animated animate__fadeIn">
         <span className="m-2 text-large font-semibold inline-block py-1 px-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">
             {selectData}
         </span>
@@ -67,6 +70,8 @@ export function LabelPage({openLabelPage,setOpenLabelPage}:LavelPageProps){
             </Button>
         </Stack>
         </div>
+        </div>
+}
         </>
 
     )
