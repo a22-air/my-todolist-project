@@ -58,7 +58,7 @@ type AddTaskProps = {
 
   };
 
-export function AddTask({ openLabelPage}: AddTaskProps){
+export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
 
     const [task, setTask] = useState<string>('');
     const [taskData,setTaskData] = useState<string>('');
@@ -179,7 +179,9 @@ export function AddTask({ openLabelPage}: AddTaskProps){
         <div className="w-full">
 
         {openLabelPage ?
-          <LabelPage /> :
+          <LabelPage
+            openLabelPage={openLabelPage}
+            setOpenLabelPage={setOpenLabelPage} />:
           (
             <div>
             <div className="my-5">

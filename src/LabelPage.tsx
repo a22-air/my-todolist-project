@@ -5,11 +5,15 @@ import { MyContext } from "./App";
 import { NearMeDisabledSharp } from "@mui/icons-material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-
+// 親プロップスから受け取る処理
+type LavelPageProps = {
+    openLabelPage:boolean;
+    setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>;
+  };
 export const useMyContext = () => {
     return useContext(MyContext);
   };
-export function LabelPage(){
+export function LabelPage({openLabelPage,setOpenLabelPage}:LavelPageProps){
     const { updatedData, selectLabel,selectData } = useMyContext();
 
     const indices = updatedData.col4
@@ -52,8 +56,8 @@ export function LabelPage(){
 
             </div>
         ))}
+        <button onClick={() => setOpenLabelPage(!openLabelPage)}>戻る</button>
         </div>
-
         </>
 
     )
