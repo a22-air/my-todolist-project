@@ -11,17 +11,20 @@ type LabelPageProps = {
     openLabelPage:boolean;
     setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>;
   };
+
+// コンテキストを使用するための関数
 export const useMyContext = () => {
     return useContext(MyContext);
   };
+//　LabelPageのコンポーネント ============================================================================
 export function LabelPage({openLabelPage,setOpenLabelPage}:LabelPageProps){
-    const { updatedData, selectLabel,selectData } = useMyContext();
+    const { updatedData, selectLabel,selectData } = useMyContext(); // コンテキストでデータの受け取り
 
+    // 選択されたラベルが含まれている配列のインデックス番号を返す
     const indices = updatedData.col4
-        .map((subArray, index) => subArray.includes(selectData) ? index : -1)
-        .filter((index) => index !== -1);
-        console.log(indices);
-
+        .map((subArray, index) => subArray.includes(selectData) ? index : -1) // 選択されたラベルがあればインデックス番号で返し、なければ−1を返す
+        .filter((index) => index !== -1); // -1以外の数字を配列に格納
+        // indicesに格納されているインデックス番号のデータを取得
         const selectedData = indices.map(index => ({
             col1: updatedData.col1[index],
             col2: updatedData.col2[index],
@@ -29,8 +32,7 @@ export function LabelPage({openLabelPage,setOpenLabelPage}:LabelPageProps){
             col4: updatedData.col4[index],
           }));
 
-          console.log('selectedData'+JSON.stringify(selectedData));
-
+//  =====================================================================================================
     return (
         <>
         {openLabelPage &&
