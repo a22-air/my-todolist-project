@@ -529,6 +529,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 
             <div key={`col2${index}`} className="border-b border-black my-4 flex justify-between">
 
+              {/* inputエリア */}
               <div className={`flex justify-center items-center w-3/5 ${index === indexNumber && 'animate__animated animate__fadeIn'}`}>
                 <label className="inline-flex cursor-pointer">
                 <button className='m-2'>
@@ -553,7 +554,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                   <p className='text-xs'>追加日</p>
                   <p>{middleDateArray[index]}</p>
                 </div>
-                <div className='mx-2'>
+                <div className={`mx-2 ${index === indexNumber && 'animate__animated animate__fadeIn'}`}>
                   <p className='text-xs'>期限</p>
                   {indexNumber === index ?
                     <input type='date'
@@ -581,41 +582,44 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                         }}
                       />
                     </Stack>}
-              {/* TODO: */}
+
                 </div>
-                <Stack spacing={2} direction="row"
-                >
-                <Button
-                  variant="contained"
-                  style={{'backgroundColor':'#BBBBBB'}}
-                  size='small'
-                  onClick={() => {
-                    setIndexNumber(index);
-                    indexNumber === index ? upDateData(index) : handleEditClick(data, index);
-                  }}
-                  >{indexNumber === index ? '更新' : '編集'}</Button>
-                  </Stack>
+
+                {/* 更新と編集ボタン */}
+                <Stack spacing={2} direction="row">
+                  <Button
+                    variant="contained"
+                    style={{'backgroundColor':'#BBBBBB'}}
+                    size='small'
+                    onClick={() => {
+                      setIndexNumber(index);
+                      indexNumber === index ? upDateData(index) : handleEditClick(data, index);
+                    }}
+                    >{indexNumber === index ? '更新' : '編集'}
+                  </Button>
+                </Stack>
+
                   <button
                     onClick={() => removeText(index)}
-                    className='mx-1'
+                    className='mx-1 animate__animated animate__fadeIn'
                     hidden={indexNumber === index}>
-                  <DeleteIcon
-                    color='error'
-                    />
-                    </button>
+                    <DeleteIcon
+                      color='error'
+                      />
+                  </button>
 
-                <button
-                  className='mx-1'
-                  hidden={indexNumber !== index}
-                  onClick={() => {setIndexNumber(-1)}}>
-                  <CancelIcon />
-                </button>
+                  <button
+                    className='mx-1 animate__animated animate__fadeIn'
+                    hidden={indexNumber !== index}
+                    onClick={() => {setIndexNumber(-1)}}>
+                    <CancelIcon />
+                  </button>
 
               </div>
 
             </div>
 
-          <div className="flex" key={`category${index}`}>
+          <div className={`flex ${index === indexNumber && 'animate__animated animate__fadeIn'}`} key={`category${index}`}>
           {/* ラベル表示 */}
             {updatedData.col4[index].map((data,number) => (
               <div key={`labelEdit${number}`}>
