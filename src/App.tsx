@@ -1,24 +1,25 @@
 import React from 'react';
-import {useState,useEffect,useCallback,createContext,useContext} from 'react';
+import {useState,useEffect,useCallback,createContext} from 'react';
+// ストレージのインポート
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
+// リンク検出機能
 import Linkify from 'linkify-react';
+// ファイルのインポート
 import { AddTask } from './AddTask';
 import { CompletedList } from './CompletedList';
 import { LabelList } from "./LabelList";
-import { LabelPage } from './LabelPage';
-
-
+// material UI のインポート
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton'; //ボタンアイコン
+import DeleteIcon from '@mui/icons-material/Delete'; // ゴミ箱アイコン
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'; // +アイコン
+import Chip from '@mui/material/Chip'; // チップ
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'; // ハート
+import CancelIcon from '@mui/icons-material/Cancel'; //←アイコン
+import Button from '@mui/material/Button'; // ボタン
 
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import Chip from '@mui/material/Chip';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import CancelIcon from '@mui/icons-material/Cancel';
-import Button from '@mui/material/Button';
-
+// コンテキストで送るデータ
 export const MyContext = createContext<{
   updatedData: {
     col1: string[];
@@ -38,7 +39,6 @@ export const MyContext = createContext<{
   selectLabel: -1,
   selectData:'',
 });
-
 
 //ストレージの作成
 const storage: Storage = new Storage({
@@ -66,14 +66,14 @@ const storage: Storage = new Storage({
   // });
 
   //keyの中身を調べる方法↓ -----------------------------------
-  const keyName = 'completed'; // 取得したいキー名
-  const storedValue = localStorage.getItem(keyName);
+  // const keyName = 'completed'; // 取得したいキー名
+  // const storedValue = localStorage.getItem(keyName);
 
-  if (storedValue !== null) {
-    console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  } else {
-    console.log(`キー ${keyName} は存在しません。`);
-  }
+  // if (storedValue !== null) {
+  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  // } else {
+  //   console.log(`キー ${keyName} は存在しません。`);
+  // }
 // 　-----------------------------------------------------
 
 //ストレージデータを削除する時 --------------------------------
@@ -95,10 +95,10 @@ function Todo(){
     );
   }
 
-  // 親プロップスから受け取る処理
+// 親プロップスから受け取る処理
 type AddTextProps = {
-    openLabelPage:boolean;
-    setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>;
+    openLabelPage:boolean;  // ラベルの表示と非表示の監視
+    setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>; // ラベルの表示と非表示を制御するための関数
     updatedData:{ col1: string[],col2:number[],col3: number[],col4: string[][] };
     setUpdatedData:React.Dispatch<React.SetStateAction<{
       col1: string[];
@@ -106,21 +106,19 @@ type AddTextProps = {
       col3: number[];
       col4: string[][];
   }>>
-    selectLabel:number;
-    setSelectLabel:React.Dispatch<React.SetStateAction<number>>;
-    selectData:string;
-    setSelectData:React.Dispatch<React.SetStateAction<string>>;
+    selectLabel:number; // 選択したラベルの監視
+    setSelectLabel:React.Dispatch<React.SetStateAction<number>>; // 選択したラベルを設定するための関数
+    selectData:string; // 選択したラベルのデータ
+    setSelectData:React.Dispatch<React.SetStateAction<string>>; // 選択したラベルのデータを設定するための関数
   };
 
 // AddTextコンポーネント　=================================================================
 // 追加されたデータを画面に表示するコンポーネント
 function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,selectLabel,setSelectLabel,selectData,setSelectData}:AddTextProps){
-  // const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
 
-  const [indexNumber, setIndexNumber] = useState<number>(-1);
-  const [task, setTask] = useState<string>('');
-  const [taskDate,setTaskDate] = useState<string>('');
-
+  const [indexNumber, setIndexNumber] = useState<number>(-1); // 選択されたインデックスを表示するために使用する番号
+  const [task, setTask] = useState<string>(''); // Add Taskで追加されたデータ
+  const [taskDate,setTaskDate] = useState<string>(''); // 編集後の日付を操作するuseState
 
 
   useEffect(() => {
@@ -166,46 +164,45 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     };
 
   // 編集ボタン押下でテキストのデータの値を取得する関数
-  const handleEditClick = (data : string, index : number) => {
-  // 選択されたindex番号のidを取得
-  var element = document.getElementById("input_"+index);
-  // taskに選択されたdataをセット
-  setTask(data);
-  // 選択されたidのテキストにフォーカスする指定
-  element?.focus();
-}
+    const handleEditClick = (data : string, index : number) => {
+    // 選択されたindex番号のidを取得
+    var element = document.getElementById("input_"+index);
+    // taskに選択されたdataをセット
+    setTask(data);
+    // 選択されたidのテキストにフォーカスする指定
+    element?.focus();
+  }
 
 // カレンダーの初期値をセットする関数
-const calendarInitialValue = ((index:number) => {
-  // col2のデータをnumber型から文字列に変更
-  const originalNumber = updatedData.col2[index].toString();
-  // - を追加して日付の表示設定
-  const formattedDate = originalNumber.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-  // - 追加後の日付を返す
-  return formattedDate;
-})
+  const calendarInitialValue = ((index:number) => {
+    // col2のデータをnumber型から文字列に変更
+    const originalNumber = updatedData.col2[index].toString();
+    // - を追加して日付の表示設定
+    const formattedDate = originalNumber.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+    // - 追加後の日付を返す
+    return formattedDate;
+  })
 
 // 編集後のカレンダーのデータを取得する関数
   const editDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sanitizedValue = event.target.value.replace(/-/g, ''); // '-' を削除
     setTaskDate(sanitizedValue);
-    console.log('編集後の日付 : '+taskDate);
   }
 
 // テキストボックスにテキストをセットする関数
-const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setTask(event.target.value);
-}
+  const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTask(event.target.value);
+  }
 
 // 更新ボタン押下でデータの更新を行う関数
-const upDateData = ((index : number) => {
+  const upDateData = ((index : number) => {
 
 // col4の配列の中身と選択されたラベルを同じ配列に追加する
-const editLabelData = updatedData.col4[index].concat(labelTypeArray);
+  const editLabelData = updatedData.col4[index].concat(labelTypeArray);
 
 // 配列の中の同じデータを取り除く処理
-const set = new Set(editLabelData);
-const newArr = [...set];
+  const set = new Set(editLabelData);
+  const newArr = [...set];
 
   // スロレージデータのロード
   storage.load({
@@ -232,9 +229,11 @@ const newArr = [...set];
     console.log(err);
   });
 })
+
 // チェックボックス押下で完了リストにデータを移動
-  const [checkedTask,setCheckedTask] = useState<string>('');
-  const [checkedNum,setCheckedNum] = useState<number>(0);
+  const [checkedTask,setCheckedTask] = useState<string>(''); //　選択されたTaskを管理するステート
+  const [checkedNum,setCheckedNum] = useState<number>(0); // 選択されたインデックスを管理するステート
+  // チェックされたTaskを配列にするステート
   const [checkedTaskArray, setCheckedTaskArray] = useState<{ col1: string, col2: number, col3: number,col4:string[] }>({
     col1: '',
     col2: 0,
@@ -245,7 +244,6 @@ const newArr = [...set];
   const checkTask = ((index : number) => {
     setCheckedTask(updatedData.col1[index]);
     setCheckedTaskArray({col1:updatedData.col1[index],col2:updatedData.col2[index],col3:updatedData.col3[index],col4:updatedData.col4[index]});
-    console.log('checkedTaskArray : ' + JSON.stringify(checkedTaskArray));
     setCheckedNum(1);
 
     // ストレージデータをロードする
@@ -450,14 +448,14 @@ const newArr = [...set];
       console.log(err);
     });
   }
-  const [labelType,setLabelType] = useState<string>('');
-  const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]);
+  const [labelType,setLabelType] = useState<string>(''); // ラベルを管理するステート
+  const [labelTypeArray,setLabelTypeArray] = useState<string[]>([]); // ラベルを配列にするステート
 
   // ラベルのテキストをセットする関数（チェックボックスのvalueの値を取得)
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
 
-    setLabelType(selectedLabel);
+    setLabelType(selectedLabel); // 選択されたラベルをセット
 
     setLabelTypeArray((prevLabelTypeArray) => {
       if (prevLabelTypeArray.includes(selectedLabel)) {
@@ -473,7 +471,7 @@ const newArr = [...set];
 
   // ラベルを削除する関数
   const deleteLabel = ((number:number,index:number) => {
-    updatedData.col4[index].splice(number,1);
+    updatedData.col4[index].splice(number,1); // 選択されたインデックス番号を削除
 
     storage.save({
       key: 'keyWord',
@@ -486,13 +484,12 @@ const newArr = [...set];
     });
   })
 
-  const [showModal, setShowModal] = React.useState(false);
-  const [hiddenLabelArray,setHiddenLabelArray] = useState<string[]>([]); // 非表示にするラベルデータを格納するuseState
+  const [showModal, setShowModal] = React.useState(false); // モーダルウインドウを監視するステート
+  const [hiddenLabelArray,setHiddenLabelArray] = useState<string[]>([]); // 非表示にするラベルデータを格納するステート
 
   // ラベルのデータの確認
   const hiddenLabelData = ((index:number) => {
     setHiddenLabelArray(updatedData.col4[index]);
-    console.log('hiddenLabels : ' + JSON.stringify(hiddenLabelArray));
   });
 
    // 追加されたラベルを削除するボタン
@@ -503,6 +500,7 @@ const newArr = [...set];
       setLabelTypeArray(newCheckedValues);
     });
 
+  // ラベルのカラーの設定
     const chipStylePassed = {
       backgroundColor: '#FFB6C1', // カラーを指定
     };
@@ -679,6 +677,7 @@ const newArr = [...set];
     ))}
 
 </div>
+{/* 並び替え機能の表示部分 */}
 <div className='flex pb-5'>
     <Stack spacing={2} direction="row">
       <Button
@@ -715,10 +714,10 @@ const newArr = [...set];
 }
 
 function App() {
-  const [openLabelPage, setOpenLabelPage] = useState<boolean>(false);
+  const [openLabelPage, setOpenLabelPage] = useState<boolean>(false); // 選択されたラベルページを表示、非表示にするステート
   const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
-  const [selectLabel,setSelectLabel] = useState<number>(-1);
-  const [selectData,setSelectData] = useState<string>('');
+  const [selectLabel,setSelectLabel] = useState<number>(-1); // 選択されたラベルデータのインデックス
+  const [selectData,setSelectData] = useState<string>(''); // 選択されたラベルデータ
 
   return (
 
