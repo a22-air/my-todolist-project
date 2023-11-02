@@ -2,6 +2,11 @@ import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useState,useEffect} from 'react';
 
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Check from '@mui/icons-material/Check';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+
 //ストレージの作成
 const storage: Storage = new Storage({
     // 最大容量
@@ -122,17 +127,19 @@ export function CompletedList(props: CompletedListProps){
     return(
     <div >
         <div >
-            <h1>Completed List</h1>
+            <h1>Completed List <ChecklistIcon /></h1>
             {/* <h1>{props.checkedTask}</h1> */}
             {completedDataArray.col1.map((data,index) => (
             <div key={index} className='flex container border-b border-black my-4 justify-between'>
                 <div className='flex'>
-                <img className='w-8 h-8 mx-3' src='/check02.png' alt='' />
+                <Check />
                 <div  className=''>{data}</div>
                 </div>
                 <div>
-                  <button onClick={() => returnData(index)}>戻す</button>
-                  <button onClick={() => removeText(index)}>削除</button>
+                <Stack direction="row" spacing={2}>
+                  <Button style={{'backgroundColor':'#BBBBBB'}} onClick={() => returnData(index)} variant="contained">戻す</Button>
+                  <Button style={{'backgroundColor':'#BBBBBB'}} onClick={() => removeText(index)} variant="contained">削除</Button>
+                </Stack>
                 </div>
             </div>
             ))}
