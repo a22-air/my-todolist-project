@@ -18,6 +18,9 @@ import Chip from '@mui/material/Chip'; // チップ
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'; // ハート
 import CancelIcon from '@mui/icons-material/Cancel'; //←アイコン
 import Button from '@mui/material/Button'; // ボタン
+import Check from '@mui/icons-material/Check'; //チェック
+import { display } from '@mui/system';
+
 
 // コンテキストで送るデータ
 export const MyContext = createContext<{
@@ -520,6 +523,13 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setSelectData(data);
     })
 
+// TODO:
+const [isHovered, setIsHovered] = useState(false);
+const hoverOn = (() => {
+  console.log('isHovered : ' + isHovered);
+
+})
+
   return(
     <div className=''>
       <div className='my-10'>
@@ -531,12 +541,18 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 
               {/* inputエリア */}
               <div className={`flex justify-center items-center w-3/5 ${index === indexNumber && 'animate__animated animate__fadeIn'}`}>
-                <label className="inline-flex cursor-pointer">
-                <button className='m-2'>
-                <FavoriteBorderIcon
-                  onClick= {() => checkTask(index) }/>
-                </button>
-                </label>
+
+                {/* TODO: */}
+                <button
+                  onClick= {() => checkTask(index) }
+                  className=" p-3 relative group hover:bg-slate-200 rounded-full ">
+                <FavoriteBorderIcon />
+                <span
+                  className="opacity-0 w-[74px] invisible rounded text-[12px] font-bold  py-1  bottom-3 -left-3 group-hover:visible opacity-100 absolute text-red-600">
+                <Check />
+                </span>
+              </button>
+
                 <Linkify>
                 <input
                   className='w-full'
@@ -601,7 +617,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 
                   <button
                     onClick={() => removeText(index)}
-                    className='mx-1 animate__animated animate__fadeIn'
+                    className='mx-1 animate__animated animate__fadeIn '
                     hidden={indexNumber === index}>
                     <DeleteIcon
                       color='error'
@@ -631,7 +647,9 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                   {data}
                 </button>
                 {indexNumber === index ? (
-                  <IconButton aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}>
+                  <IconButton
+                  aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}
+                  >
                   <DeleteIcon
                     fontSize="small" />
                   </IconButton>
