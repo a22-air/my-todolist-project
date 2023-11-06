@@ -142,7 +142,7 @@ type LabelListProps = {
                 <div className="relative p-6 flex-auto">
                   <div className="max-width-full flex-col">
                     {labelData.category.map((data, index) => (
-                      <div  className=" items-center mr-4"
+                      <div  className="items-center mr-4"
                         key={`labelData${index}`}
                       >
                         <input
@@ -167,6 +167,7 @@ type LabelListProps = {
                           {data}
                         </label>
 
+                        {/* 削除アイコンの表示設定 */}
                         {modalEdit ?
                         <button onClick={() => {removeLabelCategory(index);}}>
                           <RemoveCircleOutlineIcon
@@ -176,10 +177,11 @@ type LabelListProps = {
                         </button>
                         : null}
 
+                        {/* ラベルカラーの表示設定 */}
                         {indexNumber === index ?
                         (<div className="flex">
                           {labelColors.map((colors,index) => (
-                            <div>
+                            <div key={`labelColors${index}`}>
                             <LabelIcon
                             style={{ color: `#${colors}` }}
                           />
@@ -221,7 +223,7 @@ type LabelListProps = {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {setShowModal(false);setIndexNumber(-1);setModalEdit(false)}}
                   >
                     Close
                   </button>
