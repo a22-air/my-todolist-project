@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 // labelColorsをインポートする
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
+import LabelIcon from '@mui/icons-material/Label';
+import { colors } from "@mui/material";
 
 
 const storage: Storage = new Storage({
@@ -51,6 +53,7 @@ type LabelListProps = {
     // const [labelData,setLabelData] = useState<{category:string[]}>({category: []}); // ラベル種類のステート
     const [labelData,setLabelData] = useState<{category:string[],labelColors:string[]}>({category: [], labelColors: []}); // ラベル種類のステート
     const [newLabel,setNewLabel] = useState<string>(''); // 追加ラベルのステート
+    const [indexNumber,setIndexNumber] = useState<number>(-1);
 
     // ラベルのデータをロード
     useEffect(() => {
@@ -113,6 +116,10 @@ type LabelListProps = {
       })
 
       // TODO:
+      const openLabelColor = ((index:number) => {
+        console.log(' : ' + index);
+
+      })
 
 
     return(
@@ -142,7 +149,12 @@ type LabelListProps = {
                           type="checkbox"
                           id={`checkbox${index}`}
                           name={`checkbox${index}`}
-                          onChange={handleSetLabel}
+                          onChange=
+                            {(event: React.ChangeEvent<HTMLInputElement>) => {
+                            handleSetLabel(event);
+                            setIndexNumber(index);
+                            }}
+
                           value={data}
                           disabled={hiddenLabelArray.includes(data)}
                           checked={labelTypeArray.includes(data) || hiddenLabelArray.includes(data)}
@@ -154,6 +166,7 @@ type LabelListProps = {
                         >
                           {data}
                         </label>
+
                         {modalEdit ?
                         <button onClick={() => {removeLabelCategory(index);}}>
                           <RemoveCircleOutlineIcon
@@ -162,8 +175,20 @@ type LabelListProps = {
                           />
                         </button>
                         : null}
+
+                        {indexNumber === index ?
+                        (<div className="flex">
+                          {labelColors.map((colors,index) => (
+                            <div>
+                            <LabelIcon
+                            style={{ color: `#${colors}` }}
+                          />
+                          </div>
+                          ))}
+                        </div>) : null }
                       </div>
                     ))}
+
                   </div>
 
                   {modalEdit ?
