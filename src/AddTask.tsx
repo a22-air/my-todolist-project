@@ -184,7 +184,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             setOpenLabelPage={setOpenLabelPage} />:
           (
             <div className="animate__animated animate__fadeIn">
-            <div className="my-5">
+            <div className="my-5 text-2xl">
               Add Task :
               <input
               placeholder={ warningStatement ? 'Add New Task' : 'Please enter'}
@@ -193,7 +193,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
               className={`ml-2  w-2/3 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring ${warningStatement ? "" : "placeholder-red-500"}`}
               />
             </div>
-            <div className="my-5">
+            <div className="my-5 text-2xl">
               Time Limit :
               <input
                 onChange={handleNewData}
@@ -211,7 +211,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                   <Button
                     variant="outlined"
                     color="secondary"
-                    size="small"
+                    size="large"
                     onClick={() => {setShowModal(true)}}
                     >Label
                   </Button>
