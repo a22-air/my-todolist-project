@@ -127,8 +127,7 @@ export function CompletedList(props: CompletedListProps){
     return(
     <div >
         <div >
-            <h1>Completed List <ChecklistIcon /></h1>
-            {/* <h1>{props.checkedTask}</h1> */}
+            <h1 className='text-3xl font-bold'>Completed List <ChecklistIcon /></h1>
             {completedDataArray.col1.map((data,index) => (
             <div key={index} className='flex container border-b border-black my-4 justify-between'>
                 <div className='flex'>
