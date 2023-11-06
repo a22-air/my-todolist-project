@@ -1,7 +1,10 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect,useState,useMemo } from "react";
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+// labelColorsをインポートする
+import labelColors from './labelColors.json'; // JSONファイルのパスを指定
+
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -25,6 +28,14 @@ const storage: Storage = new Storage({
   // }
 //　---------------------------------------------------------
 
+//  storage.save({
+//     key: 'labelData',
+//     data:{
+//       category:[],
+//       labelColors:labelColors,
+//     }
+//   });
+
 // 親プロップスから受け取る処理
 type LabelListProps = {
     handleSetLabel: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -37,7 +48,8 @@ type LabelListProps = {
 
   export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray,labelTypeArray,}: LabelListProps){
 
-    const [labelData,setLabelData] = useState<{category:string[]}>({category: []}); // ラベル種類のステート
+    // const [labelData,setLabelData] = useState<{category:string[]}>({category: []}); // ラベル種類のステート
+    const [labelData,setLabelData] = useState<{category:string[],labelColors:string[]}>({category: [], labelColors: []}); // ラベル種類のステート
     const [newLabel,setNewLabel] = useState<string>(''); // 追加ラベルのステート
 
     // ラベルのデータをロード
@@ -88,7 +100,7 @@ type LabelListProps = {
                 key: 'labelData',
                 data : labelData
             }).then((data) => {
-                setLabelData({category: []}); // ラベルデータの中身をリセット
+                setLabelData({category: [], labelColors: []}); // ラベルデータの中身をリセット
             }).catch((err) => {
                 console.log(err);
             });
@@ -99,6 +111,9 @@ type LabelListProps = {
       const handleModalEdit = (() => {
         setModalEdit(!modalEdit);
       })
+
+      // TODO:
+
 
     return(
         <>
@@ -115,14 +130,6 @@ type LabelListProps = {
                   <h3 className="text-gray-500 text-3xl font-semibold">
                     Label
                   </h3>
-                  <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => setShowModal(false)}
-                  >
-                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                      ×
-                    </span>
-                  </button>
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
@@ -139,7 +146,6 @@ type LabelListProps = {
                           value={data}
                           disabled={hiddenLabelArray.includes(data)}
                           checked={labelTypeArray.includes(data) || hiddenLabelArray.includes(data)}
-
                         />
                         <label
                           key={index}
@@ -185,7 +191,7 @@ type LabelListProps = {
                     type="button"
                     onClick={handleModalEdit}
                   >
-                    ラベル編集
+                    Label edit
                   </button>
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
