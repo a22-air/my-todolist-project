@@ -9,6 +9,8 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
 import { LabelPage } from "./LabelPage";
+import LabelIcon from '@mui/icons-material/Label';
+
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -113,7 +115,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
           key: 'keyWord',
         });
 
-        // let updatedData: { col1: string[],col2: string[],col3:number[] } = { col1: [],col2: [],col3: [] };
         let updatedData: {
           col1: string[],
           col2: string[],
@@ -217,6 +218,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                   </Button>
                 </Stack>
                 </div>
+                {/* 追加されたラベルの表示 */}
                 <div className="flex ml-2"style={{ alignItems: "center" }}>
                   {labelTypeArray.map((data,index) => (
                     <div
@@ -225,12 +227,14 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                     <Stack direction="row" spacing={1} className="mx-1"
                     >
                       <Chip
-                      className=""
-                      color="secondary"
+                      className="bg-pink-200 text-pink-600"
+                      // color="secondary"
                       label={data}
-                      variant="outlined"
+                      // variant="outlined"
                       size="small"
                       onDelete={() => removeLabelArray(index)} />
+                    <LabelIcon className=""/>
+
                     </Stack>
                     </div>
                   ))}
