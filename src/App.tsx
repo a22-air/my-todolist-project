@@ -19,7 +19,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'; // ハー�
 import CancelIcon from '@mui/icons-material/Cancel'; //←アイコン
 import Button from '@mui/material/Button'; // ボタン
 import Check from '@mui/icons-material/Check'; //チェック
-import { display } from '@mui/system';
 
 
 // コンテキストで送るデータ
@@ -122,6 +121,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
   const [indexNumber, setIndexNumber] = useState<number>(-1); // 選択されたインデックスを表示するために使用する番号
   const [task, setTask] = useState<string>(''); // Add Taskで追加されたデータ
   const [taskDate,setTaskDate] = useState<string>(''); // 編集後の日付を操作するuseState
+  const [selectLabelColor,setSelectLabelColor] = useState<string>(''); // 選択されているラベルカラーのステート
 
 
   useEffect(() => {
@@ -523,12 +523,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setSelectData(data);
     })
 
-// TODO:
-const [isHovered, setIsHovered] = useState(false);
-const hoverOn = (() => {
-  console.log('isHovered : ' + isHovered);
-
-})
 
   return(
     <div className=''>
@@ -693,6 +687,8 @@ const hoverOn = (() => {
               setShowModal={setShowModal}
               hiddenLabelArray={hiddenLabelArray}
               labelTypeArray={labelTypeArray}
+              selectLabelColor={selectLabelColor}
+              setSelectLabelColor={setSelectLabelColor}
             />
           </div>
 
