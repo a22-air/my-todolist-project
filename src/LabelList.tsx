@@ -1,11 +1,11 @@
-import React, { useEffect,useState,useMemo } from "react";
+import React, { useEffect,useState } from "react";
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 // labelColorsをインポートする
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
+// ラベルアイコン
 import LabelIcon from '@mui/icons-material/Label';
-import { colors } from "@mui/material";
 
 
 const storage: Storage = new Storage({
@@ -54,6 +54,7 @@ type LabelListProps = {
     const [labelData,setLabelData] = useState<{category:string[],labelColors:string[]}>({category: [], labelColors: []}); // ラベル種類のステート
     const [newLabel,setNewLabel] = useState<string>(''); // 追加ラベルのステート
     const [indexNumber,setIndexNumber] = useState<number>(-1);
+    const [selectLabelColor,setSelectLabelColor] = useState<string>('');
 
     // ラベルのデータをロード
     useEffect(() => {
@@ -117,11 +118,11 @@ type LabelListProps = {
 
       // TODO:
       const openLabelColor = ((index:number) => {
-        console.log(' : ' + index);
-
+        // setSelectLabelColor(labelColors[index]);
+        console.log('selectLabelColor : ' + selectLabelColor);
       })
 
-
+      const dynamicBackgroundColor = selectLabelColor ? `#${selectLabelColor}` : '';
     return(
         <>
         {showModal ? (
@@ -162,14 +163,15 @@ type LabelListProps = {
                         <label
                           key={index}
                           htmlFor={`checkbox${index}`}
-                          className="text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1"
+                          className={`bg-pink-200 text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 ${index === indexNumber ? 'bg-'+selectLabelColor : 'bg-pink-200' } last:mr-0 mr-1`}
+                          // style={{ backgroundColor: dynamicBackgroundColor }}
                         >
                           {data}
                         </label>
 
                         {/* 削除アイコンの表示設定 */}
                         {modalEdit ?
-                        <button onClick={() => {removeLabelCategory(index);}}>
+                        <button onClick={(labelIndex) => {removeLabelCategory(index);}}>
                           <RemoveCircleOutlineIcon
                           fontSize="small"
                           style={{ color: 'red' }}
@@ -177,15 +179,23 @@ type LabelListProps = {
                         </button>
                         : null}
 
-                        {/* ラベルカラーの表示設定 */}
+                        {/* ラベルカラー表示 */}
                         {indexNumber === index ?
                         (<div className="flex">
                           {labelColors.map((colors,index) => (
-                            <div key={`labelColors${index}`}>
-                            <LabelIcon
+                            <button
+                              key={`labelColors${index}`}
+                              className="hover:opacity-50"
+                              onClick={() => {
+                                setSelectLabelColor(labelColors[index]);
+                                openLabelColor(index)}}
+                            >
+                            {/* <LabelIcon
                             style={{ color: `#${colors}` }}
-                          />
-                          </div>
+                          /> */}
+                          <LabelIcon className={`text-${colors}`} />
+
+                          </button>
                           ))}
                         </div>) : null }
                       </div>
@@ -223,7 +233,12 @@ type LabelListProps = {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => {setShowModal(false);setIndexNumber(-1);setModalEdit(false)}}
+                    onClick={() => {
+                      setShowModal(false);
+                      setIndexNumber(-1);
+                      setModalEdit(false);
+                      setSelectLabelColor('');
+                    }}
                   >
                     Close
                   </button>
