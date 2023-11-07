@@ -6,6 +6,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
 // ラベルアイコン
 import LabelIcon from '@mui/icons-material/Label';
+import { Button, Stack } from "@mui/material";
 
 
 const storage: Storage = new Storage({
@@ -34,7 +35,7 @@ const storage: Storage = new Storage({
 //     key: 'labelData',
 //     data:{
 //       category:[],
-//       labelColors:labelColors,
+//       labelColors:[],
 //     }
 //   });
 
@@ -80,6 +81,8 @@ type LabelListProps = {
 
         // 新しいラベルをラベルデータの配列に追加
         labelData.category.push(newLabel);
+        // ラベルカラーをラベルデータの配列に追加
+        labelData.labelColors.push()
 
         // ここで追加されたデータを書き換えて保存
         storage.save({
@@ -117,12 +120,10 @@ type LabelListProps = {
       })
 
       // TODO:
-      const openLabelColor = ((index:number) => {
-        // setSelectLabelColor(labelColors[index]);
-        console.log('selectLabelColor : ' + selectLabelColor);
-      })
+      // const openLabelColor = ((index:number) => {
+      //   console.log('selectLabelColor : ' + selectLabelColor);
+      // })
 
-      const dynamicBackgroundColor = selectLabelColor ? `#${selectLabelColor}` : '';
     return(
         <>
         {showModal ? (
@@ -153,7 +154,7 @@ type LabelListProps = {
                           onChange=
                             {(event: React.ChangeEvent<HTMLInputElement>) => {
                             handleSetLabel(event);
-                            setIndexNumber(index);
+                            // setIndexNumber(index);
                             }}
 
                           value={data}
@@ -164,10 +165,18 @@ type LabelListProps = {
                           key={index}
                           htmlFor={`checkbox${index}`}
                           className={`bg-pink-200 text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 ${index === indexNumber ? 'bg-'+selectLabelColor : 'bg-pink-200' } last:mr-0 mr-1`}
-                          // style={{ backgroundColor: dynamicBackgroundColor }}
                         >
                           {data}
                         </label>
+                        {/* ラベルカラー表示ボタン */}
+                        <Stack direction="row" spacing={2}>
+                          <Button
+                            variant="text"
+                            onClick={() => setIndexNumber(index)}
+                            >
+                            <LabelIcon className="text-pink-200"/>
+                          </Button>
+                        </ Stack>
 
                         {/* 削除アイコンの表示設定 */}
                         {modalEdit ?
@@ -179,7 +188,7 @@ type LabelListProps = {
                         </button>
                         : null}
 
-                        {/* ラベルカラー表示 */}
+                        {/* 9色のラベルカラー表示 */}
                         {indexNumber === index ?
                         (<div className="flex">
                           {labelColors.map((colors,index) => (
@@ -188,11 +197,10 @@ type LabelListProps = {
                               className="hover:opacity-50"
                               onClick={() => {
                                 setSelectLabelColor(labelColors[index]);
-                                openLabelColor(index)}}
+                                // openLabelColor(index)
+                              }}
                             >
-                            {/* <LabelIcon
-                            style={{ color: `#${colors}` }}
-                          /> */}
+
                           <LabelIcon className={`text-${colors}`} />
 
                           </button>
@@ -200,7 +208,6 @@ type LabelListProps = {
                         </div>) : null }
                       </div>
                     ))}
-
                   </div>
 
                   {modalEdit ?
