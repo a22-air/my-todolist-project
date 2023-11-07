@@ -66,6 +66,8 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
     const [taskData,setTaskData] = useState<string>('');
     const [day,setDay] = useState<number>(formattedDate);
     const [warningStatement,setWarningStatement] = useState<boolean>(true);
+    const [selectLabelColor,setSelectLabelColor] = useState<string>(''); // 選択されているラベルカラーのステート
+
 
   // テキストをセットする関数
   const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,7 +235,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                       // variant="outlined"
                       size="small"
                       onDelete={() => removeLabelArray(index)} />
-                    <LabelIcon className=""/>
+                    <LabelIcon className={`text-${selectLabelColor}`}/>
 
                     </Stack>
                     </div>
@@ -262,6 +264,8 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                 setShowModal={setShowModal}
                 hiddenLabelArray={hiddenLabelArray}
                 labelTypeArray={labelTypeArray}
+                selectLabelColor={selectLabelColor}
+                setSelectLabelColor={setSelectLabelColor}
               />
 
               </div>

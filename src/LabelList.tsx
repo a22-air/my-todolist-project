@@ -47,15 +47,17 @@ type LabelListProps = {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
     hiddenLabelArray: string[];
     labelTypeArray:string[]
+    selectLabelColor:string;
+    setSelectLabelColor:React.Dispatch<React.SetStateAction<string>>;
   };
 
-  export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray,labelTypeArray,}: LabelListProps){
+  export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray,labelTypeArray,selectLabelColor,setSelectLabelColor}: LabelListProps){
 
     // const [labelData,setLabelData] = useState<{category:string[]}>({category: []}); // ラベル種類のステート
     const [labelData,setLabelData] = useState<{category:string[],labelColors:string[]}>({category: [], labelColors: []}); // ラベル種類のステート
     const [newLabel,setNewLabel] = useState<string>(''); // 追加ラベルのステート
     const [indexNumber,setIndexNumber] = useState<number>(-1);
-    const [selectLabelColor,setSelectLabelColor] = useState<string>('');
+    // const [selectLabelColor,setSelectLabelColor] = useState<string>('');
 
     // ラベルのデータをロード
     useEffect(() => {
@@ -164,7 +166,7 @@ type LabelListProps = {
                         <label
                           key={index}
                           htmlFor={`checkbox${index}`}
-                          className={`bg-pink-200 text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-pink-600 ${index === indexNumber ? 'bg-'+selectLabelColor : 'bg-pink-200' } last:mr-0 mr-1`}
+                          className={`bg-purple-200 text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-purple-600 ${index === indexNumber ? 'bg-'+selectLabelColor : 'bg-purple-200' } last:mr-0 mr-1`}
                         >
                           {data}
                         </label>
@@ -174,7 +176,7 @@ type LabelListProps = {
                             variant="text"
                             onClick={() => setIndexNumber(index)}
                             >
-                            <LabelIcon className="text-pink-200"/>
+                            <LabelIcon className="text-purple-200"/>
                           </Button>
                         </ Stack>
 
