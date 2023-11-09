@@ -176,8 +176,10 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
     const removeLabelArray = ((index:number) => {
   // 要素を削除して新しい配列を作成（指定されたインデックス以外を新しい配列で作成）
     const newCheckedValues = labelTypeArray.filter((value, i) => i !== index);
+    const newSelectLabelColors = selectLabelColorArray.filter((value, i) => i !== index);
   // 新しい配列をステートに設定
     setLabelTypeArray(newCheckedValues);
+    setSelectLabelColorArray(newSelectLabelColors);
   });
 
   const [selectLabelColorIndex,setSelectLabelColorIndex] = useState<number>(-1); // ラベル横のカラーラベルのインデックスを監視するステート
@@ -190,7 +192,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
     console.log('selectLabelColorArray : ' + selectLabelColorArray);
     console.log('selectLabelColorArray[index] : ' + selectLabelColorArray[index]);
 
-
   })
 
   // 9色のラベルカラーを押下した時のハンドラ
@@ -201,7 +202,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
     setLabelColorIndex(colorIndex); // ９色のラベルカラーのインデックス
     setSelectLabelColor(color); // ラベル横のラベルカラーの文字列
     console.log('selectLabelColor : ' + selectLabelColor);
-
 
   })
 
@@ -293,9 +293,8 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                             >
                               {index === selectLabelColorIndex ?
                                 <LabelIcon className={`text-${selectLabelColor ? selectLabelColor : 'purple-200'}`}/> :
-                                <LabelIcon className={`text-${selectLabelColorArray ? selectLabelColorArray[index] : 'purple-200'}`}
-                              />
-}
+                                <LabelIcon className={`text-${selectLabelColorArray ? selectLabelColorArray[index] : 'purple-200'}`} />
+                              }
 
                           </Button>
 
