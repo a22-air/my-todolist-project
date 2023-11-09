@@ -64,10 +64,9 @@ type AddTaskProps = {
 
 export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
 
-    const [task, setTask] = useState<string>('');
-    const [taskData,setTaskData] = useState<string>('');
-    const [day,setDay] = useState<number>(formattedDate);
-    const [warningStatement,setWarningStatement] = useState<boolean>(true);
+    const [task, setTask] = useState<string>(''); // col1のAddTaskの監視ステート
+    const [taskData,setTaskData] = useState<string>(''); // col2の期限の監視ステート
+    const [warningStatement,setWarningStatement] = useState<boolean>(true); // AddTaskがからだった時にNEWのボタンが押下できないように監視するステート
     const [selectLabelColor,setSelectLabelColor] = useState<string>("purple-200"); // 選択されているラベルカラーのステート
     const [selectLabelColorArray,setSelectLabelColorArray] = useState<string[]>([]); // 選択されたカラーを配列にして格納するステート
 
@@ -138,8 +137,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
           col5: [],
         };
 
-        console.log('labelTypeは : ' + labelType);
-
 
         // 既存のデータがあれば、それを取得し新しいデータを追加
         if (existingData) {
@@ -147,7 +144,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             ...existingData,
             col1: [...existingData.col1, task],
             col2: [...existingData.col2,taskData],
-            col3: [...existingData.col3,day],
+            col3: [...existingData.col3,formattedDate],
             col4: [...existingData.col4,labelTypeArray],
             col5: [...existingData.col5,selectLabelColorArray]
           };
@@ -156,7 +153,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
           updatedData = {
             col1: [task],
             col2: [taskData],
-            col3: [day],
+            col3: [formattedDate],
             col4: [[labelType]],
             col5: [[selectLabelColor]],
           };
@@ -180,8 +177,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
 
   // 追加されたラベルを削除するボタン
     const removeLabelArray = ((index:number) => {
-      console.log('index : ' + index);
-
       setLabelColorIndex(-1);
   // 要素を削除して新しい配列を作成（指定されたインデックス以外を新しい配列で作成）
     const newCheckedValues = labelTypeArray.filter((value, i) => i !== index);
@@ -194,48 +189,28 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
   });
 
   const [selectLabelColorIndex,setSelectLabelColorIndex] = useState<number>(-1); // ラベル横のカラーラベルのインデックスを監視するステート
-  // TODO:ラベル横のカラーボタンを押下時のハンドラ
+  // ラベル横のカラーボタンを押下時のハンドラ
   const openLabelHandle = ((index:number) => {
-    setSelectLabelColorIndex(index);
-    setLabelColorIndex(-1);
-    setSelectLabelColor(selectLabelColorArray[index]);
-    console.log('labelColorIndex : ' + labelColorIndex);
-    console.log('selectLabelColorArray : ' + selectLabelColorArray);
-    console.log('selectLabelColorArray[index] : ' + selectLabelColorArray[index]);
-
+    setSelectLabelColorIndex(index); // ラベル横のカラーラベルのインデックスをセットする関数
+    setLabelColorIndex(-1); // 9色のカラーラベルのインデックスを−１にリセットする関数
+    setSelectLabelColor(selectLabelColorArray[index]); // ラベル横のカラーラベルのカラーをセットする関数
   })
 
   // 9色のラベルカラーを押下した時のハンドラ
   const [labelColorIndex,setLabelColorIndex] = useState<number>(-1); // ９色のカラーラベルのインデックス番号を監視するステート
 
   const selectLabelColorHandle = ((color:string,colorIndex:number) => {
-    console.log('colorIndex : ' + colorIndex);
     setLabelColorIndex(colorIndex); // ９色のラベルカラーのインデックス
     setSelectLabelColor(color); // ラベル横のラベルカラーの文字列
-    console.log('selectLabelColor : ' + selectLabelColor);
-
   })
 
+  // selectLabelColorArrayがすぐに描画されるようにuseEffectを使用する
   useEffect(() => {
     if (selectLabelColorIndex !== -1 && selectLabelColor !== '' && labelColorIndex !== -1) {
       selectLabelColorArray[selectLabelColorIndex] = selectLabelColor;
-    setSelectLabelColorArray(selectLabelColorArray);
-
-      console.log('selectLabelColorArray : ' + selectLabelColorArray);
+      setSelectLabelColorArray(selectLabelColorArray);
     }
   }, [selectLabelColor, selectLabelColorIndex, selectLabelColorArray,labelColorIndex]);
-
-
-  // 選択されているラベルの数だけデフォルトのラベルカラーの配列を作成
-  // useEffect(() => {
-  //   console.log('labelTypeArray : ' + labelTypeArray);
-
-  //   // labelTypeArrayの要素数に応じて'purple-200'を追加
-  //   const newColors = Array(labelTypeArray.length).fill('purple-200');
-  //   setSelectLabelColorArray(newColors);
-  // }, [labelTypeArray]);
-
-
 
     return(
       <div className="flex justify-between my-10">
@@ -290,9 +265,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                     <Stack direction="row" spacing={1} className="mx-1"
                     >
                       <Chip
-                      // color="secondary"
                       label={data}
-                      // variant="outlined"
                       size="small"
                       onDelete={() => removeLabelArray(index)} />
 
