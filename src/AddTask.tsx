@@ -225,7 +225,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
           (
             <div className="animate__animated animate__fadeIn">
             <div className="my-5 text-2xl">
-              Add Task :
+              ADD TASK :
               <input
               placeholder={ warningStatement ? 'Add New Task' : 'Please enter'}
               onChange={handleNewTask}
@@ -234,7 +234,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
               />
             </div>
             <div className="my-5 text-2xl">
-              Time Limit :
+              TIME LIMIT :
               <input
                 onChange={handleNewData}
                 placeholder='Time Limit'
