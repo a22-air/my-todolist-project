@@ -172,8 +172,9 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
       }
     };
 
-    const [showModal, setShowModal] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false); // モーダルウインドウを監視するステート
     const [hiddenLabelArray,setHiddenLabelArray] = useState<string[]>([]); // 非表示にするラベルデータを格納するuseState
+    const [openLabelColor,setOpenLabelColor] = useState<boolean>(false);
 
   // 追加されたラベルを削除するボタン
     const removeLabelArray = ((index:number) => {
@@ -254,8 +255,10 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                     onClick={() => {setShowModal(true)}}
                     >Label
                   </Button>
+
                 </Stack>
                 </div>
+
                 {/* 追加されたラベルの表示 */}
                 <div className="flex ml-2"style={{ alignItems: "center" }}>
                   {labelTypeArray.map((data,index) => (
@@ -273,10 +276,11 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                           <Button
                             variant="text"
                             onClick={() => openLabelHandle(index)}
+                            size="small"
                             >
                               {index === selectLabelColorIndex ?
-                                <LabelIcon className={`text-${selectLabelColor ? selectLabelColor : 'purple-200'}`}/> :
-                                <LabelIcon className={`text-${selectLabelColorArray ? selectLabelColorArray[index] : 'purple-200'}`} />
+                                <LabelIcon className={`text-${selectLabelColor ? selectLabelColor : ''}`}/> :
+                                <LabelIcon className={`text-${selectLabelColorArray[index]}`} />
                               }
 
                           </Button>
@@ -300,18 +304,39 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             </div>
 
             </div>
+
+          <div className="flex">
+
+            <div className="my-3"
+            >
+              <Stack spacing={2} direction="row">
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="large"
+                  onClick={() => setOpenLabelColor(!openLabelColor)}
+                >
+                label color
+                </Button>
+              </Stack>
+            </div>
+
             {/* ９色のラベルカラー表示 */}
+
+
             {labelColors.map((colors,colorIndex) => (
-              <button
-                key={`labelColors${colorIndex}`}
-                onClick={() => selectLabelColorHandle(colors,colorIndex)}
-              >
-                <LabelIcon className={`text-${colors}`} />
-              </button>
+              openLabelColor ? (
+                <button
+                  key={`labelColors${colorIndex}`}
+                  onClick={() => selectLabelColorHandle(colors,colorIndex)}
+                  className="mx-3 hover:opacity-70"
+                >
+                  <LabelIcon className={`text-${colors}`} />
+                </button>
+              ) : null
             ))}
 
-            <p className={`bg-${selectLabelColor}`}>■</p>
-
+          </div>
               <LabelList
                 handleSetLabel={handleSetLabel}
                 labelType={labelType}
