@@ -19,6 +19,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'; // ハー�
 import CancelIcon from '@mui/icons-material/Cancel'; //←アイコン
 import Button from '@mui/material/Button'; // ボタン
 import Check from '@mui/icons-material/Check'; //チェック
+// labelColorsをインポートする
+import labelColors from './labelColors.json'; // JSONファイルのパスを指定
 
 
 // コンテキストで送るデータ
@@ -101,12 +103,13 @@ function Todo(){
 type AddTextProps = {
     openLabelPage:boolean;  // ラベルの表示と非表示の監視
     setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>; // ラベルの表示と非表示を制御するための関数
-    updatedData:{ col1: string[],col2:number[],col3: number[],col4: string[][] };
+    updatedData:{ col1: string[],col2:number[],col3: number[],col4: string[][], col5: string[][] };
     setUpdatedData:React.Dispatch<React.SetStateAction<{
       col1: string[];
       col2: number[];
       col3: number[];
       col4: string[][];
+      col5: string[][];
   }>>
     selectLabel:number; // 選択したラベルの監視
     setSelectLabel:React.Dispatch<React.SetStateAction<number>>; // 選択したラベルを設定するための関数
@@ -122,6 +125,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
   const [task, setTask] = useState<string>(''); // Add Taskで追加されたデータ
   const [taskDate,setTaskDate] = useState<string>(''); // 編集後の日付を操作するuseState
   const [selectLabelColor,setSelectLabelColor] = useState<string>(''); // 選択されているラベルカラーのステート
+  const [selectLabelColorArray,setSelectLabelColorArray] = useState<string[]>([]); // 選択されたカラーを配列にして格納するステート
 
 
   useEffect(() => {
@@ -458,7 +462,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
 
-    setLabelType(selectedLabel); // 選択されたラベルをセット
+    // setLabelType(selectedLabel); // 選択されたラベルをセット
 
     setLabelTypeArray((prevLabelTypeArray) => {
       if (prevLabelTypeArray.includes(selectedLabel)) {
@@ -468,7 +472,13 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
         // 含まれていない場合は追加
         return [...prevLabelTypeArray, selectedLabel];
       }
+
+
     });
+
+    // TODO:
+    console.log('labelTypeArray : ' + labelTypeArray);
+
 
   };
 
@@ -480,7 +490,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       key: 'keyWord',
       data:updatedData
     }).then((data) => {
-      setUpdatedData({ col1: [],col2: [], col3: [], col4:[] });
+      setUpdatedData({ col1: [],col2: [], col3: [], col4:[], col5:[] });
       console.log(' : ' + data);
     }).catch((err) => {
       console.log(err);
@@ -635,7 +645,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
               <div key={`labelEdit${number}`}>
                 <button
                 key={`label${number}`}
-                className="text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1 hover:bg-purple-300"
+                className={`text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-white bg-${updatedData.col5[index][number]} uppercase last:mr-0 mr-1 hover:bg-opacity-50`}
                 onClick={() => handleOpenLabelPage(data,index)}
                 >
                   {data}
@@ -689,6 +699,9 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
               labelTypeArray={labelTypeArray}
               selectLabelColor={selectLabelColor}
               setSelectLabelColor={setSelectLabelColor}
+              selectLabelColorArray={selectLabelColorArray}
+              setSelectLabelColorArray={setSelectLabelColorArray}
+
             />
           </div>
 
@@ -733,7 +746,9 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 
 function App() {
   const [openLabelPage, setOpenLabelPage] = useState<boolean>(false); // 選択されたラベルページを表示、非表示にするステート
-  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
+  // const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][] }>({ col1: [],col2: [], col3: [], col4:[] });
+  const [updatedData, setUpdatedData] = useState<{ col1: string[],col2:number[],col3: number[],col4: string[][],col5: string[][] }>({ col1: [],col2: [], col3: [], col4:[], col5:[] });
+
   const [selectLabel,setSelectLabel] = useState<number>(-1); // 選択されたラベルデータのインデックス
   const [selectData,setSelectData] = useState<string>(''); // 選択されたラベルデータ
 
