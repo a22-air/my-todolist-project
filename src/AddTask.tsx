@@ -30,7 +30,8 @@ const storage: Storage = new Storage({
   //     col1:[],
   //     col2:[],
   //     col3:[],
-  //     col4:[]
+  //     col4:[],
+  //     col5:[]
   //   }
   // });
 
@@ -126,12 +127,15 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
           col1: string[],
           col2: string[],
           col3: number[],
-          col4: string[][]
+          col4: string[][],
+          col5: string[][],
+
             } = {
           col1: [],
           col2: [],
           col3: [],
-          col4: []
+          col4: [],
+          col5: [],
         };
 
         console.log('labelTypeは : ' + labelType);
@@ -144,7 +148,8 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             col1: [...existingData.col1, task],
             col2: [...existingData.col2,taskData],
             col3: [...existingData.col3,day],
-            col4: [...existingData.col4,labelTypeArray]
+            col4: [...existingData.col4,labelTypeArray],
+            col5: [...existingData.col5,selectLabelColorArray]
           };
         } else {
           // 既存のデータがない場合、新しいデータを作成
@@ -153,6 +158,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             col2: [taskData],
             col3: [day],
             col4: [[labelType]],
+            col5: [[selectLabelColor]],
           };
         }
 
@@ -290,7 +296,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                       size="small"
                       onDelete={() => removeLabelArray(index)} />
 
-                      {/* <LabelIcon className={`text-${selectLabelColor}`}/> */}
                       {/* ラベルのアイコン表示 */}
                           <Button
                             variant="text"
