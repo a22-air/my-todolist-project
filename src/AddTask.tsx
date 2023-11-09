@@ -10,7 +10,8 @@ import Button from '@mui/material/Button';
 import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
 import { LabelPage } from "./LabelPage";
 import LabelIcon from '@mui/icons-material/Label';
-
+// labelColorsをインポートする
+import labelColors from './labelColors.json'; // JSONファイルのパスを指定
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -66,8 +67,8 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
     const [taskData,setTaskData] = useState<string>('');
     const [day,setDay] = useState<number>(formattedDate);
     const [warningStatement,setWarningStatement] = useState<boolean>(true);
-    const [selectLabelColor,setSelectLabelColor] = useState<string>(''); // 選択されているラベルカラーのステート
-
+    const [selectLabelColor,setSelectLabelColor] = useState<string>("purple-200"); // 選択されているラベルカラーのステート
+    const [selectLabelColorArray,setSelectLabelColorArray] = useState<string[]>([]); // 選択されたカラーを配列にして格納するステート
 
   // テキストをセットする関数
   const handleNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,7 +101,11 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
       }
     });
 
+    console.log('selectLabelColorArray : ' + selectLabelColorArray);
+
   };
+
+
 
     // 追加ボタンでデータの追加をする関数
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -175,6 +180,58 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
     setLabelTypeArray(newCheckedValues);
   });
 
+  // TODO:
+  const openLabelHandle = ((index:number) => {
+    // setSelectLabelColor("purple-200");
+  setSelectLabelColorIndex(index);
+  if(selectLabelColorIndex )
+
+    console.log('index : ' + index);
+    console.log('selectLabelColor : ' + selectLabelColor);
+
+    // 選択されたラベルに変更するカラーを代入
+    // if(!selectLabelColor) return;
+    // selectLabelColorArray[index] = selectLabelColor;
+    // setSelectLabelColorArray(selectLabelColorArray);
+    console.log('selectLabelColorArray : ' + selectLabelColorArray);
+    console.log('selectLabelColorArray[index] : ' + selectLabelColorArray[index]);
+
+
+  })
+
+  const [selectLabelColorIndex,setSelectLabelColorIndex] = useState<number>(-1);
+
+  const selectLabelColorHandle = ((color:string) => {
+
+    setSelectLabelColor(color);
+    console.log('selectLabelColor : ' + selectLabelColor);
+    // if(selectLabelColorIndex !== -1 && selectLabelColor !== '')
+    // selectLabelColorArray[selectLabelColorIndex] = selectLabelColor;
+
+    // console.log('selectLabelColorArray : ' + selectLabelColorArray);
+
+  })
+
+  useEffect(() => {
+    if (selectLabelColorIndex !== -1 && selectLabelColor !== '') {
+      selectLabelColorArray[selectLabelColorIndex] = selectLabelColor;
+    setSelectLabelColorArray(selectLabelColorArray);
+
+      console.log('selectLabelColorArray : ' + selectLabelColorArray);
+    }
+  }, [selectLabelColor, selectLabelColorIndex, selectLabelColorArray]);
+
+
+  // 選択されているラベルの数だけデフォルトのラベルカラーの配列を作成
+  // useEffect(() => {
+  //   console.log('labelTypeArray : ' + labelTypeArray);
+
+  //   // labelTypeArrayの要素数に応じて'purple-200'を追加
+  //   const newColors = Array(labelTypeArray.length).fill('purple-200');
+  //   setSelectLabelColorArray(newColors);
+  // }, [labelTypeArray]);
+
+
 
     return(
       <div className="flex justify-between my-10">
@@ -229,13 +286,24 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                     <Stack direction="row" spacing={1} className="mx-1"
                     >
                       <Chip
-                      className="bg-pink-200 text-pink-600"
                       // color="secondary"
                       label={data}
                       // variant="outlined"
                       size="small"
                       onDelete={() => removeLabelArray(index)} />
-                    <LabelIcon className={`text-${selectLabelColor}`}/>
+
+                      {/* <LabelIcon className={`text-${selectLabelColor}`}/> */}
+                      {/* ラベルのアイコン表示 */}
+                          <Button
+                            variant="text"
+                            onClick={() => openLabelHandle(index)}
+                            >
+                              {index === selectLabelColorIndex ?
+                                <LabelIcon className={`text-${selectLabelColor ? selectLabelColor : 'purple-200'}`}/> :
+                                <LabelIcon className={`text-${selectLabelColorArray ? selectLabelColorArray[index] : 'purple-200'}`}
+                              />}
+
+                          </Button>
 
                     </Stack>
                     </div>
@@ -256,6 +324,17 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             </div>
 
             </div>
+            {/* ９色のラベルカラー表示 */}
+            {labelColors.map((colors,colorIndex) => (
+              <button
+                key={`labelColors${colorIndex}`}
+                onClick={() => selectLabelColorHandle(colors)}
+              >
+                <LabelIcon className={`text-${colors}`} />
+              </button>
+            ))}
+
+            <p className={`bg-${selectLabelColor}`}>■</p>
 
               <LabelList
                 handleSetLabel={handleSetLabel}
@@ -266,6 +345,8 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                 labelTypeArray={labelTypeArray}
                 selectLabelColor={selectLabelColor}
                 setSelectLabelColor={setSelectLabelColor}
+                selectLabelColorArray={selectLabelColorArray}
+                setSelectLabelColorArray={setSelectLabelColorArray}
               />
 
               </div>
