@@ -180,46 +180,39 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
     setLabelTypeArray(newCheckedValues);
   });
 
-  // TODO:
+  const [selectLabelColorIndex,setSelectLabelColorIndex] = useState<number>(-1); // ラベル横のカラーラベルのインデックスを監視するステート
+  // TODO:ラベル横のカラーボタンを押下時のハンドラ
   const openLabelHandle = ((index:number) => {
-    // setSelectLabelColor("purple-200");
-  setSelectLabelColorIndex(index);
-  if(selectLabelColorIndex )
-
-    console.log('index : ' + index);
-    console.log('selectLabelColor : ' + selectLabelColor);
-
-    // 選択されたラベルに変更するカラーを代入
-    // if(!selectLabelColor) return;
-    // selectLabelColorArray[index] = selectLabelColor;
-    // setSelectLabelColorArray(selectLabelColorArray);
+    setSelectLabelColorIndex(index);
+    setLabelColorIndex(-1);
+    setSelectLabelColor(selectLabelColorArray[index]);
+    console.log('labelColorIndex : ' + labelColorIndex);
     console.log('selectLabelColorArray : ' + selectLabelColorArray);
     console.log('selectLabelColorArray[index] : ' + selectLabelColorArray[index]);
 
 
   })
 
-  const [selectLabelColorIndex,setSelectLabelColorIndex] = useState<number>(-1);
+  // 9色のラベルカラーを押下した時のハンドラ
+  const [labelColorIndex,setLabelColorIndex] = useState<number>(-1); // ９色のカラーラベルのインデックス番号を監視するステート
 
-  const selectLabelColorHandle = ((color:string) => {
-
-    setSelectLabelColor(color);
+  const selectLabelColorHandle = ((color:string,colorIndex:number) => {
+    console.log('colorIndex : ' + colorIndex);
+    setLabelColorIndex(colorIndex); // ９色のラベルカラーのインデックス
+    setSelectLabelColor(color); // ラベル横のラベルカラーの文字列
     console.log('selectLabelColor : ' + selectLabelColor);
-    // if(selectLabelColorIndex !== -1 && selectLabelColor !== '')
-    // selectLabelColorArray[selectLabelColorIndex] = selectLabelColor;
 
-    // console.log('selectLabelColorArray : ' + selectLabelColorArray);
 
   })
 
   useEffect(() => {
-    if (selectLabelColorIndex !== -1 && selectLabelColor !== '') {
+    if (selectLabelColorIndex !== -1 && selectLabelColor !== '' && labelColorIndex !== -1) {
       selectLabelColorArray[selectLabelColorIndex] = selectLabelColor;
     setSelectLabelColorArray(selectLabelColorArray);
 
       console.log('selectLabelColorArray : ' + selectLabelColorArray);
     }
-  }, [selectLabelColor, selectLabelColorIndex, selectLabelColorArray]);
+  }, [selectLabelColor, selectLabelColorIndex, selectLabelColorArray,labelColorIndex]);
 
 
   // 選択されているラベルの数だけデフォルトのラベルカラーの配列を作成
@@ -301,7 +294,8 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                               {index === selectLabelColorIndex ?
                                 <LabelIcon className={`text-${selectLabelColor ? selectLabelColor : 'purple-200'}`}/> :
                                 <LabelIcon className={`text-${selectLabelColorArray ? selectLabelColorArray[index] : 'purple-200'}`}
-                              />}
+                              />
+}
 
                           </Button>
 
@@ -328,7 +322,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             {labelColors.map((colors,colorIndex) => (
               <button
                 key={`labelColors${colorIndex}`}
-                onClick={() => selectLabelColorHandle(colors)}
+                onClick={() => selectLabelColorHandle(colors,colorIndex)}
               >
                 <LabelIcon className={`text-${colors}`} />
               </button>
