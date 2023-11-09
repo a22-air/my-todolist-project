@@ -174,12 +174,17 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
 
   // 追加されたラベルを削除するボタン
     const removeLabelArray = ((index:number) => {
+      console.log('index : ' + index);
+
+      setLabelColorIndex(-1);
   // 要素を削除して新しい配列を作成（指定されたインデックス以外を新しい配列で作成）
     const newCheckedValues = labelTypeArray.filter((value, i) => i !== index);
-    const newSelectLabelColors = selectLabelColorArray.filter((value, i) => i !== index);
+    selectLabelColorArray.splice(index,1);
   // 新しい配列をステートに設定
     setLabelTypeArray(newCheckedValues);
-    setSelectLabelColorArray(newSelectLabelColors);
+    setSelectLabelColorArray(selectLabelColorArray);
+    console.log('selectLabelColorArray : ' + selectLabelColorArray);
+
   });
 
   const [selectLabelColorIndex,setSelectLabelColorIndex] = useState<number>(-1); // ラベル横のカラーラベルのインデックスを監視するステート
