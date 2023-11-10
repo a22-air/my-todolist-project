@@ -23,6 +23,7 @@ import Check from '@mui/icons-material/Check'; //チェック
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
 
 
+
 // コンテキストで送るデータ
 export const MyContext = createContext<{
   updatedData: {
@@ -624,7 +625,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 
                   <button
                     onClick={() => removeText(index)}
-                    className='mx-1 animate__animated animate__fadeIn '
+                    className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 mx-1 animate__animated animate__fadeIn '
                     hidden={indexNumber === index}>
                     <DeleteIcon
                       color='error'
@@ -632,7 +633,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                   </button>
 
                   <button
-                    className='mx-1 animate__animated animate__fadeIn'
+                    className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 mx-1 animate__animated animate__fadeIn'
                     hidden={indexNumber !== index}
                     onClick={() => {setIndexNumber(-1)}}>
                     <CancelIcon />
@@ -656,6 +657,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                 {indexNumber === index ? (
                   <IconButton
                   aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}
+                  className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
                   >
                   <DeleteIcon
                     fontSize="small" />
