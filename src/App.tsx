@@ -243,16 +243,17 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
   const [checkedTask,setCheckedTask] = useState<string>(''); //　選択されたTaskを管理するステート
   const [checkedNum,setCheckedNum] = useState<number>(0); // 選択されたインデックスを管理するステート
   // チェックされたTaskを配列にするステート
-  const [checkedTaskArray, setCheckedTaskArray] = useState<{ col1: string, col2: number, col3: number,col4:string[] }>({
+  const [checkedTaskArray, setCheckedTaskArray] = useState<{ col1: string, col2: number, col3: number,col4:string[],col5:string[] }>({
     col1: '',
     col2: 0,
     col3: 0,
-    col4:[]
+    col4:[],
+    col5:[],
   });
 
   const checkTask = ((index : number) => {
     setCheckedTask(updatedData.col1[index]);
-    setCheckedTaskArray({col1:updatedData.col1[index],col2:updatedData.col2[index],col3:updatedData.col3[index],col4:updatedData.col4[index]});
+    setCheckedTaskArray({col1:updatedData.col1[index],col2:updatedData.col2[index],col3:updatedData.col3[index],col4:updatedData.col4[index],col5:updatedData.col5[index]});
     setCheckedNum(1);
 
     // ストレージデータをロードする
@@ -264,6 +265,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       data.col2.splice(index,1)
       data.col3.splice(index,1)
       data.col4.splice(index,1)
+      data.col5.splice(index,1)
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
@@ -547,7 +549,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                 <button
                   onClick= {() => checkTask(index) }
                   className=" p-3 relative group hover:bg-slate-200 rounded-full ">
-                <FavoriteBorderIcon />
+                  <FavoriteBorderIcon />
                 <span
                   className="opacity-0 w-[74px] invisible rounded text-[12px] font-bold  py-1  bottom-3 -left-3 group-hover:visible opacity-100 absolute text-red-600">
                 <Check />
