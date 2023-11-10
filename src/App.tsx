@@ -398,14 +398,16 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       col2: number[];
       col3: number[];
       col4: string[][];
+      col5: string[][];
     };
 
     // 戻ってきた値を格納する変数
-    let returnUpDatedData: { col1: string[], col2: number[], col3: number[],col4: string[][] } = {
+    let returnUpDatedData: { col1: string[], col2: number[], col3: number[],col4: string[][], col5: string[][] } = {
       col1: [],
       col2: [],
       col3: [],
-      col4: []
+      col4: [],
+      col5: []
     };
 
     // 既存の完了リストのデータをロード
@@ -419,7 +421,8 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
           col1: [...updatedData.col1, data.col1[completedIndex]],
           col2: [...updatedData.col2, data.col2[completedIndex]],
           col3: [...updatedData.col3, data.col3[completedIndex]],
-          col4: [...updatedData.col4, data.col4[completedIndex]]
+          col4: [...updatedData.col4, data.col4[completedIndex]],
+          col5: [...updatedData.col5, data.col5[completedIndex]]
         };
 
       // 無ければ戻ってきたデータをAddTaskに入れる
@@ -428,7 +431,8 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
           col1: [data.col1[completedIndex]],
           col2: [data.col2[completedIndex]],
           col3: [data.col3[completedIndex]],
-          col4: [data.col4[completedIndex]]
+          col4: [data.col4[completedIndex]],
+          col5: [data.col5[completedIndex]]
         };
       }
 
@@ -437,6 +441,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
         data.col2.splice(completedIndex,1);
         data.col3.splice(completedIndex,1);
         data.col4.splice(completedIndex,1);
+        data.col5.splice(completedIndex,1);
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
