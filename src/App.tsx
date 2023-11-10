@@ -56,12 +56,13 @@ const storage: Storage = new Storage({
   enableCache: true,
 })
   // storage.save({
-  //   key: 'completed',
+  //   key: 'keyWord',
   //   data:{
   //     col1:[],
   //     col2:[],
   //     col3:[],
   //     col4:[],
+  //     col5:[]
   //   },
   // }).then((data) => {
   //   console.log(' : ' + JSON.stringify(data));
@@ -151,6 +152,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       data.col2.splice(indexToRemove,1);
       data.col3.splice(indexToRemove,1);
       data.col4.splice(indexToRemove,1);
+      data.col5.splice(indexToRemove,1);
 
       // 変更後のストレージデータの配列を保存する処理
         storage.save({
@@ -473,18 +475,14 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
         return [...prevLabelTypeArray, selectedLabel];
       }
 
-
     });
-
-    // TODO:
-    console.log('labelTypeArray : ' + labelTypeArray);
-
 
   };
 
   // ラベルを削除する関数
   const deleteLabel = ((number:number,index:number) => {
     updatedData.col4[index].splice(number,1); // 選択されたインデックス番号を削除
+    updatedData.col5[index].splice(number,1); // 選択されたインデックス番号を削除
 
     storage.save({
       key: 'keyWord',
@@ -546,7 +544,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
               {/* inputエリア */}
               <div className={`flex justify-center items-center w-3/5 ${index === indexNumber && 'animate__animated animate__fadeIn'}`}>
 
-                {/* TODO: */}
                 <button
                   onClick= {() => checkTask(index) }
                   className=" p-3 relative group hover:bg-slate-200 rounded-full ">
