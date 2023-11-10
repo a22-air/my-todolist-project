@@ -286,17 +286,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                 </div>
               </div>
 
-              <div className="">
-              <Stack spacing={2} direction="row">
-                <Button
-                  onClick={handleClick}
-                  variant="contained"
-                  style={{ color: 'white', backgroundColor: '#C299FF' }}>
-                  new
-                  <PanToolAltIcon />
-                </Button>
-              </Stack>
-            </div>
+
 
             </div>
 
@@ -348,6 +338,17 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
               </div>
               )
             }
+          <div className="flex justify-end">
+              <Stack spacing={2} direction="row">
+                <Button
+                  onClick={handleClick}
+                  variant="contained"
+                  style={{ color: 'white', backgroundColor: '#C299FF' }}>
+                  new
+                  <PanToolAltIcon />
+                </Button>
+              </Stack>
+            </div>
         </div>
 
       </div>
