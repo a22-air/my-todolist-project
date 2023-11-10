@@ -4,10 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 // labelColorsをインポートする
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
-// ラベルアイコン
-import LabelIcon from '@mui/icons-material/Label';
-import { Button, Stack } from "@mui/material";
-import { log } from "console";
+
 
 
 const storage: Storage = new Storage({
@@ -36,7 +33,6 @@ const storage: Storage = new Storage({
 //     key: 'labelData',
 //     data:{
 //       category:[],
-//       labelColors:[],
 //     }
 //   });
 
@@ -56,12 +52,10 @@ type LabelListProps = {
 
   export function LabelList({ handleSetLabel,labelType,showModal,setShowModal,hiddenLabelArray,labelTypeArray,selectLabelColor,setSelectLabelColor,selectLabelColorArray,setSelectLabelColorArray}: LabelListProps){
 
-    // const [labelData,setLabelData] = useState<{category:string[]}>({category: []}); // ラベル種類のステート
     const [labelData,setLabelData] = useState<{category:string[],labelColors:string[]}>({category: [], labelColors: []}); // ラベル種類のステート
     const [newLabel,setNewLabel] = useState<string>(''); // 追加ラベルのステート
     const [indexNumber,setIndexNumber] = useState<number>(-1);
-    // const [selectLabelColor,setSelectLabelColor] = useState<string>('');
-    // const [selectLabelColorArray,setSelectLabelColorArray] = useState<string[]>([]); // 選択されたカラーを配列にして格納するステート
+
 
     // ラベルのデータをロード
     useEffect(() => {
@@ -89,14 +83,14 @@ type LabelListProps = {
         labelData.category.push(newLabel);
 
         // ここで追加されたデータを書き換えて保存
-    //     storage.save({
-    //         key: 'labelData',
-    //         data : labelData
-    //     }).then((data) => {
-    //         setNewLabel(''); // newLabelをリセット
-    //     }).catch((err) => {
-    //         console.log(err);
-    //     });
+        storage.save({
+            key: 'labelData',
+            data : labelData
+        }).then((data) => {
+            setNewLabel(''); // newLabelをリセット
+        }).catch((err) => {
+            console.log(err);
+        });
     });
 
     // ラベルを削除する関数
@@ -123,27 +117,10 @@ type LabelListProps = {
         setModalEdit(!modalEdit);
       })
 
-      // TODO:
-      const openLabelColor = ((index:number) => {
-        console.log('selectLabelColor : ' + selectLabelColor);
-        console.log('index:' + index);
-        console.log('labelData : ' + JSON.stringify(labelData));
-
-      })
-
-      const selectLabelColorHandle = (() => {
-
-        // console.log('確認');
-      })
-
-
+      // ラベルの数だけデフォルトのカラーを設定する関数
       const labelColorArrayCreate = (() => {
-        console.log('labelTypeArray : ' + labelTypeArray);
-
         const newColors = Array(labelTypeArray.length).fill('purple-200');
         setSelectLabelColorArray(newColors);
-
-        console.log('selectLabelColorArray:' + selectLabelColorArray);
       })
 
     return(
@@ -176,7 +153,6 @@ type LabelListProps = {
                           onChange=
                             {(event: React.ChangeEvent<HTMLInputElement>) => {
                             handleSetLabel(event);
-                            selectLabelColorHandle();
                             }}
 
                           value={data}
@@ -190,15 +166,6 @@ type LabelListProps = {
                         >
                           {data}
                         </label>
-                        {/* ラベルカラー表示ボタン */}
-                        {/* <Stack direction="row" spacing={2}>
-                          <Button
-                            variant="text"
-                            onClick={() => setIndexNumber(index)}
-                            >
-                            <LabelIcon className="text-purple-200"/>
-                          </Button>
-                        </ Stack> */}
 
                         {/* 削除アイコンの表示設定 */}
                         {modalEdit ?
@@ -210,24 +177,6 @@ type LabelListProps = {
                         </button>
                         : null}
 
-                        {/* 9色のラベルカラー表示 */}
-                        {indexNumber === index ?
-                        (<div className="flex">
-                          {labelColors.map((colors,colorIndex) => (
-                            <button
-                              key={`labelColors${colorIndex}`}
-                              className="hover:opacity-50"
-                              onClick={() => {
-                                setSelectLabelColor(labelColors[colorIndex]);
-                                openLabelColor(index)
-                              }}
-                            >
-
-                          <LabelIcon className={`text-${colors}`} />
-
-                          </button>
-                          ))}
-                        </div>) : null }
                       </div>
                     ))}
                   </div>
@@ -243,7 +192,7 @@ type LabelListProps = {
                       />
                     </div>
                     <div className="">
-                      <button className="mx-1 text-gray-500" onClick={newLabelCategory}>Add</button>
+                      <button className="mx-1 text-gray-500" onClick={newLabelCategory}>ADD</button>
                     </div>
                   </div>
                 : null }
@@ -257,7 +206,7 @@ type LabelListProps = {
                     type="button"
                     onClick={handleModalEdit}
                   >
-                    Label edit
+                    LABEL EDIT
                   </button>
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
