@@ -240,7 +240,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 })
 
 // チェックボックス押下で完了リストにデータを移動
-  const [checkedTask,setCheckedTask] = useState<string>(''); //　選択されたTaskを管理するステート
   const [checkedNum,setCheckedNum] = useState<number>(0); // 選択されたインデックスを管理するステート
   // チェックされたTaskを配列にするステート
   const [checkedTaskArray, setCheckedTaskArray] = useState<{ col1: string, col2: number, col3: number,col4:string[],col5:string[] }>({
@@ -252,7 +251,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
   });
 
   const checkTask = ((index : number) => {
-    setCheckedTask(updatedData.col1[index]);
     setCheckedTaskArray({col1:updatedData.col1[index],col2:updatedData.col2[index],col3:updatedData.col3[index],col4:updatedData.col4[index],col5:updatedData.col5[index]});
     setCheckedNum(1);
 
@@ -304,6 +302,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       updatedData.col1 = sortedIndexes.map((index) => updatedData.col1[index]);
       updatedData.col3 = sortedIndexes.map((index)=> updatedData.col3[index]);
       updatedData.col4 = sortedIndexes.map((index)=> updatedData.col4[index]);
+      updatedData.col5 = sortedIndexes.map((index)=> updatedData.col5[index]);
 
       // col2 をソート
         updatedData.col2 = numericSort(updatedData.col2, num === 0);
