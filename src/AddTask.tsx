@@ -105,8 +105,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
 
   };
 
-
-
     // 追加ボタンでデータの追加をする関数
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
 
@@ -262,30 +260,27 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                 {/* 追加されたラベルの表示 */}
                 <div className="flex ml-2"style={{ alignItems: "center" }}>
                   {labelTypeArray.map((data,index) => (
-                    <div
-                      key={index}
-                    >
-                    <Stack direction="row" spacing={1} className="mx-1"
-                    >
-                      <Chip
-                      label={data}
-                      size="small"
-                      onDelete={() => removeLabelArray(index)} />
+                    <div key={index}>
+                      <Stack direction="row" spacing={1} className="mx-1">
+                        <Chip
+                        label={data}
+                        size="small"
+                        onDelete={() => removeLabelArray(index)} />
+                      </Stack>
+                      {/* ラベル横のカラーチップ表示 */}
+                      {/* モーダルが開いている時はチップを非表示にする */}
+                      {!showModal ?
+                      (<Button
+                        variant="text"
+                        onClick={() => openLabelHandle(index)}
+                        size="small"
+                        >
+                          {index === selectLabelColorIndex ?
+                            <LabelIcon className={`text-${selectLabelColor ? selectLabelColor : ''}`}/> :
+                            <LabelIcon className={`text-${selectLabelColorArray[index]}`} />
+                          }
+                      </Button>) : null}
 
-                      {/* ラベルのアイコン表示 */}
-                          <Button
-                            variant="text"
-                            onClick={() => openLabelHandle(index)}
-                            size="small"
-                            >
-                              {index === selectLabelColorIndex ?
-                                <LabelIcon className={`text-${selectLabelColor ? selectLabelColor : ''}`}/> :
-                                <LabelIcon className={`text-${selectLabelColorArray[index]}`} />
-                              }
-
-                          </Button>
-
-                    </Stack>
                     </div>
                   ))}
                 </div>
