@@ -21,7 +21,7 @@ import Button from '@mui/material/Button'; // ボタン
 import Check from '@mui/icons-material/Check'; //チェック
 // labelColorsをインポートする
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
-
+import LabelIcon from '@mui/icons-material/Label';
 
 
 // コンテキストで送るデータ
@@ -222,6 +222,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     data.col1[index] = task;
     data.col2[index] = taskDate;
     data.col4[index] = newArr;
+    data.col5[index] = selectLabelColorArray;
 
     // 書き換えたdataを保存する
     storage.save({
@@ -538,6 +539,34 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setSelectData(data);
     })
 
+    // ラベルの色を編集する関数 TODO:
+    const [editLabelColor,setEditLabelColor] = useState<number>(-1); // 編集モードでラベルのカラーを変更する時に使用するステート
+    // ラベルのボタンを押下した時に発火する関数
+    const changeLabelColorHandle = ((data:string,index:number,number:number) => {
+      console.log('number : ' + number);
+      console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
+      console.log('selectLabelColor : ' + selectLabelColor);
+      setEditLabelColor(number);
+      setSelectLabelColor(updatedData.col5[index][number]);
+      console.log('editLabelColor : ' + editLabelColor);
+
+      console.log('selectLabelColor : ' + selectLabelColor);
+      console.log('updatedData.col5[index][number]'+updatedData.col5[index][number]);
+
+    })
+
+    // 9色のラベル
+    const changeLabelColor = ((index:number,number:number) => {
+      console.log(' : ' + updatedData.col5[index][editLabelColor]);
+      console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
+    })
+
+    useEffect(() => {
+      if(editLabelColor === -1)return;
+      updatedData.col5[indexNumber][editLabelColor] = selectLabelColor;
+      setSelectLabelColorArray(updatedData.col5[indexNumber]);
+    },[updatedData.col5,editLabelColor,selectLabelColor,indexNumber]);
+
 
   return(
     <div className=''>
@@ -647,6 +676,8 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
           {/* ラベル表示 */}
             {updatedData.col4[index].map((data,number) => (
               <div key={`labelEdit${number}`}>
+
+                {/* LabelPageを開くボタン */}
                 <button
                 key={`label${number}`}
                 className={`text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-white bg-${updatedData.col5[index][number]} uppercase last:mr-0 mr-1 hover:bg-opacity-50`}
@@ -654,6 +685,16 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                 >
                   {data}
                 </button>
+
+                {/* カラーの変更をするボタン TODO:*/}
+                <button
+                key={`editLabel${number}`}
+                className={`text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-white bg-${updatedData.col5[index][number]} uppercase last:mr-0 mr-1 hover:bg-opacity-50`}
+                onClick={() => changeLabelColorHandle(data,index,number)}
+                >
+                  {data}
+                </button>
+              <p className={`bg-${selectLabelColor}`}>selectLabelColor</p>
                 {indexNumber === index ? (
                   <IconButton
                   aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}
@@ -666,12 +707,28 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
               </div>
             ))}
             {indexNumber === index ? (
-              <button className="mx-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:duration-300" onClick={() => setShowModal(true)}>
-                <AddCircleOutlineIcon
-                  className='text-pink-600'
-                  onClick={() => hiddenLabelData(index)}
-                />
-              </button>
+              <div>
+                <button className="mx-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:duration-300" onClick={() => setShowModal(true)}>
+                  <AddCircleOutlineIcon
+                    className='text-pink-600'
+                    onClick={() => hiddenLabelData(index)}
+                  />
+                </button>
+                {/* ９色のラベルカラーの表示 */}
+                {labelColors.map((colors,colorIndex) => (
+                <button
+                  key={`labelColors${colorIndex}`}
+                  className="mx-3 hover:opacity-70"
+                  onClick={()=>setSelectLabelColor(colors)}
+                >
+                  <LabelIcon
+                    className={`text-${colors}`}
+                    onClick={() => changeLabelColor(index,colorIndex)}
+                    />
+                </button>
+            ))}
+
+              </div>
             ) : null}
           </div>
 
@@ -684,9 +741,11 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
               <Stack direction="row" spacing={1}
               >
                 <Chip
-                color="secondary"
+                // color="secondary"
+                // className='text-purple-500'
+                style={{backgroundColor:'white'}}
                 label={data}
-                variant="outlined"
+                // variant="outlined"
                 size="small"
                 onDelete={() => removeLabelArray(index)} />
               </Stack>
