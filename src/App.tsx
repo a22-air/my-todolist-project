@@ -539,34 +539,40 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setSelectData(data);
     })
 
-    // ラベルの色を編集する関数 TODO:
-    const [editLabelColor,setEditLabelColor] = useState<number>(-1); // 編集モードでラベルのカラーを変更する時に使用するステート
+    // ラベルの色を編集する関数
+    const [editLabelColorNumber,setEditLabelColorNumber] = useState<number>(-1); // 編集モードでラベルのカラーを変更する時に使用するステート
     // ラベルのボタンを押下した時に発火する関数
     const changeLabelColorHandle = ((data:string,index:number,number:number) => {
-      console.log('number : ' + number);
+      // data = ラベルの名前 index = col5.[index] number = ラベルの中のindex
+      setEditLabelColorNumber(number); // 選択されているラベルのインデックス
+      setSelectLabelColor(data);
+      console.log('editLabelColorIndex : ' + editLabelColorIndex);
       console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
-      console.log('selectLabelColor : ' + selectLabelColor);
-      setEditLabelColor(number);
-      setSelectLabelColor(updatedData.col5[index][number]);
-      console.log('editLabelColor : ' + editLabelColor);
-
-      console.log('selectLabelColor : ' + selectLabelColor);
-      console.log('updatedData.col5[index][number]'+updatedData.col5[index][number]);
-
     })
-
+    const [editLabelColorIndex, setEditLabelColorIndex] = useState<number>(-1);
     // 9色のラベル
-    const changeLabelColor = ((index:number,number:number) => {
-      console.log(' : ' + updatedData.col5[index][editLabelColor]);
+    const changeLabelColor = ((color:string,index:number,number:number) => {
+      if(editLabelColorNumber === -1){
+        setEditLabelColorIndex(-1);
+      }else{
+        setEditLabelColorIndex(number);
+      }
+      setSelectLabelColor(color);
+      console.log('editLabelColorNumber : ' + editLabelColorNumber);
       console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
     })
 
     useEffect(() => {
-      if(editLabelColor === -1)return;
-      updatedData.col5[indexNumber][editLabelColor] = selectLabelColor;
+      if(editLabelColorNumber === -1 || editLabelColorIndex === -1)return;
+      updatedData.col5[indexNumber][editLabelColorNumber] = selectLabelColor;
+      setEditLabelColorIndex(-1);
       setSelectLabelColorArray(updatedData.col5[indexNumber]);
-    },[updatedData.col5,editLabelColor,selectLabelColor,indexNumber]);
+    },[updatedData.col5,editLabelColorNumber,selectLabelColor,indexNumber,editLabelColorIndex]);
 
+    // xボタンでupdatedData.col5[index]を初期値に戻す関数
+    const resetLabelColorArray = ((index:number) => {
+      window.location.reload();
+    })
 
   return(
     <div className=''>
@@ -660,11 +666,15 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                       color='error'
                       />
                   </button>
-
+                  {/* x ボタン TODO: */}
                   <button
                     className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 mx-1 animate__animated animate__fadeIn'
                     hidden={indexNumber !== index}
-                    onClick={() => {setIndexNumber(-1)}}>
+                    onClick={() => {setIndexNumber(-1);
+                                    setEditLabelColorNumber(-1);
+                                    setSelectLabelColor('');
+                                    resetLabelColorArray(index);
+                                    }}>
                     <CancelIcon />
                   </button>
 
@@ -677,24 +687,24 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
             {updatedData.col4[index].map((data,number) => (
               <div key={`labelEdit${number}`}>
 
-                {/* LabelPageを開くボタン */}
-                <button
+                {index !== indexNumber ?
+
+                (<button
                 key={`label${number}`}
                 className={`text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-white bg-${updatedData.col5[index][number]} uppercase last:mr-0 mr-1 hover:bg-opacity-50`}
                 onClick={() => handleOpenLabelPage(data,index)}
                 >
                   {data}
-                </button>
+                </button>) :
 
-                {/* カラーの変更をするボタン TODO:*/}
-                <button
+                (<button
                 key={`editLabel${number}`}
                 className={`text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-white bg-${updatedData.col5[index][number]} uppercase last:mr-0 mr-1 hover:bg-opacity-50`}
                 onClick={() => changeLabelColorHandle(data,index,number)}
                 >
-                  {data}
-                </button>
-              <p className={`bg-${selectLabelColor}`}>selectLabelColor</p>
+                  {data}aa
+                </button>)}
+              <p className={`bg-${selectLabelColor}`}>■</p>
                 {indexNumber === index ? (
                   <IconButton
                   aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}
@@ -719,11 +729,10 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                 <button
                   key={`labelColors${colorIndex}`}
                   className="mx-3 hover:opacity-70"
-                  onClick={()=>setSelectLabelColor(colors)}
                 >
                   <LabelIcon
                     className={`text-${colors}`}
-                    onClick={() => changeLabelColor(index,colorIndex)}
+                    onClick={() => changeLabelColor(colors,index,colorIndex)}
                     />
                 </button>
             ))}
