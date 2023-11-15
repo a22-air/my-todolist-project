@@ -173,7 +173,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 
     };
 
-  // 編集ボタン押下でテキストのデータの値を取得する関数
+  // 編集ボタン押下でテキストのデータの値を取得する関数 FIXME:
     const handleEditClick = (data : string, index : number) => {
     // 選択されたindex番号のidを取得
     var element = document.getElementById("input_"+index);
@@ -181,6 +181,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     setTask(data);
     // 選択されたidのテキストにフォーカスする指定
     element?.focus();
+
   }
 
 // カレンダーの初期値をセットする関数
@@ -222,7 +223,11 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     data.col1[index] = task;
     data.col2[index] = taskDate;
     data.col4[index] = newArr;
-    data.col5[index] = selectLabelColorArray;
+    if (selectLabelColorArray[index] === undefined) {
+      // 処理をスキップ
+    } else {
+      data.col5[index] = selectLabelColorArray;
+    }
 
     // 書き換えたdataを保存する
     storage.save({
@@ -539,15 +544,15 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setSelectData(data);
     })
 
-    // ラベルの色を編集する関数
+    // ラベルの色を編集する関数 FIXME:
     const [editLabelColorNumber,setEditLabelColorNumber] = useState<number>(-1); // 編集モードでラベルのカラーを変更する時に使用するステート
     // ラベルのボタンを押下した時に発火する関数
     const changeLabelColorHandle = ((data:string,index:number,number:number) => {
       // data = ラベルの名前 index = col5.[index] number = ラベルの中のindex
       setEditLabelColorNumber(number); // 選択されているラベルのインデックス
       setSelectLabelColor(data);
-      console.log('editLabelColorIndex : ' + editLabelColorIndex);
-      console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
+      // const initialLabelColor : string[] = updatedData.col5[index].concat(); TODO:この辺は未作成
+      // console.log('initialLabelColor : ' + initialLabelColor);
     })
     const [editLabelColorIndex, setEditLabelColorIndex] = useState<number>(-1);
     // 9色のラベル
@@ -558,9 +563,8 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
         setEditLabelColorIndex(number);
       }
       setSelectLabelColor(color);
-      console.log('editLabelColorNumber : ' + editLabelColorNumber);
-      console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
     })
+
 
     useEffect(() => {
       if(editLabelColorNumber === -1 || editLabelColorIndex === -1)return;
@@ -569,9 +573,11 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setSelectLabelColorArray(updatedData.col5[indexNumber]);
     },[updatedData.col5,editLabelColorNumber,selectLabelColor,indexNumber,editLabelColorIndex]);
 
-    // xボタンでupdatedData.col5[index]を初期値に戻す関数
+
+    // xボタンでページのリロード
     const resetLabelColorArray = ((index:number) => {
-      window.location.reload();
+      console.log('selectLabelColorArray : ' + selectLabelColorArray);
+
     })
 
   return(
