@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState,useEffect,useCallback,createContext} from 'react';
+import {useState,useEffect,useCallback,createContext,Dispatch, SetStateAction} from 'react';
 // ストレージのインポート
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -22,6 +22,7 @@ import Check from '@mui/icons-material/Check'; //チェック
 // labelColorsをインポートする
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
 import LabelIcon from '@mui/icons-material/Label';
+import { log } from 'console';
 
 
 // コンテキストで送るデータ
@@ -71,15 +72,15 @@ const storage: Storage = new Storage({
   //   console.log(err);
   // });
 
-  //keyの中身を調べる方法↓ -----------------------------------
-  // const keyName = 'completed'; // 取得したいキー名
-  // const storedValue = localStorage.getItem(keyName);
+  // keyの中身を調べる方法↓ -----------------------------------
+  const keyName = 'initialLabelColorArray'; // 取得したいキー名
+  const storedValue = localStorage.getItem(keyName);
 
-  // if (storedValue !== null) {
-  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  // } else {
-  //   console.log(`キー ${keyName} は存在しません。`);
-  // }
+  if (storedValue !== null) {
+    console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  } else {
+    console.log(`キー ${keyName} は存在しません。`);
+  }
 // 　-----------------------------------------------------
 
 //ストレージデータを削除する時 --------------------------------
@@ -551,7 +552,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       // data = ラベルの名前 index = col5.[index] number = ラベルの中のindex
       setEditLabelColorNumber(number); // 選択されているラベルのインデックス
       setSelectLabelColor(data);
-      // const initialLabelColor : string[] = updatedData.col5[index].concat(); TODO:この辺は未作成
+      // const initialLabelColor : string[] = updatedData.col5[index].concat(); TODO:
       // console.log('initialLabelColor : ' + initialLabelColor);
     })
     const [editLabelColorIndex, setEditLabelColorIndex] = useState<number>(-1);
@@ -573,12 +574,26 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setSelectLabelColorArray(updatedData.col5[indexNumber]);
     },[updatedData.col5,editLabelColorNumber,selectLabelColor,indexNumber,editLabelColorIndex]);
 
+    const [initialCol5, setInitialCol5] = useState<string[]>([]);
+    // 編集ボタン
+   const saveArray = ((index : number) => {
+    storage.load({
+      key: 'initialLabelColorArray'
+    }).then((data) => {
+      console.log('data[index] : ' + JSON.stringify(data[index]))
+      setInitialCol5(data[index]);
+    }).catch((err) => {
+      console.log(err);
+    });
+    console.log('initialCol5 : ' + initialCol5);
+   })
 
-    // xボタンでページのリロード
-    const resetLabelColorArray = ((index:number) => {
-      console.log('selectLabelColorArray : ' + selectLabelColorArray);
+   // xボタン
+   const setSaveArray = ((index : number) => {
 
-    })
+    updatedData.col5[index] = initialCol5;
+    setInitialCol5([]);
+   })
 
   return(
     <div className=''>
@@ -658,7 +673,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                     size='small'
                     onClick={() => {
                       setIndexNumber(index);
-                      indexNumber === index ? upDateData(index) : handleEditClick(data, index);
+                      indexNumber === index ? upDateData(index) : handleEditClick(data, index);saveArray(index)
                     }}
                     >{indexNumber === index ? '更新' : '編集'}
                   </Button>
@@ -679,7 +694,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                     onClick={() => {setIndexNumber(-1);
                                     setEditLabelColorNumber(-1);
                                     setSelectLabelColor('');
-                                    resetLabelColorArray(index);
+                                    setSaveArray(index);
                                     }}>
                     <CancelIcon />
                   </button>
