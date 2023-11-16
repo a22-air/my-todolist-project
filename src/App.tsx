@@ -73,14 +73,14 @@ const storage: Storage = new Storage({
   // });
 
   // keyの中身を調べる方法↓ -----------------------------------
-  const keyName = 'initialLabelColorArray'; // 取得したいキー名
-  const storedValue = localStorage.getItem(keyName);
+  // const keyName = 'initialLabelColorArray'; // 取得したいキー名
+  // const storedValue = localStorage.getItem(keyName);
 
-  if (storedValue !== null) {
-    console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  } else {
-    console.log(`キー ${keyName} は存在しません。`);
-  }
+  // if (storedValue !== null) {
+  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  // } else {
+  //   console.log(`キー ${keyName} は存在しません。`);
+  // }
 // 　-----------------------------------------------------
 
 //ストレージデータを削除する時 --------------------------------
@@ -550,6 +550,8 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setEditLabelColorNumber(number); // 選択されているラベルのインデックス
     })
 
+    const [initialCol5, setInitialCol5] = useState<string[][]>([]); // initialLabelColorArrayをセット
+
     // 9色のラベル
     const changeLabelColor = ((color:string,index:number,number:number) => {
     // 新しい配列を作成して、指定された要素を変更
@@ -562,17 +564,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setInitialCol5(newInitialCol5);
       setSelectLabelColorArray(newInitialCol5[index]);
     })
-
-    const [initialCol5, setInitialCol5] = useState<string[][]>([]); // initialLabelColorArrayをセット
-    // useEffect(() => {
-    //   storage.load({
-    //       key: 'initialLabelColorArray'
-    //     }).then((data) => {
-    //       setInitialCol5(data); // initialCol5にinitialLabelColorArrayをセットする関数
-    //     }).catch((err) => {
-    //       console.log(err);
-    //     });
-    // },[]) // 最初の一回のみ実行
 
   // 編集ボタン
   const saveArray = ((index : number) => {
