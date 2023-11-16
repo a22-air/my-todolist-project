@@ -85,7 +85,7 @@ const storage: Storage = new Storage({
 
 //ストレージデータを削除する時 --------------------------------
   // storage.remove({
-  //   key: 'completed'
+  //   key: 'initialLabelColorArray'
   // }).then((data) => {
   //   console.log('削除成功');
   // }).catch((err) => {
@@ -560,18 +560,19 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       );
     // 新しい配列を設定
       setInitialCol5(newInitialCol5);
+      setSelectLabelColorArray(newInitialCol5[index]);
     })
 
     const [initialCol5, setInitialCol5] = useState<string[][]>([]); // initialLabelColorArrayをセット
-    useEffect(() => {
-      storage.load({
-          key: 'initialLabelColorArray'
-        }).then((data) => {
-          setInitialCol5(data); // initialCol5にinitialLabelColorArrayをセットする関数
-        }).catch((err) => {
-          console.log(err);
-        });
-    },[]) // 最初の一回のみ実行
+    // useEffect(() => {
+    //   storage.load({
+    //       key: 'initialLabelColorArray'
+    //     }).then((data) => {
+    //       setInitialCol5(data); // initialCol5にinitialLabelColorArrayをセットする関数
+    //     }).catch((err) => {
+    //       console.log(err);
+    //     });
+    // },[]) // 最初の一回のみ実行
 
   // 編集ボタン
   const saveArray = ((index : number) => {
