@@ -478,8 +478,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
   const handleSetLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedLabel = event.target.value;
 
-    // setLabelType(selectedLabel); // 選択されたラベルをセット
-
     setLabelTypeArray((prevLabelTypeArray) => {
       if (prevLabelTypeArray.includes(selectedLabel)) {
         // すでに含まれている場合は削除
@@ -537,7 +535,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     };
 
     // ラベルのページを表示する関数
-
     const handleOpenLabelPage = ((data:string,index:number) => {
       if(!openLabelPage)
       setOpenLabelPage(true);
@@ -556,36 +553,35 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     // 9色のラベル
     const changeLabelColor = ((color:string,index:number,number:number) => {
     // 新しい配列を作成して、指定された要素を変更
-      const newInitialCol5 = initialCol5.map((row, i) =>
-        i === index
-          ? row.map((item, j) => (j === editLabelColorNumber ? color : item))
-          : row
+      const newInitialCol5 = initialCol5.map((row, i) => // row = initialLabelData[][] i = index
+        i === index // 選択されたインデックスのinitialLabelData
+          ? row.map((item, j) => (j === editLabelColorNumber ? color : item)) // さらにmapで配列の中をitemに入れる　jとeditLabelNumberが等しい時はcolorに変更する
+          : row // 選択されていないinitialLabelDataはそのままの配列で返す
       );
     // 新しい配列を設定
       setInitialCol5(newInitialCol5);
     })
 
-    const [initialCol5, setInitialCol5] = useState<string[][]>([]);
-
+    const [initialCol5, setInitialCol5] = useState<string[][]>([]); // initialLabelColorArrayをセット
     useEffect(() => {
       storage.load({
           key: 'initialLabelColorArray'
         }).then((data) => {
-          console.log('data : ' + JSON.stringify(data))
-          setInitialCol5(data);
+          setInitialCol5(data); // initialCol5にinitialLabelColorArrayをセットする関数
         }).catch((err) => {
           console.log(err);
         });
-        console.log('initialCol5 : ' + initialCol5);
-    },[])
+    },[]) // 最初の一回のみ実行
 
   // 編集ボタン
   const saveArray = ((index : number) => {
+    // initialCol5には最初のラベルカラーの配列を入れて戻す処理
     setInitialCol5(updatedData.col5);
   })
 
   // xボタン
   const setSaveArray = (index: number) => {
+  // initialCol5には最初のラベルカラーの配列を入れて戻す処理
     setInitialCol5(updatedData.col5);
   };
 
