@@ -545,45 +545,24 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setSelectData(data);
     })
 
-    // ラベルの色を編集する関数 FIXME:
+    // ラベルの色を編集する関数
     const [editLabelColorNumber,setEditLabelColorNumber] = useState<number>(-1); // 編集モードでラベルのカラーを変更する時に使用するステート
     // ラベルのボタンを押下した時に発火する関数
-    const changeLabelColorHandle = ((data:string,index:number,number:number) => {
-      // data = ラベルの名前 index = col5.[index] number = ラベルの中のindex
+      const changeLabelColorHandle = ((data:string,index:number,number:number) => {
+    // data = ラベルの名前 index = col5.[index] number = ラベルの中のindex
       setEditLabelColorNumber(number); // 選択されているラベルのインデックス
-      console.log('editLabelColorNumberをセット : ' + editLabelColorNumber);
-      console.log('initialCol5[index][number] : ' + initialCol5[index][number]);
-
     })
 
-    const [editLabelColorIndex, setEditLabelColorIndex] = useState<number>(-1);
     // 9色のラベル
     const changeLabelColor = ((color:string,index:number,number:number) => {
-      if(editLabelColorNumber === -1){
-        setEditLabelColorIndex(-1);
-        console.log('editLabelNumberが-1です。editLabelColorIndexをセット : ' + editLabelColorIndex);
-
-      }else{
-        setEditLabelColorIndex(number);
-        console.log('editLabelNumberが-1ではありません。editLabelColorIndexをセット : ' + editLabelColorIndex);
-        setSelectLabelColor(color);
-        console.log('selectLabelColor : ' + selectLabelColor);
-        console.log('initialCol5[index] : ' + initialCol5[index]);
-        console.log('initialCol5[index][editLabelColorNumber] : ' + initialCol5[index][editLabelColorNumber]);
-      }
-      console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
-      // 新しい配列を作成して、指定された要素を変更
-    const newInitialCol5 = initialCol5.map((row, i) =>
-    i === index
-      ? row.map((item, j) => (j === editLabelColorNumber ? color : item))
-      : row
-  );
-
-  console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
-
-  // 新しい配列を設定
-  setInitialCol5(newInitialCol5);
-
+    // 新しい配列を作成して、指定された要素を変更
+      const newInitialCol5 = initialCol5.map((row, i) =>
+        i === index
+          ? row.map((item, j) => (j === editLabelColorNumber ? color : item))
+          : row
+      );
+    // 新しい配列を設定
+      setInitialCol5(newInitialCol5);
     })
 
     const [initialCol5, setInitialCol5] = useState<string[][]>([]);
@@ -600,62 +579,13 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
         console.log('initialCol5 : ' + initialCol5);
     },[])
 
-
-    // useEffect(() => {
-    //   if(editLabelColorNumber === -1 || editLabelColorIndex === -1)return;
-    //   updatedData.col5[indexNumber][editLabelColorNumber] = selectLabelColor;
-    //   setEditLabelColorIndex(-1);
-    //   setSelectLabelColorArray(updatedData.col5[indexNumber]);
-    // },[updatedData.col5,editLabelColorNumber,selectLabelColor,indexNumber,editLabelColorIndex]);
-
-
-
-
-    // 編集ボタン
-  //  const saveArray = ((index : number) => {
-  //   storage.load({
-  //     key: 'initialLabelColorArray'
-  //   }).then((data) => {
-  //     console.log('data[index] : ' + JSON.stringify(data[index]))
-  //     setInitialCol5(data[index]);
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   });
-  //   console.log('initialCol5 : ' + initialCol5);
-  //  })
-
-  //  // xボタン
-  //  const setSaveArray = ((index : number) => {
-  //   updatedData.col5[index] = initialCol5;
-  //   setInitialCol5([]);
-  //  })
-
-  //  const saveArray = async (index: number) => {
-  //   try {
-  //     const data = await storage.load({
-  //       key: 'initialLabelColorArray'
-  //     });
-
-  //     setInitialCol5(data[index]);
-  //     console.log('data[index]: ' + JSON.stringify(data[index]));
-
-  //     console.log('initialCol5: ' + JSON.stringify(initialCol5));
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   // 編集ボタン
   const saveArray = ((index : number) => {
-    console.log('initialCol5[index] : ' + initialCol5[index]);
-    console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
     setInitialCol5(updatedData.col5);
-
   })
 
   // xボタン
   const setSaveArray = (index: number) => {
-    console.log('updatedData.col5[index] : ' + updatedData.col5[index]);
     setInitialCol5(updatedData.col5);
   };
 
