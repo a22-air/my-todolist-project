@@ -223,11 +223,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     data.col1[index] = task;
     data.col2[index] = taskDate;
     data.col4[index] = newArr;
-    if (initialCol5[index] === undefined) {
-      // 処理をスキップ
-    } else {
-      data.col5[index] = initialCol5[index];
-    }
+    data.col5[index] = initialCol5[index];
 
     // 書き換えたdataを保存する
     storage.save({
