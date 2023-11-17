@@ -37,7 +37,7 @@ export function LabelPage({openLabelPage,setOpenLabelPage}:LabelPageProps){
         <>
         {openLabelPage &&
         <div className="animate__animated animate__fadeIn">
-        <span className="m-2 text-large font-semibold inline-block py-1 px-2 uppercase rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">
+        <span className="m-2 text-large font-semibold inline-block py-1 px-2 rounded text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">
             {selectData}
         </span>
         <div className="m-2">
@@ -61,16 +61,6 @@ export function LabelPage({openLabelPage,setOpenLabelPage}:LabelPageProps){
 
             </div>
         ))}
-        <Stack direction="row" spacing={2}>
-            <Button
-                onClick={() => setOpenLabelPage(!openLabelPage)}
-                variant="contained"
-                size="small"
-                style={{ backgroundColor: '#FF82B2'}}
-                >
-                <ArrowBackIcon></ArrowBackIcon>
-            </Button>
-        </Stack>
         </div>
         </div>
 }

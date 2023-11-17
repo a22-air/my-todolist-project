@@ -1,6 +1,5 @@
 import React from 'react';
 import {useState,useEffect,useCallback,createContext} from 'react';
-import ReactDOM from 'react-dom';
 // ストレージのインポート
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -23,7 +22,6 @@ import Check from '@mui/icons-material/Check'; //チェック
 // labelColorsをインポートする
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
 import LabelIcon from '@mui/icons-material/Label';
-import { log } from 'console';
 import ModalPortal from './MordalPortal';
 
 
@@ -590,7 +588,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                   className=" p-3 relative group hover:bg-slate-200 rounded-full ">
                   <FavoriteBorderIcon />
                 <span
-                  className="opacity-0 w-[74px] invisible rounded text-[12px] font-bold  py-1  bottom-3 -left-3 group-hover:visible opacity-100 absolute text-red-600">
+                  className="w-[74px] invisible rounded text-[12px] font-bold  py-1  bottom-3 -left-3 group-hover:visible opacity-100 absolute text-red-600">
                 <Check />
                 </span>
               </button>
@@ -701,7 +699,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                 className={`text-xs font-semibold inline-block py-1 px-2 mx-2 uppercase rounded text-white bg-${initialCol5[index][number]} uppercase last:mr-0 mr-1 hover:bg-opacity-50`}
                 onClick={() => changeLabelColorHandle(data,index,number)}
                 >
-                  {data}aa
+                  {data}
                 </button>)}
                 {indexNumber === index ? (
                   <IconButton

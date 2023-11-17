@@ -13,6 +13,8 @@ import LabelIcon from '@mui/icons-material/Label';
 // labelColorsをインポートする
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
 import ModalPortal from "./MordalPortal";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -337,7 +339,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
               )
             }
           <div className="flex justify-end">
-              <Stack spacing={2} direction="row">
+            {!openLabelPage ? (<Stack spacing={2} direction="row">
                 <Button
                   onClick={handleClick}
                   variant="contained"
@@ -346,6 +348,20 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                   <PanToolAltIcon />
                 </Button>
               </Stack>
+) :(<Stack direction="row-reverse" spacing={2}>
+<Button
+    onClick={() => setOpenLabelPage(!openLabelPage)}
+    variant="contained"
+    size="small"
+    style={{ backgroundColor: '#FF82B2'}}
+    >
+    <ArrowBackIcon></ArrowBackIcon>
+</Button>
+</Stack>) }
+
+
+
+
             </div>
         </div>
 
