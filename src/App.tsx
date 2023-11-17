@@ -573,19 +573,8 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setInitialCol5(newInitialCol5);
     })
 
-  const confirmation = (() => {
-    console.log('selectLabelColorArray : ' + selectLabelColorArray);
-    console.log('initialCol5 : ' + initialCol5);
-    console.log('showModal : ' + showModal);
-
-  })
-
-
-
-
   return(
     <div className=''>
-      <button onClick={confirmation}>selectLabelColorArray</button>
       <div className='my-10'>
       {updatedData.col1.map((data,index) => (
 
@@ -727,34 +716,24 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
             ))}
             {indexNumber === index ? (
               <div>
+
                 <button className="mx-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:duration-300" onClick={() => setShowModal(true)}>
                   <AddCircleOutlineIcon
                     className='text-pink-600'
                     onClick={() => hiddenLabelData(index)}
                   />
                 </button>
-                {/* ９色のラベルカラーの表示 */}
-                {labelColors.map((colors,colorIndex) => (
-                <button
-                  key={`labelColors${colorIndex}`}
-                  className="mx-3 hover:opacity-70"
-                >
-                  <LabelIcon
-                    className={`text-${colors}`}
-                    onClick={() => changeLabelColor(colors,index,colorIndex)}
-                    />
-                </button>
-            ))}
 
               </div>
             ) : null}
           </div>
 
           {indexNumber === index ? (
-            <div className="flex">
+            <div className="flex my-3">
             {labelTypeArray.map((data,index) => (
               <div
                 key={index}
+                className='mx-3'
               >
               <Stack direction="row" spacing={1}
               >
@@ -771,6 +750,21 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
             ))}
             </div>
           ) : null}
+
+           {/* ９色のラベルカラーの表示 */}
+           <div className={`${index === indexNumber && 'animate__animated animate__fadeIn'}`}>
+           {index === indexNumber ? (labelColors.map((colors,colorIndex) => (
+                <button
+                  key={`labelColors${colorIndex}`}
+                  className="mx-3 hover:opacity-70"
+                >
+                  <LabelIcon
+                    className={`text-${colors}`}
+                    onClick={() => changeLabelColor(colors,index,colorIndex)}
+                    />
+                </button>
+           ))) : null}
+           </div>
 
           <ModalPortal>
             <LabelList
