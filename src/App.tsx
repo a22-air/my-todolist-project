@@ -210,6 +210,8 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 
 // col4の配列の中身と選択されたラベルを同じ配列に追加する
   const editLabelData = updatedData.col4[index].concat(labelTypeArray);
+// initialCol5に追加されたラベルを入れ込んで新しい配列を作成
+  const newLabelColorArray = initialCol5[index].concat(selectLabelColorArray);
 
 // 配列の中の同じデータを取り除く処理
   const set = new Set(editLabelData);
@@ -223,7 +225,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     data.col1[index] = task;
     data.col2[index] = taskDate;
     data.col4[index] = newArr;
-    data.col5[index] = initialCol5[index];
+    data.col5[index] = newLabelColorArray;
 
     // 書き換えたdataを保存する
     storage.save({
