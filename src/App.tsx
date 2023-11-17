@@ -174,7 +174,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 
     };
 
-  // 編集ボタン押下でテキストのデータの値を取得する関数 FIXME:
+  // 編集ボタン押下でテキストのデータの値を取得する関数
     const handleEditClick = (data : string, index : number) => {
     // 選択されたindex番号のidを取得
     var element = document.getElementById("input_"+index);
@@ -182,7 +182,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     setTask(data);
     // 選択されたidのテキストにフォーカスする指定
     element?.focus();
-
   }
 
 // カレンダーの初期値をセットする関数
@@ -206,7 +205,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     setTask(event.target.value);
   }
 
-// 更新ボタン押下でデータの更新を行う関数
+// 更新ボタン押下でデータの更新を行う関数 TODO:
   const upDateData = ((index : number) => {
 
 // col4の配列の中身と選択されたラベルを同じ配列に追加する
@@ -224,10 +223,10 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     data.col1[index] = task;
     data.col2[index] = taskDate;
     data.col4[index] = newArr;
-    if (selectLabelColorArray[index] === undefined) {
+    if (initialCol5[index] === undefined) {
       // 処理をスキップ
     } else {
-      data.col5[index] = selectLabelColorArray;
+      data.col5[index] = initialCol5[index];
     }
 
     // 書き換えたdataを保存する
@@ -562,7 +561,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       );
     // 新しい配列を設定
       setInitialCol5(newInitialCol5);
-      setSelectLabelColorArray(newInitialCol5[index]);
     })
 
   // 編集ボタン
@@ -577,8 +575,15 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     setInitialCol5(updatedData.col5);
   };
 
+  const confirmation = (() => {
+    console.log('selectLabelColorArray : ' + selectLabelColorArray);
+    console.log('initialCol5 : ' + initialCol5);
+
+  })
+
   return(
     <div className=''>
+      <button onClick={confirmation}>selectLabelColorArray</button>
       <div className='my-10'>
       {updatedData.col1.map((data,index) => (
 
@@ -669,7 +674,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                       color='error'
                       />
                   </button>
-                  {/* x ボタン TODO: */}
+                  {/* x ボタン */}
                   <button
                     className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 mx-1 animate__animated animate__fadeIn'
                     hidden={indexNumber !== index}
@@ -755,7 +760,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                 <Chip
                 // color="secondary"
                 // className='text-purple-500'
-                style={{backgroundColor:'white'}}
+                style={{backgroundColor:'#E9D8FD'}}
                 label={data}
                 // variant="outlined"
                 size="small"
