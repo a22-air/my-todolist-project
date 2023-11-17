@@ -186,7 +186,7 @@ type LabelListProps = {
                     <div className="mb-3 pt-0 w-3/4">
                       <input type="text"
                             placeholder="Add Label"
-                            className="w-full px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring "
+                            className="w-full px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white  rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring "
                             onChange={handleNewLabel}
                             value={newLabel}
                       />
@@ -232,3 +232,5 @@ type LabelListProps = {
         </>
     )
   }
+
+export default LabelList;

@@ -12,6 +12,7 @@ import { LabelPage } from "./LabelPage";
 import LabelIcon from '@mui/icons-material/Label';
 // labelColorsをインポートする
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
+import ModalPortal from "./MordalPortal";
 
 const storage: Storage = new Storage({
     // 最大容量
@@ -286,8 +287,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                 </div>
               </div>
 
-
-
             </div>
 
           <div className="flex">
@@ -307,8 +306,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             </div>
 
             {/* ９色のラベルカラー表示 */}
-
-
             {labelColors.map((colors,colorIndex) => (
               openLabelColor ? (
                 <button
@@ -322,6 +319,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
             ))}
 
           </div>
+          <ModalPortal>
               <LabelList
                 handleSetLabel={handleSetLabel}
                 labelType={labelType}
@@ -334,7 +332,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                 selectLabelColorArray={selectLabelColorArray}
                 setSelectLabelColorArray={setSelectLabelColorArray}
               />
-
+          </ModalPortal>
               </div>
               )
             }

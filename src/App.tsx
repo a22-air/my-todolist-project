@@ -1,5 +1,6 @@
 import React from 'react';
-import {useState,useEffect,useCallback,createContext,Dispatch, SetStateAction} from 'react';
+import {useState,useEffect,useCallback,createContext} from 'react';
+import ReactDOM from 'react-dom';
 // ストレージのインポート
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -23,6 +24,7 @@ import Check from '@mui/icons-material/Check'; //チェック
 import labelColors from './labelColors.json'; // JSONファイルのパスを指定
 import LabelIcon from '@mui/icons-material/Label';
 import { log } from 'console';
+import ModalPortal from './MordalPortal';
 
 
 // コンテキストで送るデータ
@@ -101,6 +103,14 @@ function Todo(){
     </div>
     );
   }
+
+  // function Test(){
+
+  //   return ReactDOM.createPortal(
+  //     <h1>Hello Portals</h1>,
+  //     document.getElementById('portal')
+  //   );
+  // }
 
 // 親プロップスから受け取る処理
 type AddTextProps = {
@@ -566,8 +576,12 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
   const confirmation = (() => {
     console.log('selectLabelColorArray : ' + selectLabelColorArray);
     console.log('initialCol5 : ' + initialCol5);
+    console.log('showModal : ' + showModal);
 
   })
+
+
+
 
   return(
     <div className=''>
@@ -615,7 +629,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                     <input type='date'
                       onChange={editDate}
                       defaultValue={calendarInitialValue(index)}
-                      className='px-2 py-2 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-2 shadow outline-none focus:outline-none focus:ring'
+                      className='px-2 py-2 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border-2 shadow outline-none focus:outline-none focus:ring'
                     >
 
                     </input> :
@@ -700,7 +714,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                 >
                   {data}aa
                 </button>)}
-              <p className={`bg-${selectLabelColor}`}>■</p>
                 {indexNumber === index ? (
                   <IconButton
                   aria-label="delete" size="small" onClick={() => deleteLabel(number,index)}
@@ -759,6 +772,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
             </div>
           ) : null}
 
+          <ModalPortal>
             <LabelList
               handleSetLabel={handleSetLabel}
               labelType={labelType}
@@ -770,8 +784,8 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
               setSelectLabelColor={setSelectLabelColor}
               selectLabelColorArray={selectLabelColorArray}
               setSelectLabelColorArray={setSelectLabelColorArray}
-
             />
+            </ModalPortal>
           </div>
 
     ))}
@@ -848,9 +862,13 @@ function App() {
             selectData={selectData}
             setSelectData={setSelectData}
           />
+
         </main>
         <footer>
         </footer>
+
+
+
       </div>
     </div>
     </div>
