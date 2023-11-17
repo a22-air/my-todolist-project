@@ -182,6 +182,8 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
     setTask(data);
     // 選択されたidのテキストにフォーカスする指定
     element?.focus();
+    // initialCol5には最初のラベルカラーの配列を入れて戻す処理
+    setInitialCol5(updatedData.col5);
   }
 
 // カレンダーの初期値をセットする関数
@@ -561,18 +563,6 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
       setInitialCol5(newInitialCol5);
     })
 
-  // 編集ボタン
-  const saveArray = ((index : number) => {
-    // initialCol5には最初のラベルカラーの配列を入れて戻す処理
-    setInitialCol5(updatedData.col5);
-  })
-
-  // xボタン
-  const setSaveArray = (index: number) => {
-  // initialCol5には最初のラベルカラーの配列を入れて戻す処理
-    setInitialCol5(updatedData.col5);
-  };
-
   const confirmation = (() => {
     console.log('selectLabelColorArray : ' + selectLabelColorArray);
     console.log('initialCol5 : ' + initialCol5);
@@ -658,7 +648,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                     size='small'
                     onClick={() => {
                       setIndexNumber(index);
-                      indexNumber === index ? upDateData(index) : handleEditClick(data, index);saveArray(index)
+                      indexNumber === index ? upDateData(index) : handleEditClick(data, index);
                     }}
                     >{indexNumber === index ? '更新' : '編集'}
                   </Button>
@@ -679,7 +669,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                     onClick={() => {setIndexNumber(-1);
                                     setEditLabelColorNumber(-1);
                                     setSelectLabelColor('');
-                                    setSaveArray(index);
+                                    setInitialCol5(updatedData.col5); // initialCol5には最初のラベルカラーの配列を入れて戻す処理
                                     }}>
                     <CancelIcon />
                   </button>
