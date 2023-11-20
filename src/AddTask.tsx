@@ -62,10 +62,10 @@ const storage: Storage = new Storage({
 type AddTaskProps = {
     openLabelPage:boolean;
     setOpenLabelPage:React.Dispatch<React.SetStateAction<boolean>>;
-
+    updatedData:{ col1: string[],col2:number[],col3: number[],col4: string[][], col5: string[][] }
   };
 
-export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
+export function AddTask({ openLabelPage,setOpenLabelPage,updatedData}: AddTaskProps){
 
     const [task, setTask] = useState<string>(''); // col1のAddTaskの監視ステート
     const [taskData,setTaskData] = useState<string>(''); // col2の期限の監視ステート
@@ -186,8 +186,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
   // 新しい配列をステートに設定
     setLabelTypeArray(newCheckedValues);
     setSelectLabelColorArray(selectLabelColorArray);
-    console.log('selectLabelColorArray : ' + selectLabelColorArray);
-
   });
 
   const [selectLabelColorIndex,setSelectLabelColorIndex] = useState<number>(-1); // ラベル横のカラーラベルのインデックスを監視するステート
@@ -213,6 +211,7 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
       setSelectLabelColorArray(selectLabelColorArray);
     }
   }, [selectLabelColor, selectLabelColorIndex, selectLabelColorArray,labelColorIndex]);
+
 
     return(
       <div className="flex justify-between my-10">
@@ -348,19 +347,16 @@ export function AddTask({ openLabelPage,setOpenLabelPage}: AddTaskProps){
                   <PanToolAltIcon />
                 </Button>
               </Stack>
-) :(<Stack direction="row-reverse" spacing={2}>
-<Button
-    onClick={() => setOpenLabelPage(!openLabelPage)}
-    variant="contained"
-    size="small"
-    style={{ backgroundColor: '#FF82B2'}}
-    >
-    <ArrowBackIcon></ArrowBackIcon>
-</Button>
-</Stack>) }
-
-
-
+            ) :(<Stack direction="row-reverse" spacing={2}>
+                  <Button
+                      onClick={() => setOpenLabelPage(!openLabelPage)}
+                      variant="contained"
+                      size="small"
+                      style={{ backgroundColor: '#FF82B2'}}
+                      >
+                      <ArrowBackIcon></ArrowBackIcon>
+                  </Button>
+                </Stack>) }
 
             </div>
         </div>
