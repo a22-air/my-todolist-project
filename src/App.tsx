@@ -102,14 +102,6 @@ function Todo(){
     );
   }
 
-  // function Test(){
-
-  //   return ReactDOM.createPortal(
-  //     <h1>Hello Portals</h1>,
-  //     document.getElementById('portal')
-  //   );
-  // }
-
 // 親プロップスから受け取る処理
 type AddTextProps = {
     openLabelPage:boolean;  // ラベルの表示と非表示の監視
@@ -841,6 +833,7 @@ function App() {
           <AddTask
             openLabelPage={openLabelPage}
             setOpenLabelPage={setOpenLabelPage}
+            updatedData={updatedData}
           />
         </MyContext.Provider>
 
