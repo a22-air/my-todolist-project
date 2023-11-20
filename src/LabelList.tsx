@@ -153,7 +153,6 @@ type LabelListProps = {
                             {(event: React.ChangeEvent<HTMLInputElement>) => {
                             handleSetLabel(event);
                             }}
-
                           value={data}
                           disabled={hiddenLabelArray.includes(data)}
                           checked={labelTypeArray.includes(data) || hiddenLabelArray.includes(data)}
@@ -161,7 +160,7 @@ type LabelListProps = {
                         <label
                           key={index}
                           htmlFor={`checkbox${index}`}
-                          className={`bg-purple-200 text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-purple-600 ${index === indexNumber ? 'bg-'+selectLabelColor : 'bg-purple-200' } last:mr-0 mr-1`}
+                          className={`bg-purple-200 text-xs font-semibold inline-block py-1 my-1 mx-1 px-2 uppercase rounded text-white ${index === indexNumber ? 'bg-'+selectLabelColor : 'bg-purple-200' } last:mr-0 mr-1`}
                         >
                           {data}
                         </label>
