@@ -600,7 +600,23 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
 
                 <div className='mx-2'>
                   <p className='text-xs'>追加日</p>
-                  <p>{middleDateArray[index]}</p>
+
+                  <Stack
+                      direction="row"
+                      spacing={1}
+                      className='mb-1'
+                    >
+                      <Chip
+                        label={middleDateArray[index]}
+                        style={{
+                          fontSize: '16px', // ラベルの文字の大きさを設定
+                          ...(
+                            chipStyleNormal
+                          )
+                        }}
+                      />
+                    </Stack>
+
                 </div>
                 <div className={`mx-2 ${index === indexNumber && 'animate__animated animate__fadeIn'}`}>
                   <p className='text-xs'>期限</p>
@@ -608,7 +624,7 @@ function AddText({openLabelPage,setOpenLabelPage,updatedData,setUpdatedData,sele
                     <input type='date'
                       onChange={editDate}
                       defaultValue={calendarInitialValue(index)}
-                      className='px-2 py-2 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border-2 shadow outline-none focus:outline-none focus:ring'
+                      className='placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded border-2 shadow outline-none focus:outline-none focus:ring'
                     >
 
                     </input> :
