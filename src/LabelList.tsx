@@ -3,7 +3,6 @@ import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 // labelColorsをインポートする
-import labelColors from './labelColors.json'; // JSONファイルのパスを指定
 
 
 
