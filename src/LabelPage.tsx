@@ -16,7 +16,6 @@ export const useMyContext = () => {
 //　LabelPageのコンポーネント ============================================================================
 export function LabelPage({openLabelPage,setOpenLabelPage}:LabelPageProps){
     const { updatedData,selectData } = useMyContext(); // コンテキストでデータの受け取り
-    console.log('selectData : ' + selectData);
 
     // 選択されたラベルが含まれている配列のインデックス番号を返す
 const indices = updatedData.col4
@@ -59,24 +58,23 @@ return formattedDate;
                     <p>{data.col1}</p>
                 </div>
 
-            <div className="flex w-1/3 text-center">
-                <div className="w-1/2">
-                    <p className="text-xs">追加日</p>
-                    <p>{data.col3}</p>
+                <div className="flex w-1/3 text-center">
+                    <div className="w-1/2">
+                        <p className="text-xs">追加日</p>
+                        <p>{data.col3}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs">期限</p>
+                        {/* 値がないところは「//」で表示されてしまうので、非表示にする設定 */}
+                        {data.col2 === '//' ? <p></p> : <p>{data.col2}</p>}
+                    </div>
                 </div>
-                <div>
-                    <p className="text-xs">期限</p>
-                    {data.col2 === '//' ? <p></p> : <p>{data.col2}</p>}
-
-                </div>
-            </div>
 
             </div>
         ))}
         </div>
         </div>
-}
+        }
         </>
-
     )
 };
