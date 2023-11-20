@@ -1,9 +1,6 @@
 import React, { useContext } from "react";
 import { MyContext } from "./App";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import 'animate.css/animate.min.css';
 
 // 親プロップスから受け取る処理
@@ -18,19 +15,33 @@ export const useMyContext = () => {
   };
 //　LabelPageのコンポーネント ============================================================================
 export function LabelPage({openLabelPage,setOpenLabelPage}:LabelPageProps){
-    const { updatedData, selectLabel,selectData } = useMyContext(); // コンテキストでデータの受け取り
+    const { updatedData,selectData } = useMyContext(); // コンテキストでデータの受け取り
+    console.log('selectData : ' + selectData);
 
     // 選択されたラベルが含まれている配列のインデックス番号を返す
-    const indices = updatedData.col4
-        .map((subArray, index) => subArray.includes(selectData) ? index : -1) // 選択されたラベルがあればインデックス番号で返し、なければ−1を返す
-        .filter((index) => index !== -1); // -1以外の数字を配列に格納
-        // indicesに格納されているインデックス番号のデータを取得
-        const selectedData = indices.map(index => ({
-            col1: updatedData.col1[index],
-            col2: updatedData.col2[index],
-            col3: updatedData.col3[index],
-            col4: updatedData.col4[index],
-          }));
+const indices = updatedData.col4
+.map((subArray, index) => subArray.includes(selectData) ? index : -1)
+.filter((index) => index !== -1);
+
+// indicesに格納されているインデックス番号のデータを取得
+const selectedData = indices.map(index => {
+const col2 = formatDate(updatedData.col2[index]); // col2をフォーマット
+const col3 = formatDate(updatedData.col3[index]); // col3をフォーマット
+
+return {
+  col1: updatedData.col1[index],
+  col2: col2,
+  col3: col3,
+  col4: updatedData.col4[index],
+};
+});
+
+// col2とcol3をフォーマットするための関数
+function formatDate(timestamp: number): string {
+const numberString = timestamp.toString();
+const formattedDate = `${numberString.substring(0, 4)}/${numberString.substring(6,4)}/${numberString.substring(8,6)}`; // フォーマット
+return formattedDate;
+}
 
 //  =====================================================================================================
     return (
@@ -51,11 +62,12 @@ export function LabelPage({openLabelPage,setOpenLabelPage}:LabelPageProps){
             <div className="flex w-1/3 text-center">
                 <div className="w-1/2">
                     <p className="text-xs">追加日</p>
-                    <p>{data.col2}</p>
+                    <p>{data.col3}</p>
                 </div>
                 <div>
                     <p className="text-xs">期限</p>
-                    <p>{data.col3}</p>
+                    {data.col2 === '//' ? <p></p> : <p>{data.col2}</p>}
+
                 </div>
             </div>
 
