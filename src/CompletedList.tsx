@@ -65,7 +65,7 @@ export function CompletedList(props: CompletedListProps){
               col2: [...existingData.col2, props.checkedTaskArray.col2],
               col3: [...existingData.col3, props.checkedTaskArray.col3],
               col4: [...existingData.col4, props.checkedTaskArray.col4],
-              col5: [...existingData.col4, props.checkedTaskArray.col5]
+              col5: [...existingData.col5, props.checkedTaskArray.col5]
 
             };
           } else {
