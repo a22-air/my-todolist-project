@@ -58,7 +58,7 @@ const storage: Storage = new Storage({
   enableCache: true,
 })
   // storage.save({
-  //   key: 'keyWord',
+  //   key: 'completed',
   //   data:{
   //     col1:[],
   //     col2:[],
@@ -73,14 +73,14 @@ const storage: Storage = new Storage({
   // });
 
   // keyの中身を調べる方法↓ -----------------------------------
-  // const keyName = 'initialLabelColorArray'; // 取得したいキー名
-  // const storedValue = localStorage.getItem(keyName);
+  const keyName = 'completed'; // 取得したいキー名
+  const storedValue = localStorage.getItem(keyName);
 
-  // if (storedValue !== null) {
-  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  // } else {
-  //   console.log(`キー ${keyName} は存在しません。`);
-  // }
+  if (storedValue !== null) {
+    console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  } else {
+    console.log(`キー ${keyName} は存在しません。`);
+  }
 // 　-----------------------------------------------------
 
 //ストレージデータを削除する時 --------------------------------

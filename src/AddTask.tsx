@@ -28,7 +28,7 @@ const storage: Storage = new Storage({
   })
 
   // storage.save({
-  //   key: 'keyWord',
+  //   key: 'completed',
   //   data:{
   //     col1:[],
   //     col2:[],
@@ -39,14 +39,14 @@ const storage: Storage = new Storage({
   // });
 
   // keyの中身を調べる方法↓ -----------------------------------
-  // const keyName = 'labelData'; // 取得したいキー名
-  // const storedValue = localStorage.getItem(keyName);
+  const keyName = 'keyWord'; // 取得したいキー名
+  const storedValue = localStorage.getItem(keyName);
 
-  // if (storedValue !== null) {
-  //   console.log(`キー ${keyName} の値は ${storedValue} です。`);
-  // } else {
-  //   console.log(`キー ${keyName} は存在しません。`);
-  // }
+  if (storedValue !== null) {
+    console.log(`キー ${keyName} の値は ${storedValue} です。`);
+  } else {
+    console.log(`キー ${keyName} は存在しません。`);
+  }
 //　---------------------------------------------------------
 
 // 今日の日付を作成する処理
@@ -116,7 +116,6 @@ export function AddTask({ openLabelPage,setOpenLabelPage,updatedData}: AddTaskPr
       setWarningStatement(false);
       return;
       }
-
       try {
         // 既存のデータを読み込む
         const existingData = await storage.load({
